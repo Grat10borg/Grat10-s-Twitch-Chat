@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   margin: 0;
   font-family: monospace;
   color: #1f6884;
@@ -37,7 +38,42 @@ li {
   box-sizing: border-box;
   padding: 1rem 10px;
   margin-bottom: 10px;
-  border: 4px solid;
+  border: 1px solid;
+}
+
+#chat li:last-of-type {
+  -webkit-animation-name: slide-in-left;
+          animation-name: slide-in-left;
+  -webkit-animation-duration: 0.15s;
+          animation-duration: 0.15s;
+  -webkit-animation-timing-function: ease-in;
+          animation-timing-function: ease-in;
+}
+
+@-webkit-keyframes slide-in-left {
+  from {
+    -webkit-transform: translateX(400px);
+            transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    -webkit-transform: translateX(400px);
+            transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 #chat li:not(:last-of-type) {
