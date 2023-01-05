@@ -16,7 +16,7 @@ body {
 
 #chat {
   width: 400px;
-  height: 350px;
+  height: 450px;
   overflow-y: auto;
   display: -webkit-box;
   display: -ms-flexbox;
