@@ -4,7 +4,7 @@ var chat = document.querySelector("#chat>ul") as HTMLElement;
 
 //#region Basic Settings 
 let ClearOldChatMSGsAfter = 19 as number;
-
+//var ComfyJS = require("https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js");
 
 //#endregion
 
@@ -16,14 +16,15 @@ ComfyJS.onChat = (
   self: any,
   extra: any
 ) => {
-  // console.log(user);
-  // console.log(message);
-  // console.log(flags);
-  // console.log(self);
-  // console.log(extra);
+   console.log(user);
+   console.log(message);
+   console.log(flags);
+   console.log(self);
+   console.log(extra);
 
+  
   if (
-    extra["userBadges"]["broadcaster"] == 1 || extra["userBadges"]["mod"] == 1) {
+    flags.broadcaster || flags.mod ) {
       // MOD or Broadcaster color adding
       CreateChatText(message,user, "none", "none", ["none", "none"]);  
   } 
@@ -36,16 +37,21 @@ ComfyJS.onChat = (
 // Command Handling
 //@ts-expect-error
 ComfyJS.onCommand = ( user:any, command:any, message:any, flags:any, extra:any ) => {
-  if( flags.broadcaster && command === "test" ) {
+  if( flags.broadcaster || flags.mod && command === "test") {
     console.log( "!test was typed in chat" );
+    //@ts-expect-error
+    ComfyJS.Say( "replying to !test" );
   }
 }
+
 //@ts-expect-error
 ComfyJS.onMessageDeleted = (id:any, extra:any) => {
   console.log(id, extra);
 };
+
 //@ts-expect-error
-ComfyJS.Init("grat_grot10_berg");
+ComfyJS.Init("illu_illusion", "", "grat_grot10_berg");
+
 
 function CreateChatText(message:string, user: string, colour: string, profilePic:string, emotes:Array<string>) {
   var newMessage = document.createElement("li");
