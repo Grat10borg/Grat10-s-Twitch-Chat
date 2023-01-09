@@ -1,6 +1,6 @@
 "use strict";
 var chat = document.querySelector("#chat>ul");
-let ClearOldChatMSGsAfter = 19;
+let ClearOldChatMSGsAfter = 11;
 ComfyJS.onChat = (user, message, flags, self, extra) => {
     console.log(user);
     console.log(message);
@@ -23,7 +23,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 ComfyJS.onMessageDeleted = (id, extra) => {
     console.log(id, extra);
 };
-ComfyJS.Init("illu_illusion", "", "grat_grot10_berg");
+ComfyJS.Init("illu_illusion", "oauth:ittskpnutx42o6zlmps13yotc9zylg", "grat_grot10_berg");
 function CreateChatText(message, user, colour, profilePic, emotes) {
     var _a;
     var newMessage = document.createElement("li");

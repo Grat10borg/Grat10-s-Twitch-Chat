@@ -3,7 +3,7 @@ var chat = document.querySelector("#chat>ul") as HTMLElement;
 
 
 //#region Basic Settings 
-let ClearOldChatMSGsAfter = 19 as number;
+let ClearOldChatMSGsAfter = 11 as number;
 //var ComfyJS = require("https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js");
 
 //#endregion
@@ -50,7 +50,7 @@ ComfyJS.onMessageDeleted = (id:any, extra:any) => {
 };
 
 //@ts-expect-error
-ComfyJS.Init("illu_illusion", "", "grat_grot10_berg");
+ComfyJS.Init("illu_illusion", "oauth:ittskpnutx42o6zlmps13yotc9zylg", "grat_grot10_berg");
 
 
 function CreateChatText(message:string, user: string, colour: string, profilePic:string, emotes:Array<string>) {
