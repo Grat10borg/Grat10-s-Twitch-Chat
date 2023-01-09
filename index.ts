@@ -1,5 +1,13 @@
 "use strict";
 var chat = document.querySelector("#chat>ul") as HTMLElement;
+
+
+//#region Basic Settings 
+let ClearOldChatMSGsAfter = 19 as number;
+
+
+//#endregion
+
 //@ts-expect-error
 ComfyJS.onChat = (
   user: any,
@@ -33,6 +41,10 @@ ComfyJS.onCommand = ( user:any, command:any, message:any, flags:any, extra:any )
   }
 }
 //@ts-expect-error
+ComfyJS.onMessageDeleted = (id:any, extra:any) => {
+  console.log(id, extra);
+};
+//@ts-expect-error
 ComfyJS.Init("grat_grot10_berg");
 
 function CreateChatText(message:string, user: string, colour: string, profilePic:string, emotes:Array<string>) {
@@ -45,7 +57,7 @@ function CreateChatText(message:string, user: string, colour: string, profilePic
 
     
     // removes old chat messages outside of view.
-    if(chat.getElementsByTagName("li").length > 19) {
+    if(chat.getElementsByTagName("li").length > ClearOldChatMSGsAfter) {
       chat.firstElementChild?.remove();
     }
 }

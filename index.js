@@ -1,5 +1,6 @@
 "use strict";
 var chat = document.querySelector("#chat>ul");
+let ClearOldChatMSGsAfter = 19;
 ComfyJS.onChat = (user, message, flags, self, extra) => {
     if (extra["userBadges"]["broadcaster"] == 1 || extra["userBadges"]["mod"] == 1) {
         CreateChatText(message, user, "none", "none", ["none", "none"]);
@@ -13,6 +14,9 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
         console.log("!test was typed in chat");
     }
 };
+ComfyJS.onMessageDeleted = (id, extra) => {
+    console.log(id, extra);
+};
 ComfyJS.Init("grat_grot10_berg");
 function CreateChatText(message, user, colour, profilePic, emotes) {
     var _a;
@@ -22,7 +26,7 @@ function CreateChatText(message, user, colour, profilePic, emotes) {
     text.innerText = message;
     newMessage.append(text);
     chat.append(newMessage);
-    if (chat.getElementsByTagName("li").length > 19) {
+    if (chat.getElementsByTagName("li").length > ClearOldChatMSGsAfter) {
         (_a = chat.firstElementChild) === null || _a === void 0 ? void 0 : _a.remove();
     }
 }
