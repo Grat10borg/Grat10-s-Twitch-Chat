@@ -43,10 +43,43 @@ body #chat li {
   margin-bottom: 10px;
 }
 
-html #chat li .ProfilePicture,
-body #chat li .ProfilePicture {
+html #chat li .ChatBorder,
+body #chat li .ChatBorder {
+  color: #92e7d7;
+  border-left: 5px solid;
+  border-radius: 5px 0px 0px 5px;
+  padding-left: 10px;
+}
+
+html #chat li .UserProfileLine,
+body #chat li .UserProfileLine {
+  margin-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+html #chat li .UserProfileLine .ProfilePicture,
+body #chat li .UserProfileLine .ProfilePicture {
+  display: inline-block;
+  margin-right: 10px;
+  pointer-events: none;
+  border-radius: 100%;
   width: 32px;
-  display: block;
+}
+
+html #chat li .UserProfileLine .Username,
+body #chat li .UserProfileLine .Username {
+  display: inline-block;
+  font-size: 22px;
+}
+
+html #chat li .Message,
+body #chat li .Message {
+  word-wrap: break-word;
 }
 
 html #chat li:not(:last-of-type),

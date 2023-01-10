@@ -35,12 +35,36 @@ body {
       //box-sizing: border-box;
       padding: 1rem 10px;
       margin-bottom: 10px;
-      // border-left: 5px solid;
-      // border-radius: 15px 0px 0px 15px;
 
-      .ProfilePicture {
-        width: 32px;
-        display: block;
+      .ChatBorder {
+        color: #92e7d7;
+        border-left: 5px solid;
+        border-radius: 5px 0px 0px 5px;
+        padding-left: 10px;
+      }
+      .UserProfileLine {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        .ProfilePicture {
+          display: inline-block;
+          margin-right: 10px;
+
+          // stops dragging and dropping images
+          pointer-events: none;
+
+          // turns profile picture into a circle
+          border-radius: 100%;
+          width: 32px;  // Size
+        }
+        .Username {
+          display: inline-block;
+          font-size: 22px;
+        }
+      }
+      
+      .Message {
+        word-wrap: break-word;
       }
     }
     li:not(:last-of-type) {
