@@ -26,10 +26,10 @@ ComfyJS.onChat = (
 
   if (flags.broadcaster || flags.mod) {
     // MOD or Broadcaster color adding
-    CreateChatText(message, user, "none", "none", ["none", "none"]);
+    CreateChatText(message, user,  "none", ["none", "none"]);
   } else {
     // Normal User adding
-    CreateChatText(message, user, "none", "none", ["none", "none"]);
+    CreateChatText(message, user,  "none", ["none", "none"]);
   }
 };
 
@@ -73,27 +73,32 @@ ComfyJS.Init(
 
 // FUNCTIONS
 
-var ChatProfiles = Array();
+// Later make this into a bigger multidim object or array!
+let ChatNames = Array();
+let ChatProfileLink = Array();
+
 
 async function CreateChatText(
   message: string,
   user: string,
   colour: string,
-  profilePic: string,
   emotes: Array<string>
 ) {
 
   // Getting Profile picture
   let profilePicIMG = document.createElement("img") as HTMLImageElement;
-  if(ChatProfiles.indexOf(user) == -1) {
+
+  console.log(ChatNames.lastIndexOf(user));
+  if(ChatNames.lastIndexOf(user) == -1) {
     let User = await HttpCalling("https://api.twitch.tv/helix/users?login="+user);
     console.log(User);
     profilePicIMG.src=User["data"][0]["profile_image_url"];
-    ChatProfiles.push(User["data"][0]["login"]+"#"+User["data"][0]["profile_image_url"]);
+    ChatNames.push(user);
+    ChatProfileLink.push(User["data"][0]["profile_image_url"]);
   }
   else {
-    console.log(ChatProfiles);
-    profilePicIMG.src = ChatProfiles[ChatProfiles.indexOf(user)];
+    console.log(ChatProfileLink);
+    profilePicIMG.src = ChatProfileLink[ChatNames.indexOf(user)];
   }
 
   // Vars

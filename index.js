@@ -20,10 +20,10 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
     console.log(self);
     console.log(extra);
     if (flags.broadcaster || flags.mod) {
-        CreateChatText(message, user, "none", "none", ["none", "none"]);
+        CreateChatText(message, user, "none", ["none", "none"]);
     }
     else {
-        CreateChatText(message, user, "none", "none", ["none", "none"]);
+        CreateChatText(message, user, "none", ["none", "none"]);
     }
 };
 ComfyJS.onCommand = (user, command, message, flags, extra) => {
@@ -44,20 +44,23 @@ ComfyJS.onMessageDeleted = (id, extra) => {
     console.log(id, extra);
 };
 ComfyJS.Init("illu_illusion", "oauth:ittskpnutx42o6zlmps13yotc9zylg", "grat_grot10_berg");
-var ChatProfiles = Array();
-function CreateChatText(message, user, colour, profilePic, emotes) {
+let ChatNames = Array();
+let ChatProfileLink = Array();
+function CreateChatText(message, user, colour, emotes) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         let profilePicIMG = document.createElement("img");
-        if (ChatProfiles.indexOf(user) == -1) {
+        console.log(ChatNames.lastIndexOf(user));
+        if (ChatNames.lastIndexOf(user) == -1) {
             let User = yield HttpCalling("https://api.twitch.tv/helix/users?login=" + user);
             console.log(User);
             profilePicIMG.src = User["data"][0]["profile_image_url"];
-            ChatProfiles.push(User["data"][0]["login"] + "#" + User["data"][0]["profile_image_url"]);
+            ChatNames.push(user);
+            ChatProfileLink.push(User["data"][0]["profile_image_url"]);
         }
         else {
-            console.log(ChatProfiles);
-            profilePicIMG.src = ChatProfiles[ChatProfiles.indexOf(user)];
+            console.log(ChatProfileLink);
+            profilePicIMG.src = ChatProfileLink[ChatNames.indexOf(user)];
         }
         let newMessage = document.createElement("li");
         let chatBorder = document.createElement("div");
