@@ -15,15 +15,25 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
     }
 };
 ComfyJS.onCommand = (user, command, message, flags, extra) => {
-    if (flags.broadcaster || flags.mod && command === "test") {
-        console.log("!test was typed in chat");
-        ComfyJS.Say("replying to !test");
+    if (command === "lurk") {
+        ComfyJS.Say("Have a nice lurk @" +
+            user +
+            "!! 🌺🌸");
+    }
+    if (flags.broadcaster || flags.mod) {
+        if (command === "test") {
+            ComfyJS.Say("replying to !test");
+        }
+        if (command === "clear") {
+            chat.innerHTML = "";
+            ComfyJS.Say("Cleared On-Screen Chatbox! 🧹🤖");
+        }
     }
 };
 ComfyJS.onMessageDeleted = (id, extra) => {
     console.log(id, extra);
 };
-ComfyJS.Init("illu_illusion", "oauth:ittskpnutx42o6zlmps13yotc9zylg", "grat_grot10_berg");
+ComfyJS.Init("illu_illusion", "", "grat_grot10_berg");
 function CreateChatText(message, user, colour, profilePic, emotes) {
     var _a;
     var newMessage = document.createElement("li");

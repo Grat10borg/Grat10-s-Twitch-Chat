@@ -1,66 +1,69 @@
-*{
-    padding: 0%;
-    margin: 0%;
+* {
+  padding: 0%;
+  margin: 0%;
 }
 *::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 html,
 body {
   margin: 0;
-  font-family: 'VT323', monospace;
-  color: #1f6884;
-}
-#chat {
-  width: 400px;
-  height: 450px;
-  overflow-y: auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: reverse;
-  -ms-flex-direction: column-reverse;
-  flex-direction: column-reverse;
-}
+  font-family: "VT323", monospace;
+  color: #92e7d7;
 
+  #chat {
+    width: 400px;
+    height: 450px;
+    overflow-y: auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse;
+    ul {
+      list-style-type: none;
+      list-style-position: outside;
+    }
+    li {
+      display: list-item;
+      text-align: -webkit-match-parent;
+      background-color: #354ab2c8;
+      //-webkit-box-sizing: border-box;
+      //box-sizing: border-box;
+      padding: 1rem 10px;
+      margin-bottom: 10px;
+      // border-left: 5px solid;
+      // border-radius: 15px 0px 0px 15px;
 
-ul {
-  list-style-type: disc;
-}
-#chat ul {
-  list-style-type: none;
-  list-style-position: outside;
-}
-li {
-  display: list-item;
-  text-align: -webkit-match-parent;
-}
-#chat li {
-  background-color: #e3f2f8;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 1rem 10px;
-  margin-bottom: 10px;
-  border: 1px solid;
-}
-#chat li:last-of-type {
-    animation-name: slide-in-left;
-    animation-duration: 0.15s;
-    animation-timing-function: ease-in;
-}
-@keyframes slide-in-left {
-    from {
+      .ProfilePicture {
+        width: 32px;
+        display: block;
+      }
+    }
+    li:not(:last-of-type) {
+      opacity: 0.9;
+    }
+    li:last-of-type {
+      animation-name: slide-in-left;
+      animation-duration: 0.15s;
+      animation-timing-function: ease-in;
+    }
+    @keyframes slide-in-left {
+      from {
         transform: translateX(400px);
         opacity: 0;
-    }
+      }
 
-    to {
+      to {
         transform: translateX(0);
         opacity: 1;
+      }
     }
-}
-#chat li:not(:last-of-type) {
-    opacity: 0.9;
   }
+  ul {
+    list-style-type: disc;
+  }
+}
