@@ -26,10 +26,10 @@ ComfyJS.onChat = (
 
   if (flags.broadcaster || flags.mod) {
     // MOD or Broadcaster color adding
-    CreateChatText(message, user,  "none", ["none", "none"]);
+    CreateChatText(message, user,  extra.userColor, ["none", "none"]);
   } else {
     // Normal User adding
-    CreateChatText(message, user,  "none", ["none", "none"]);
+    CreateChatText(message, user,  extra.userColor, ["none", "none"]);
   }
 };
 
@@ -87,8 +87,6 @@ async function CreateChatText(
 
   // Getting Profile picture
   let profilePicIMG = document.createElement("img") as HTMLImageElement;
-
-  console.log(ChatNames.lastIndexOf(user));
   if(ChatNames.lastIndexOf(user) == -1) {
     let User = await HttpCalling("https://api.twitch.tv/helix/users?login="+user);
     console.log(User);
@@ -97,7 +95,6 @@ async function CreateChatText(
     ChatProfileLink.push(User["data"][0]["profile_image_url"]);
   }
   else {
-    console.log(ChatProfileLink);
     profilePicIMG.src = ChatProfileLink[ChatNames.indexOf(user)];
   }
 
@@ -115,7 +112,8 @@ async function CreateChatText(
   profilePicIMG.classList.add("ProfilePicture");
   Username.classList.add("Username");
   messageP.classList.add("Message");
-
+  
+  
   // Values
   Username.innerHTML = user+":";
   messageP.innerHTML = message;

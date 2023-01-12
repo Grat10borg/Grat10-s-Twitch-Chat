@@ -1,3 +1,14 @@
+
+
+
+// SCSS Color vars
+$ChatBackgroundColor: #12173d;
+$ChatFontColor: #c1d9f2;
+$ChatUsernamebaseColor: #c1d9f2;
+$ChatBorderBaseColor: #c1d9f2;
+
+
+
 * {
   padding: 0%;
   margin: 0%;
@@ -8,13 +19,11 @@
 
 html,
 body {
-  margin: 0;
   font-family: "VT323", monospace;
-  color: #92e7d7;
 
   #chat {
     width: 400px;
-    height: 450px;
+    height: 850px;
     overflow-y: auto;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -30,14 +39,14 @@ body {
     li {
       display: list-item;
       text-align: -webkit-match-parent;
-      background-color: #354ab2c8;
+      background-color: $ChatBackgroundColor;
       //-webkit-box-sizing: border-box;
       //box-sizing: border-box;
-      padding: 1rem 10px;
-      margin-bottom: 10px;
+      padding: 15px 5px;
+      margin-bottom: 5px;
 
       .ChatBorder {
-        color: #92e7d7;
+        color: $ChatBorderBaseColor;
         border-left: 5px solid;
         border-radius: 5px 0px 0px 5px;
         padding-left: 10px;
@@ -60,11 +69,14 @@ body {
         .Username {
           display: inline-block;
           font-size: 22px;
+          color: $ChatUsernamebaseColor;
         }
       }
       
       .Message {
         word-wrap: break-word;
+        font-size: 23px; // Default size
+        color: $ChatFontColor;
       }
     }
     li:not(:last-of-type) {

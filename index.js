@@ -20,10 +20,10 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
     console.log(self);
     console.log(extra);
     if (flags.broadcaster || flags.mod) {
-        CreateChatText(message, user, "none", ["none", "none"]);
+        CreateChatText(message, user, extra.userColor, ["none", "none"]);
     }
     else {
-        CreateChatText(message, user, "none", ["none", "none"]);
+        CreateChatText(message, user, extra.userColor, ["none", "none"]);
     }
 };
 ComfyJS.onCommand = (user, command, message, flags, extra) => {
@@ -50,7 +50,6 @@ function CreateChatText(message, user, colour, emotes) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         let profilePicIMG = document.createElement("img");
-        console.log(ChatNames.lastIndexOf(user));
         if (ChatNames.lastIndexOf(user) == -1) {
             let User = yield HttpCalling("https://api.twitch.tv/helix/users?login=" + user);
             console.log(User);
@@ -59,7 +58,6 @@ function CreateChatText(message, user, colour, emotes) {
             ChatProfileLink.push(User["data"][0]["profile_image_url"]);
         }
         else {
-            console.log(ChatProfileLink);
             profilePicIMG.src = ChatProfileLink[ChatNames.indexOf(user)];
         }
         let newMessage = document.createElement("li");

@@ -9,15 +9,13 @@
 
 html,
 body {
-  margin: 0;
   font-family: "VT323", monospace;
-  color: #92e7d7;
 }
 
 html #chat,
 body #chat {
   width: 400px;
-  height: 450px;
+  height: 850px;
   overflow-y: auto;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -38,14 +36,14 @@ html #chat li,
 body #chat li {
   display: list-item;
   text-align: -webkit-match-parent;
-  background-color: #354ab2c8;
-  padding: 1rem 10px;
-  margin-bottom: 10px;
+  background-color: #12173d;
+  padding: 15px 5px;
+  margin-bottom: 5px;
 }
 
 html #chat li .ChatBorder,
 body #chat li .ChatBorder {
-  color: #92e7d7;
+  color: #c1d9f2;
   border-left: 5px solid;
   border-radius: 5px 0px 0px 5px;
   padding-left: 10px;
@@ -75,11 +73,14 @@ html #chat li .UserProfileLine .Username,
 body #chat li .UserProfileLine .Username {
   display: inline-block;
   font-size: 22px;
+  color: #c1d9f2;
 }
 
 html #chat li .Message,
 body #chat li .Message {
   word-wrap: break-word;
+  font-size: 23px;
+  color: #c1d9f2;
 }
 
 html #chat li:not(:last-of-type),
