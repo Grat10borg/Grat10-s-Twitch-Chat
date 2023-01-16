@@ -69,9 +69,17 @@ body {
       }
 
       .Message {
+        align-items: center;
         word-wrap: break-word;
         font-size: 23px; // Default size
         color: $ChatFontColor;
+        // Emotes
+        img {
+          image-rendering: pixelated;
+          width: 28;
+          height: 28;
+          display: inline-block;
+        }
       }
     }
     li:not(:last-of-type) {

@@ -78,9 +78,24 @@ body #chat li .UserProfileLine .Username {
 
 html #chat li .Message,
 body #chat li .Message {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   word-wrap: break-word;
   font-size: 23px;
   color: #c1d9f2;
+}
+
+html #chat li .Message img,
+body #chat li .Message img {
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
+  width: 28;
+  height: 28;
+  display: inline-block;
 }
 
 html #chat li:not(:last-of-type),
