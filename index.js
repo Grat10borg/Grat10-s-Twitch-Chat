@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 var chat = document.querySelector("#chat>ul");
 let ClearOldChatMSGsAfter = 11;
+let CustomColorStyling = false;
 let AppAcessToken = "gksx1g5gtd21dukq6t3cdafslng28t";
 let AclientId = "";
 validateToken();
@@ -70,6 +71,48 @@ function CreateChatText(message, user, colour, emotes) {
         profilePicIMG.classList.add("ProfilePicture");
         Username.classList.add("Username");
         messageP.classList.add("Message");
+        if (CustomColorStyling == true) {
+            switch (colour) {
+                case "#FF0000":
+                    break;
+                case "#0000FF":
+                    break;
+                case "#008000":
+                    break;
+                case "#B22222":
+                    break;
+                case "#FF7F50":
+                    break;
+                case "#9ACD32":
+                    break;
+                case "#FF4500":
+                    break;
+                case "#2E8B57":
+                    break;
+                case "#DAA520":
+                    break;
+                case "#D2691E":
+                    break;
+                case "#5F9EA0":
+                    break;
+                case "#1E90FF":
+                    break;
+                case "#FF69B4":
+                    break;
+                case "#8A2BE2":
+                    break;
+                case "#00FF7F":
+                    break;
+                default:
+                    break;
+            }
+        }
+        else {
+            console.log("HEX" + colour.replace("#", ""));
+            chatBorder.classList.add("HEX" + colour.replace("#", ""));
+            Username.classList.add("HEX" + colour.replace("#", ""));
+            messageP.classList.add("HEX" + colour.replace("#", ""));
+        }
         Username.innerHTML = user + ":";
         messageP.innerHTML = message;
         UserprofileLine.append(profilePicIMG);

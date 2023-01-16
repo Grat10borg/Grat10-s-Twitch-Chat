@@ -1,13 +1,8 @@
-
-
-
 // SCSS Color vars
 $ChatBackgroundColor: #12173d;
 $ChatFontColor: #c1d9f2;
 $ChatUsernamebaseColor: #c1d9f2;
 $ChatBorderBaseColor: #c1d9f2;
-
-
 
 * {
   padding: 0%;
@@ -23,7 +18,7 @@ body {
 
   #chat {
     width: 400px;
-    height: 850px;
+    height: 750px;
     overflow-y: auto;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -64,7 +59,7 @@ body {
 
           // turns profile picture into a circle
           border-radius: 100%;
-          width: 32px;  // Size
+          width: 32px; // Size
         }
         .Username {
           display: inline-block;
@@ -72,7 +67,7 @@ body {
           color: $ChatUsernamebaseColor;
         }
       }
-      
+
       .Message {
         word-wrap: break-word;
         font-size: 23px; // Default size
@@ -102,4 +97,66 @@ body {
   ul {
     list-style-type: disc;
   }
+}
+
+// Twitch Default Name Colors.
+.HEXFF0000 {
+  // Red
+  color: #ff0000 !important;
+}
+.HEX0000FF {
+  // Blue
+  color: #0000ff !important;
+}
+.HEX008000 {
+  // Green
+  color: #008000 !important;
+}
+.HEXB22222 {
+  // BrickColor / Mursten Farve
+  color: #b22222 !important;
+}
+.HEXFF7F50 {
+  // CoralRed
+  color: #ff7f50 !important;
+}
+.HEX9ACD32 {
+  // YellowGreen / GulGrøn
+  color: #9acd32 !important;
+}
+.HEXFF4500 {
+  // OrangeRed
+  color: #ff4500 !important;
+}
+.HEX2E8B57 {
+  // SeaWeed Color
+  color: #2e8b57 !important;
+}
+.HEXDAA520 {
+  // Gyldenris
+  color: #daa520 !important;
+}
+.HEXD2691E {
+  // Chocolade
+  color: #d2691e !important;
+}
+.HEX5F9EA0 {
+  // KadetBlå
+  color: #5f9ea0 !important;
+}
+.HEX1E90FF {
+  // DodgerBlue
+  color: #1e90ff !important;
+}
+.HEXFF69B4 {
+  // Pink
+  color: #ff69b4 !important;
+}
+.HEX8A2BE2 {
+  // BlåViolet
+  color: #8a2be2 !important;
+}
+.HEX00FF7F {
+  // SpringGreen
+  color: #00ff7f !important;
 }

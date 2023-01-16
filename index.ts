@@ -3,7 +3,7 @@ var chat = document.querySelector("#chat>ul") as HTMLElement;
 
 //#region Basic Settings
 let ClearOldChatMSGsAfter = 11 as number;
-
+let CustomColorStyling = false as boolean;
 
 let AppAcessToken = "gksx1g5gtd21dukq6t3cdafslng28t";
 let AclientId = "";
@@ -26,10 +26,10 @@ ComfyJS.onChat = (
 
   if (flags.broadcaster || flags.mod) {
     // MOD or Broadcaster color adding
-    CreateChatText(message, user,  extra.userColor, ["none", "none"]);
+    CreateChatText(message, user, extra.userColor, ["none", "none"]);
   } else {
     // Normal User adding
-    CreateChatText(message, user,  extra.userColor, ["none", "none"]);
+    CreateChatText(message, user, extra.userColor, ["none", "none"]);
   }
 };
 
@@ -77,24 +77,23 @@ ComfyJS.Init(
 let ChatNames = Array();
 let ChatProfileLink = Array();
 
-
 async function CreateChatText(
   message: string,
   user: string,
   colour: string,
   emotes: Array<string>
 ) {
-
   // Getting Profile picture
   let profilePicIMG = document.createElement("img") as HTMLImageElement;
-  if(ChatNames.lastIndexOf(user) == -1) {
-    let User = await HttpCalling("https://api.twitch.tv/helix/users?login="+user);
+  if (ChatNames.lastIndexOf(user) == -1) {
+    let User = await HttpCalling(
+      "https://api.twitch.tv/helix/users?login=" + user
+    );
     console.log(User);
-    profilePicIMG.src=User["data"][0]["profile_image_url"];
+    profilePicIMG.src = User["data"][0]["profile_image_url"];
     ChatNames.push(user);
     ChatProfileLink.push(User["data"][0]["profile_image_url"]);
-  }
-  else {
+  } else {
     profilePicIMG.src = ChatProfileLink[ChatNames.indexOf(user)];
   }
 
@@ -102,7 +101,7 @@ async function CreateChatText(
   let newMessage = document.createElement("li") as HTMLLIElement;
   let chatBorder = document.createElement("div") as HTMLDivElement;
   let UserprofileLine = document.createElement("div") as HTMLDivElement;
-  
+
   let Username = document.createElement("div") as HTMLDivElement;
   let messageP = document.createElement("p") as HTMLParagraphElement;
 
@@ -112,10 +111,52 @@ async function CreateChatText(
   profilePicIMG.classList.add("ProfilePicture");
   Username.classList.add("Username");
   messageP.classList.add("Message");
-  
-  
+
+  // Color selecting:
+  if (CustomColorStyling == true) {
+    switch (colour) {
+      case "#FF0000": // Red
+        break;
+      case "#0000FF": // Blue
+        break;
+      case "#008000": // Green
+        break;
+      case "#B22222": // BrickColored / MurstensFarvet
+        break;
+      case "#FF7F50": // CoralRed
+        break;
+      case "#9ACD32": // YellowGreen / GulGrøn
+        break;
+      case "#FF4500": // OrangeRed
+        break;
+      case "#2E8B57": // SeaWeed Color
+        break;
+      case "#DAA520": // Gyldenris
+        break;
+      case "#D2691E": // Chocolade
+        break;
+      case "#5F9EA0": // KadetBlå
+        break;
+      case "#1E90FF": // DodgerBlue
+        break;
+      case "#FF69B4": // Pink
+        break;
+      case "#8A2BE2": // Blåviolet
+        break;
+      case "#00FF7F": // SpringGreen / forårsgrøn
+        break;
+      default:
+        break;
+    }
+  } else {
+    console.log("HEX"+colour.replace("#", ""));
+    chatBorder.classList.add("HEX"+colour.replace("#", ""));
+    Username.classList.add("HEX"+colour.replace("#", ""));
+    messageP.classList.add("HEX"+colour.replace("#", ""));
+  }
+
   // Values
-  Username.innerHTML = user+":";
+  Username.innerHTML = user + ":";
   messageP.innerHTML = message;
 
   // Appending
@@ -140,8 +181,6 @@ async function CreateChatText(
     chat.firstElementChild?.remove();
   }
 }
-
-
 
 //#region validateToken() Validates Token if sucessful returns 1 if not 0
 // Calls the Twitch api with Out App Acess Token and returns a ClientId and tells us if the App Acess Token is Valid or Not
@@ -168,7 +207,7 @@ async function validateToken() {
         }
         if (resp.client_id) {
           AclientId = resp.client_id;
-         
+
           console.log("Token Validated Sucessfully");
           return 1;
         }

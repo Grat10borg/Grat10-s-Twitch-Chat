@@ -15,7 +15,7 @@ body {
 html #chat,
 body #chat {
   width: 400px;
-  height: 850px;
+  height: 750px;
   overflow-y: auto;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -127,5 +127,65 @@ body #chat li:last-of-type {
 html ul,
 body ul {
   list-style-type: disc;
+}
+
+.HEXFF0000 {
+  color: #ff0000 !important;
+}
+
+.HEX0000FF {
+  color: #0000ff !important;
+}
+
+.HEX008000 {
+  color: #008000 !important;
+}
+
+.HEXB22222 {
+  color: #b22222 !important;
+}
+
+.HEXFF7F50 {
+  color: #ff7f50 !important;
+}
+
+.HEX9ACD32 {
+  color: #9acd32 !important;
+}
+
+.HEXFF4500 {
+  color: #ff4500 !important;
+}
+
+.HEX2E8B57 {
+  color: #2e8b57 !important;
+}
+
+.HEXDAA520 {
+  color: #daa520 !important;
+}
+
+.HEXD2691E {
+  color: #d2691e !important;
+}
+
+.HEX5F9EA0 {
+  color: #5f9ea0 !important;
+}
+
+.HEX1E90FF {
+  color: #1e90ff !important;
+}
+
+.HEXFF69B4 {
+  color: #ff69b4 !important;
+}
+
+.HEX8A2BE2 {
+  color: #8a2be2 !important;
+}
+
+.HEX00FF7F {
+  color: #00ff7f !important;
 }
 /*# sourceMappingURL=style.css.map */
