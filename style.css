@@ -72,7 +72,6 @@ body #chat li .Message img {
       image-rendering: -moz-crisp-edges;
       image-rendering: pixelated;
   width: 28;
-  height: 28;
   display: inline-block;
 }
 html #chat li:not(:last-of-type),
@@ -118,7 +117,7 @@ body ul {
 }
 
 .HEX0000FF {
-  color: #0000ff !important;
+  color: #0077ff !important;
 }
 
 .HEX008000 {
