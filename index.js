@@ -59,18 +59,20 @@ async function CreateChatText(message, user, colour, extra) {
     profilePicIMG.classList.add("ProfilePicture");
     Username.classList.add("Username");
     messageP.classList.add("Message");
-    let rawEmotes = extra.userState["emotes-raw"].split("/");
-    for (let DifferentEmotes = 0; DifferentEmotes < rawEmotes.length; DifferentEmotes++) {
-        console.log(rawEmotes);
-        let Emote = rawEmotes[DifferentEmotes].split(":");
-        let EmoteIndex = Emote[1].split(",");
-        for (let EmoteI = 0; EmoteI < EmoteIndex.length; EmoteI++) {
-            let EmoteIndexI = EmoteIndex[EmoteI].split("-");
-            console.log(EmoteIndexI);
-            let end = EmoteIndexI[1] + 1;
-            let newMSG = message.slice(EmoteIndexI[0], EmoteIndexI[1]);
-            console.log(message.substring(EmoteIndexI[0], EmoteIndexI[1]));
+    if (extra.userState["emotes-raw"] != null) {
+        let newMSG = message;
+        let rawEmotes = extra.userState["emotes-raw"].split("/");
+        for (let DifferentEmotes = 0; DifferentEmotes < rawEmotes.length; DifferentEmotes++) {
+            let Emote = rawEmotes[DifferentEmotes].split(":");
+            let EmoteIndex = Emote[1].split(",");
+            let EmoteIndexI = EmoteIndex[0].split("-");
+            let EmoteName = message.substring(parseInt(EmoteIndexI[0]), parseInt(EmoteIndexI[1]) + 1);
+            newMSG = newMSG.replaceAll(EmoteName, "<img src='https://static-cdn.jtvnw.net/emoticons/v2/" +
+                Emote[0] +
+                "/default/dark/1.0" +
+                "'></img>");
         }
+        message = newMSG;
     }
     if (CustomColorStyling == true) {
         switch (colour) {
@@ -109,9 +111,11 @@ async function CreateChatText(message, user, colour, extra) {
         }
     }
     else {
-        chatBorder.classList.add("HEX" + colour.replace("#", ""));
-        Username.classList.add("HEX" + colour.replace("#", ""));
-        messageP.classList.add("HEX" + colour.replace("#", ""));
+        if (colour != null) {
+            chatBorder.classList.add("HEX" + colour.replace("#", ""));
+            Username.classList.add("HEX" + colour.replace("#", ""));
+            messageP.classList.add("HEX" + colour.replace("#", ""));
+        }
     }
     Username.innerHTML = user + ":";
     messageP.innerHTML = message;

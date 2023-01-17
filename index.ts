@@ -112,40 +112,33 @@ async function CreateChatText(
   messageP.classList.add("Message");
 
   // MessageEmote Handling
-  //console.log(extra.userState["emotes-raw"]);
-  let rawEmotes = extra.userState["emotes-raw"].split("/");
-  for (
-    let DifferentEmotes = 0;
-    DifferentEmotes < rawEmotes.length;
-    DifferentEmotes++
-  ) {
-    console.log(rawEmotes);
-    let Emote = rawEmotes[DifferentEmotes].split(":");
-    let EmoteIndex = Emote[1].split(",");
 
-    for (let EmoteI = 0; EmoteI < EmoteIndex.length; EmoteI++) {
-      let EmoteIndexI = EmoteIndex[EmoteI].split("-");
-      console.log(EmoteIndexI);
-      let end = EmoteIndexI[1] + 1;
-      let newMSG = message.slice(EmoteIndexI[0], EmoteIndexI[1]);
-      console.log(message.substring(EmoteIndexI[0], EmoteIndexI[1]));
-      // newMSG.replace(
-      //   newMSG,
-      //   "<img src='https://static-cdn.jtvnw.net/emoticons/v2/" +
-      //     Emote[0] +
-      //     "/default/dark/1.0" +
-      //     "'></img>"
-      // );
-      // message = message.replace(
-      //   message.slice(EmoteIndexI[0], EmoteIndexI[1]),
-      //   "<img src='https://static-cdn.jtvnw.net/emoticons/v2/" +
-      //     Emote[0] +
-      //     "/default/dark/1.0" +
-      //     "'></img>"
-      // );
+  if (extra.userState["emotes-raw"] != null) {
+    let newMSG = message;
+    let rawEmotes = extra.userState["emotes-raw"].split("/");
+    for (
+      let DifferentEmotes = 0;
+      DifferentEmotes < rawEmotes.length;
+      DifferentEmotes++
+    ) {
+      let Emote = rawEmotes[DifferentEmotes].split(":");
+      let EmoteIndex = Emote[1].split(",");
+      let EmoteIndexI = EmoteIndex[0].split("-");
+      let EmoteName = message.substring(
+        parseInt(EmoteIndexI[0]),
+        parseInt(EmoteIndexI[1]) + 1
+      );
+      // Replaces all ocerances 
+      newMSG = newMSG.replaceAll(
+        EmoteName,
+        "<img src='https://static-cdn.jtvnw.net/emoticons/v2/" +
+          Emote[0] +
+          "/default/dark/1.0" +
+          "'></img>"
+      );
     }
+    message = newMSG;
   }
-
 
   // Color selecting:
   if (CustomColorStyling == true) {
@@ -184,9 +177,11 @@ async function CreateChatText(
         break;
     }
   } else {
-    chatBorder.classList.add("HEX" + colour.replace("#", ""));
-    Username.classList.add("HEX" + colour.replace("#", ""));
-    messageP.classList.add("HEX" + colour.replace("#", ""));
+    if(colour != null) {
+      chatBorder.classList.add("HEX" + colour.replace("#", ""));
+      Username.classList.add("HEX" + colour.replace("#", ""));
+      messageP.classList.add("HEX" + colour.replace("#", ""));
+    }
   }
 
   // Values
