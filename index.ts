@@ -128,7 +128,7 @@ async function CreateChatText(
         parseInt(EmoteIndexI[0]),
         parseInt(EmoteIndexI[1]) + 1
       );
-      // Replaces all ocerances 
+      // Replaces all ocerances
       newMSG = newMSG.replaceAll(
         EmoteName,
         "<img src='https://static-cdn.jtvnw.net/emoticons/v2/" +
@@ -141,47 +141,57 @@ async function CreateChatText(
   }
 
   // Color selecting:
-  if (CustomColorStyling == true) {
-    switch (colour) {
-      case "#FF0000": // Red
-        break;
-      case "#0000FF": // Blue
-        break;
-      case "#008000": // Green
-        break;
-      case "#B22222": // BrickColored / MurstensFarvet
-        break;
-      case "#FF7F50": // CoralRed
-        break;
-      case "#9ACD32": // YellowGreen / GulGrøn
-        break;
-      case "#FF4500": // OrangeRed
-        break;
-      case "#2E8B57": // SeaWeed Color
-        break;
-      case "#DAA520": // Gyldenris
-        break;
-      case "#D2691E": // Chocolade
-        break;
-      case "#5F9EA0": // KadetBlå
-        break;
-      case "#1E90FF": // DodgerBlue
-        break;
-      case "#FF69B4": // Pink
-        break;
-      case "#8A2BE2": // Blåviolet
-        break;
-      case "#00FF7F": // SpringGreen / forårsgrøn
-        break;
-      default:
-        break;
-    }
-  } else {
-    if(colour != null) {
-      chatBorder.classList.add("HEX" + colour.replace("#", ""));
-      Username.classList.add("HEX" + colour.replace("#", ""));
-      messageP.classList.add("HEX" + colour.replace("#", ""));
-    }
+  switch (colour) {
+    case "#FF0000": // Red
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#0000FF": // Blue
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#008000": // Green
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#B22222": // BrickColored / MurstensFarvet
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#FF7F50": // CoralRed
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#9ACD32": // YellowGreen / GulGrøn
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#FF4500": // OrangeRed
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#2E8B57": // SeaWeed Color
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#DAA520": // Gyldenris
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#D2691E": // Chocolade
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#5F9EA0": // KadetBlå
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#1E90FF": // DodgerBlue
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#FF69B4": // Pink
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#8A2BE2": // Blåviolet
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    case "#00FF7F": // SpringGreen / forårsgrøn
+      ChangeColor(colour, chatBorder, Username, messageP);
+      break;
+    default:
+      chatBorder.style.cssText = `color:${colour}`;
+      Username.style.cssText = `color:${colour}`;
+      messageP.style.cssText = `color:${colour}`;
+      break;
   }
 
   // Values
@@ -277,3 +287,14 @@ async function HttpCalling(HttpCall: string) {
   return respon;
 }
 //#endregion
+
+function ChangeColor(
+  colour: string,
+  chatBorder: HTMLDivElement,
+  Username: HTMLParagraphElement,
+  messageP: HTMLParagraphElement
+) {
+  chatBorder.classList.add("HEX" + colour.replace("#", ""));
+  Username.classList.add("HEX" + colour.replace("#", ""));
+  messageP.classList.add("HEX" + colour.replace("#", ""));
+}
