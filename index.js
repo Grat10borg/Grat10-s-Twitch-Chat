@@ -1,9 +1,11 @@
 "use strict";
 var chat = document.querySelector("#chat>ul");
 let ClearOldChatMSGsAfter = 11;
-let CustomColorStyling = false;
+let BadgeSizeGet = "Medium";
 let AppAcessToken = "gksx1g5gtd21dukq6t3cdafslng28t";
+let UserID = "485848067";
 let AclientId = "";
+var AllBadges = Array();
 validateToken();
 ComfyJS.onChat = (user, message, flags, self, extra) => {
     console.log(user);
@@ -52,6 +54,7 @@ async function CreateChatText(message, user, colour, extra) {
     let newMessage = document.createElement("li");
     let chatBorder = document.createElement("div");
     let UserprofileLine = document.createElement("div");
+    let BadgeDiv = document.createElement("div");
     let Username = document.createElement("div");
     let messageP = document.createElement("p");
     chatBorder.classList.add("ChatBorder");
@@ -59,6 +62,41 @@ async function CreateChatText(message, user, colour, extra) {
     profilePicIMG.classList.add("ProfilePicture");
     Username.classList.add("Username");
     messageP.classList.add("Message");
+    BadgeDiv.classList.add("BadgeLine");
+    if (extra.userState["badges-raw"] != null) {
+        if (AllBadges.length == 0) {
+            var TwitchGlobalBadges;
+            var ChannelBadges;
+            TwitchGlobalBadges = await HttpCalling("https://api.twitch.tv/helix/chat/badges/global");
+            ChannelBadges = await HttpCalling("https://api.twitch.tv/helix/chat/badges?broadcaster_id=" + UserID);
+            if (ChannelBadges["data"].length == 0) {
+                AllBadges = TwitchGlobalBadges["data"];
+            }
+            else {
+                AllBadges = ChannelBadges["data"].concat(TwitchGlobalBadges["data"]);
+            }
+        }
+        let badges = extra.userState["badges-raw"].split(",");
+        for (let badgeIndex = 0; badgeIndex < badges.length; badgeIndex++) {
+            let res = badges[badgeIndex].split("/");
+            for (let AllBadgeIndex = 0; AllBadgeIndex < AllBadges.length; AllBadgeIndex++) {
+                if (res[0] == AllBadges[AllBadgeIndex]["set_id"]) {
+                    let Badge = document.createElement("img");
+                    Badge.classList.add("Badge");
+                    if (BadgeSizeGet == "Small") {
+                        Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_2x"];
+                    }
+                    else if (BadgeSizeGet == "Medium") {
+                        Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_4x"];
+                    }
+                    else {
+                        Badge.src = AllBadges[AllBadgeIndex]["versions"]["3"];
+                    }
+                    BadgeDiv.append(Badge);
+                }
+            }
+        }
+    }
     if (extra.userState["emotes-raw"] != null) {
         let newMSG = message;
         let rawEmotes = extra.userState["emotes-raw"].split("/");
@@ -74,53 +112,65 @@ async function CreateChatText(message, user, colour, extra) {
         }
         message = newMSG;
     }
-    if (CustomColorStyling == true) {
+    if (extra.userState["color"] != null) {
         switch (colour) {
             case "#FF0000":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#0000FF":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#008000":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#B22222":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#FF7F50":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#9ACD32":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#FF4500":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#2E8B57":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#DAA520":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#D2691E":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#5F9EA0":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#1E90FF":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#FF69B4":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#8A2BE2":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             case "#00FF7F":
+                ChangeColor(colour, chatBorder, Username, messageP);
                 break;
             default:
+                chatBorder.style.cssText = `color:${colour}`;
+                Username.style.cssText = `color:${colour}`;
+                messageP.style.cssText = `color:${colour}`;
                 break;
-        }
-    }
-    else {
-        if (colour != null) {
-            chatBorder.classList.add("HEX" + colour.replace("#", ""));
-            Username.classList.add("HEX" + colour.replace("#", ""));
-            messageP.classList.add("HEX" + colour.replace("#", ""));
         }
     }
     Username.innerHTML = user + ":";
     messageP.innerHTML = message;
     UserprofileLine.append(profilePicIMG);
     UserprofileLine.append(Username);
+    UserprofileLine.append(BadgeDiv);
     chatBorder.append(UserprofileLine);
     chatBorder.append(messageP);
     newMessage.append(chatBorder);
@@ -182,4 +232,9 @@ async function HttpCalling(HttpCall) {
         return err;
     });
     return respon;
+}
+function ChangeColor(colour, chatBorder, Username, messageP) {
+    chatBorder.classList.add("HEX" + colour.replace("#", ""));
+    Username.classList.add("HEX" + colour.replace("#", ""));
+    messageP.classList.add("HEX" + colour.replace("#", ""));
 }

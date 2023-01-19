@@ -3,11 +3,16 @@ var chat = document.querySelector("#chat>ul") as HTMLElement;
 
 //#region Basic Settings
 let ClearOldChatMSGsAfter = 11 as number;
-let CustomColorStyling = false as boolean;
+let BadgeSizeGet = "Medium"; // Small, Medium, Large
 
 let AppAcessToken = "gksx1g5gtd21dukq6t3cdafslng28t";
+let UserID = "485848067";
 let AclientId = "";
+
+var AllBadges = Array() as Array<any>;
+
 validateToken();
+
 //#endregion
 
 //@ts-expect-error
@@ -100,6 +105,7 @@ async function CreateChatText(
   let newMessage = document.createElement("li") as HTMLLIElement;
   let chatBorder = document.createElement("div") as HTMLDivElement;
   let UserprofileLine = document.createElement("div") as HTMLDivElement;
+  let BadgeDiv = document.createElement("div") as HTMLDivElement;
 
   let Username = document.createElement("div") as HTMLDivElement;
   let messageP = document.createElement("p") as HTMLParagraphElement;
@@ -110,9 +116,55 @@ async function CreateChatText(
   profilePicIMG.classList.add("ProfilePicture");
   Username.classList.add("Username");
   messageP.classList.add("Message");
+  BadgeDiv.classList.add("BadgeLine");
+
+  // Badge Handling
+  if (extra.userState["badges-raw"] != null) {
+    // Only runs when not initialized.
+    if (AllBadges.length == 0) {
+      var TwitchGlobalBadges: any;
+      var ChannelBadges: any;
+      TwitchGlobalBadges = await HttpCalling(
+        "https://api.twitch.tv/helix/chat/badges/global"
+      );
+      ChannelBadges = await HttpCalling(
+        "https://api.twitch.tv/helix/chat/badges?broadcaster_id=" + UserID
+      );
+      if (ChannelBadges["data"].length == 0) {
+        // no channel badges gets globals only instead
+        AllBadges = TwitchGlobalBadges["data"];
+      } else {
+        AllBadges = ChannelBadges["data"].concat(TwitchGlobalBadges["data"]);
+      }
+    }
+
+    // you can only equip TWO badges at one time. pretty sure
+    let badges = extra.userState["badges-raw"].split(",");
+    for (let badgeIndex = 0; badgeIndex < badges.length; badgeIndex++) {
+      let res = badges[badgeIndex].split("/");
+      for (
+        let AllBadgeIndex = 0;
+        AllBadgeIndex < AllBadges.length;
+        AllBadgeIndex++
+      ) {
+        if (res[0] == AllBadges[AllBadgeIndex]["set_id"]) {
+          let Badge = document.createElement("img");
+          Badge.classList.add("Badge");
+          if (BadgeSizeGet == "Small") {
+            Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_2x"];
+          } else if (BadgeSizeGet == "Medium") {
+            Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_4x"];
+          } else {
+            Badge.src = AllBadges[AllBadgeIndex]["versions"]["3"];
+          }
+          // Add a badge at either badge placement badgeIndex (0-1)
+          BadgeDiv.append(Badge);
+        }
+      }
+    }
+  }
 
   // MessageEmote Handling
-
   if (extra.userState["emotes-raw"] != null) {
     let newMSG = message;
     let rawEmotes = extra.userState["emotes-raw"].split("/");
@@ -141,57 +193,60 @@ async function CreateChatText(
   }
 
   // Color selecting:
-  switch (colour) {
-    case "#FF0000": // Red
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#0000FF": // Blue
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#008000": // Green
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#B22222": // BrickColored / MurstensFarvet
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#FF7F50": // CoralRed
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#9ACD32": // YellowGreen / GulGrøn
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#FF4500": // OrangeRed
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#2E8B57": // SeaWeed Color
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#DAA520": // Gyldenris
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#D2691E": // Chocolade
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#5F9EA0": // KadetBlå
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#1E90FF": // DodgerBlue
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#FF69B4": // Pink
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#8A2BE2": // Blåviolet
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    case "#00FF7F": // SpringGreen / forårsgrøn
-      ChangeColor(colour, chatBorder, Username, messageP);
-      break;
-    default:
-      chatBorder.style.cssText = `color:${colour}`;
-      Username.style.cssText = `color:${colour}`;
-      messageP.style.cssText = `color:${colour}`;
-      break;
+  if (extra.userState["color"] != null) {
+    switch (colour) {
+      case "#FF0000": // Red
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#0000FF": // Blue
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#008000": // Green
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#B22222": // BrickColored / MurstensFarvet
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#FF7F50": // CoralRed
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#9ACD32": // YellowGreen / GulGrøn
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#FF4500": // OrangeRed
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#2E8B57": // SeaWeed Color
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#DAA520": // Gyldenris
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#D2691E": // Chocolade
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#5F9EA0": // KadetBlå
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#1E90FF": // DodgerBlue
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#FF69B4": // Pink
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#8A2BE2": // Blåviolet
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      case "#00FF7F": // SpringGreen / forårsgrøn
+        ChangeColor(colour, chatBorder, Username, messageP);
+        break;
+      default:
+        // Twitch turbo colours (untested)
+        chatBorder.style.cssText = `color:${colour}`;
+        Username.style.cssText = `color:${colour}`;
+        messageP.style.cssText = `color:${colour}`;
+        break;
+    }
   }
 
   // Values
@@ -201,19 +256,11 @@ async function CreateChatText(
   // Appending
   UserprofileLine.append(profilePicIMG);
   UserprofileLine.append(Username);
+  UserprofileLine.append(BadgeDiv);
   chatBorder.append(UserprofileLine);
   chatBorder.append(messageP);
   newMessage.append(chatBorder);
   chat.append(newMessage);
-
-  //#region Legazy Chatembeding
-  // var newMessage = document.createElement("li");
-  // var text = document.createElement("blockquote");
-  // newMessage.innerText = user;
-  // text.innerText = message;
-  // newMessage.append(text);
-  // chat.append(newMessage);
-  //#endregion
 
   // removes old chat messages outside of view.
   if (chat.getElementsByTagName("li").length > ClearOldChatMSGsAfter) {

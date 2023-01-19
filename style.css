@@ -60,6 +60,7 @@ body #chat li .UserProfileLine {
 
 html #chat li .UserProfileLine .ProfilePicture,
 body #chat li .UserProfileLine .ProfilePicture {
+  image-rendering: optimizeQuality;
   display: inline-block;
   margin-right: 10px;
   pointer-events: none;
@@ -72,6 +73,22 @@ body #chat li .UserProfileLine .Username {
   display: inline-block;
   font-size: 22px;
   color: #c1d9f2;
+}
+
+html #chat li .UserProfileLine .BadgeLine,
+body #chat li .UserProfileLine .BadgeLine {
+  margin-left: auto;
+  margin-right: 5px;
+}
+
+html #chat li .UserProfileLine .BadgeLine .Badge,
+body #chat li .UserProfileLine .BadgeLine .Badge {
+  margin-left: 2px;
+  margin-right: 2px;
+  image-rendering: optimizeQuality;
+  width: 24;
+  max-width: 76px;
+  pointer-events: none;
 }
 
 html #chat li .Message,

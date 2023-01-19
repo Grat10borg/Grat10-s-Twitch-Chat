@@ -54,6 +54,7 @@ body {
         display: flex;
         align-items: center;
         .ProfilePicture {
+          image-rendering: optimizeQuality;
           display: inline-block;
           margin-right: 10px;
 
@@ -68,6 +69,19 @@ body {
           display: inline-block;
           font-size: 22px;
           color: $ChatUsernamebaseColor;
+        }
+        .BadgeLine {
+          margin-left: auto; 
+          margin-right: 5px;
+
+          .Badge{
+            margin-left: 2px;
+            margin-right: 2px;
+            image-rendering: optimizeQuality;
+            width: 24; // recomended sizes 36, 32, 24, 19
+            max-width: 76px; // should be twitch max size
+            pointer-events: none;
+          }
         }
       }
 
