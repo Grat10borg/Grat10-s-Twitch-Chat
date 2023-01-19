@@ -5,12 +5,16 @@ var chat = document.querySelector("#chat>ul") as HTMLElement;
 let ClearOldChatMSGsAfter = 11 as number;
 let BadgeSizeGet = "Medium"; // Small, Medium, Large
 
-let AppAcessToken = "gksx1g5gtd21dukq6t3cdafslng28t";
-let UserID = "485848067";
+//@ts-expect-error
+let AppAcessToken = config.MY_API_TOKEN;
+var broadcaster_id: string;
+
 let AclientId = "";
 
-var AllBadges = Array() as Array<any>;
-
+// Arrays that save data on users.
+var AllBadges = Array() as Array<any>; // Gets filled with all of twitches badge data
+let ChatNames = Array(); // Filled with Chatters names so we can find their profile pictues in ChatProfileLink
+let ChatProfileLink = Array(); // holds links to Chatters ProfilePictures.
 validateToken();
 
 //#endregion
@@ -67,20 +71,24 @@ ComfyJS.onCommand = (
 //@ts-expect-error
 ComfyJS.onMessageDeleted = (id: any, extra: any) => {
   console.log(id, extra);
+
+  // for now..
+  chat.innerHTML = "";
+  //@ts-expect-error
+  ComfyJS.Say("Cleared On-Screen Chatbox! ..to clear away the nasty stuff they said 🧹🤖");
 };
 
 //@ts-expect-error
 ComfyJS.Init(
-  "illu_illusion",
-  "oauth:ittskpnutx42o6zlmps13yotc9zylg",
-  "grat_grot10_berg"
+  //@ts-expect-error
+  config.BOTLOGIN,
+  //@ts-expect-error
+  config.BOTOAUTH,
+  //@ts-expect-error
+  config.TWITCH_LOGIN
 );
 
 // FUNCTIONS
-
-// Later make this into a bigger multidim object or array!
-let ChatNames = Array();
-let ChatProfileLink = Array();
 
 async function CreateChatText(
   message: string,
@@ -124,12 +132,18 @@ async function CreateChatText(
     if (AllBadges.length == 0) {
       var TwitchGlobalBadges: any;
       var ChannelBadges: any;
+      if(broadcaster_id == "" || broadcaster_id == undefined || broadcaster_id == null) {
+        let BroadcasterData = await HttpCalling("https://api.twitch.tv/helix/users?login="+extra["channel"]);
+        broadcaster_id = BroadcasterData["data"][0]["id"];
+      }
+
       TwitchGlobalBadges = await HttpCalling(
         "https://api.twitch.tv/helix/chat/badges/global"
       );
       ChannelBadges = await HttpCalling(
-        "https://api.twitch.tv/helix/chat/badges?broadcaster_id=" + UserID
+        "https://api.twitch.tv/helix/chat/badges?broadcaster_id=" + broadcaster_id
       );
+      // !! CHANNEL BADGES ARE UNTESTED !!
       if (ChannelBadges["data"].length == 0) {
         // no channel badges gets globals only instead
         AllBadges = TwitchGlobalBadges["data"];

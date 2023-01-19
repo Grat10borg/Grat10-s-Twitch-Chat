@@ -2,10 +2,12 @@
 var chat = document.querySelector("#chat>ul");
 let ClearOldChatMSGsAfter = 11;
 let BadgeSizeGet = "Medium";
-let AppAcessToken = "gksx1g5gtd21dukq6t3cdafslng28t";
-let UserID = "485848067";
+let AppAcessToken = config.MY_API_TOKEN;
+var broadcaster_id;
 let AclientId = "";
 var AllBadges = Array();
+let ChatNames = Array();
+let ChatProfileLink = Array();
 validateToken();
 ComfyJS.onChat = (user, message, flags, self, extra) => {
     console.log(user);
@@ -36,10 +38,10 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 };
 ComfyJS.onMessageDeleted = (id, extra) => {
     console.log(id, extra);
+    chat.innerHTML = "";
+    ComfyJS.Say("Cleared On-Screen Chatbox! ..to clear away the nasty stuff they said 🧹🤖");
 };
-ComfyJS.Init("illu_illusion", "oauth:ittskpnutx42o6zlmps13yotc9zylg", "grat_grot10_berg");
-let ChatNames = Array();
-let ChatProfileLink = Array();
+ComfyJS.Init(config.BOTLOGIN, config.BOTOAUTH, config.TWITCH_LOGIN);
 async function CreateChatText(message, user, colour, extra) {
     let profilePicIMG = document.createElement("img");
     if (ChatNames.lastIndexOf(user) == -1) {
@@ -67,8 +69,12 @@ async function CreateChatText(message, user, colour, extra) {
         if (AllBadges.length == 0) {
             var TwitchGlobalBadges;
             var ChannelBadges;
+            if (broadcaster_id == "" || broadcaster_id == undefined || broadcaster_id == null) {
+                let BroadcasterData = await HttpCalling("https://api.twitch.tv/helix/users?login=" + extra["channel"]);
+                broadcaster_id = BroadcasterData["data"][0]["id"];
+            }
             TwitchGlobalBadges = await HttpCalling("https://api.twitch.tv/helix/chat/badges/global");
-            ChannelBadges = await HttpCalling("https://api.twitch.tv/helix/chat/badges?broadcaster_id=" + UserID);
+            ChannelBadges = await HttpCalling("https://api.twitch.tv/helix/chat/badges?broadcaster_id=" + broadcaster_id);
             if (ChannelBadges["data"].length == 0) {
                 AllBadges = TwitchGlobalBadges["data"];
             }
