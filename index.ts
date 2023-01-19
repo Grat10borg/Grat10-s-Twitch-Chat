@@ -3,7 +3,7 @@ var chat = document.querySelector("#chat>ul") as HTMLElement;
 
 //#region Basic Settings
 let ClearOldChatMSGsAfter = 11 as number;
-let BadgeSizeGet = "Medium"; // Small, Medium, Large
+let BadgeSizeGet = "medium"; // Small, Medium, Large, Note some badges look different on differet sizes, normally pixelart badges changes
 
 //@ts-expect-error
 let AppAcessToken = config.MY_API_TOKEN;
@@ -164,12 +164,13 @@ async function CreateChatText(
         if (res[0] == AllBadges[AllBadgeIndex]["set_id"]) {
           let Badge = document.createElement("img");
           Badge.classList.add("Badge");
-          if (BadgeSizeGet == "Small") {
+          console.log(AllBadges[AllBadgeIndex]["versions"]);
+          if (BadgeSizeGet.toLowerCase() == "small") {
+            Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_1x"];
+          } else if (BadgeSizeGet.toLowerCase() == "medium") {
             Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_2x"];
-          } else if (BadgeSizeGet == "Medium") {
-            Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_4x"];
           } else {
-            Badge.src = AllBadges[AllBadgeIndex]["versions"]["3"];
+            Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_4x"];
           }
           // Add a badge at either badge placement badgeIndex (0-1)
           BadgeDiv.append(Badge);

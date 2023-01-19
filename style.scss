@@ -1,3 +1,16 @@
+
+
+@font-face {
+  // Made by the Braille Institute this font is easier to read for Low vision readers https://brailleinstitute.org/freefont
+  font-family: 'Atkinson-Hyperlegible';
+  src: url('Fonts\\Atkinson-Hyperlegible-Regular-102.eot'); /* IE9 Compat Modes */
+  src: url('Fonts\\Atkinson-Hyperlegible-Regular-102.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('Fonts\\Atkinson-Hyperlegible-Regular-102.woff2') format('woff2'), /* Super Modern Browsers */
+       url('Fonts\\Atkinson-Hyperlegible-Regular-102.woff') format('woff'), /* Pretty Modern Browsers */
+       url('Fonts\\Atkinson-Hyperlegible-Regular-102.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('Fonts\\Atkinson-Hyperlegible-Regular-102.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
 // SCSS Color vars
 $ChatBackgroundColor: #12173d;
 $ChatBetweenBackgroundColor: #a4a8ad6c;
@@ -15,7 +28,7 @@ $ChatBorderBaseColor: #c1d9f2;
 
 html,
 body {
-  font-family: "VT323", monospace;
+  font-family: 'Atkinson-Hyperlegible',"VT323", Fallback, monospace;
   // colors between chats.
   //background-color: $ChatBetweenBackgroundColor;
 

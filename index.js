@@ -1,7 +1,7 @@
 "use strict";
 var chat = document.querySelector("#chat>ul");
 let ClearOldChatMSGsAfter = 11;
-let BadgeSizeGet = "Medium";
+let BadgeSizeGet = "medium";
 let AppAcessToken = config.MY_API_TOKEN;
 var broadcaster_id;
 let AclientId = "";
@@ -89,14 +89,15 @@ async function CreateChatText(message, user, colour, extra) {
                 if (res[0] == AllBadges[AllBadgeIndex]["set_id"]) {
                     let Badge = document.createElement("img");
                     Badge.classList.add("Badge");
-                    if (BadgeSizeGet == "Small") {
+                    console.log(AllBadges[AllBadgeIndex]["versions"]);
+                    if (BadgeSizeGet.toLowerCase() == "small") {
+                        Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_1x"];
+                    }
+                    else if (BadgeSizeGet.toLowerCase() == "medium") {
                         Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_2x"];
                     }
-                    else if (BadgeSizeGet == "Medium") {
-                        Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_4x"];
-                    }
                     else {
-                        Badge.src = AllBadges[AllBadgeIndex]["versions"]["3"];
+                        Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_4x"];
                     }
                     BadgeDiv.append(Badge);
                 }
