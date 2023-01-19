@@ -11,27 +11,34 @@ html,
 body {
   font-family: "VT323", monospace;
 }
+
 html #chat,
 body #chat {
-  width: 400px;
-  height: 750px;
+  width: 100%;
+  height: 100%;
   overflow-y: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: column-reverse;
   flex-direction: column-reverse;
 }
+
 html #chat ul,
 body #chat ul {
   list-style-type: none;
   list-style-position: outside;
 }
+
 html #chat li,
 body #chat li {
-  display: list-item;
-  text-align: -webkit-match-parent;
   background-color: #12173d;
   padding: 15px 5px;
   margin-bottom: 5px;
 }
+
 html #chat li .ChatBorder,
 body #chat li .ChatBorder {
   color: #c1d9f2;
@@ -39,12 +46,18 @@ body #chat li .ChatBorder {
   border-radius: 5px 0px 0px 5px;
   padding-left: 10px;
 }
+
 html #chat li .UserProfileLine,
 body #chat li .UserProfileLine {
   margin-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
+
 html #chat li .UserProfileLine .ProfilePicture,
 body #chat li .UserProfileLine .ProfilePicture {
   display: inline-block;
@@ -53,33 +66,43 @@ body #chat li .UserProfileLine .ProfilePicture {
   border-radius: 100%;
   width: 32px;
 }
+
 html #chat li .UserProfileLine .Username,
 body #chat li .UserProfileLine .Username {
   display: inline-block;
   font-size: 22px;
   color: #c1d9f2;
 }
+
 html #chat li .Message,
 body #chat li .Message {
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   word-wrap: break-word;
   font-size: 23px;
   color: #c1d9f2;
 }
+
 html #chat li .Message img,
 body #chat li .Message img {
   -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
       image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
       image-rendering: pixelated;
   width: 28;
   display: inline-block;
 }
+
 html #chat li:not(:last-of-type),
 body #chat li:not(:last-of-type) {
-  opacity: 0.9;
+  opacity: 0.8;
 }
+
 html #chat li:last-of-type,
 body #chat li:last-of-type {
+  opacity: 0.9;
   -webkit-animation-name: slide-in-left;
           animation-name: slide-in-left;
   -webkit-animation-duration: 0.15s;
@@ -87,26 +110,33 @@ body #chat li:last-of-type {
   -webkit-animation-timing-function: ease-in;
           animation-timing-function: ease-in;
 }
+
 @-webkit-keyframes slide-in-left {
   from {
-    transform: translateX(400px);
+    -webkit-transform: translateX(400px);
+            transform: translateX(400px);
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
     opacity: 1;
   }
 }
+
 @keyframes slide-in-left {
   from {
-    transform: translateX(400px);
+    -webkit-transform: translateX(400px);
+            transform: translateX(400px);
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
     opacity: 1;
   }
 }
+
 html ul,
 body ul {
   list-style-type: disc;
@@ -170,4 +200,5 @@ body ul {
 
 .HEX00FF7F {
   color: #00ff7f !important;
-}/*# sourceMappingURL=style.css.map */
+}
+/*# sourceMappingURL=style.css.map */
