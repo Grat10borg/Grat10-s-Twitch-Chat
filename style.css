@@ -17,7 +17,7 @@
 
 html,
 body {
-  font-family: 'Atkinson-Hyperlegible',"VT323", Fallback, monospace;
+  font-family: "VT323", 'Atkinson-Hyperlegible', Fallback, monospace;
 }
 
 html #chat,
