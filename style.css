@@ -1,11 +1,8 @@
 @font-face {
-  font-family: 'Atkinson-Hyperlegible';
-  src: url("Fonts\\Atkinson-Hyperlegible-Regular-102.eot");
-  /* IE9 Compat Modes */
-  src: url("Fonts\\Atkinson-Hyperlegible-Regular-102.eot?#iefix") format("embedded-opentype"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.woff2") format("woff2"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.woff") format("woff"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.ttf") format("truetype"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.svg#svgFontName") format("svg");
-  /* Legacy iOS */
+  font-family: "Atkinson-Hyperlegible";
+  src: url("Fonts\\Atkinson-Hyperlegible-Regular-102.eot"); /* IE9 Compat Modes */
+  src: url("Fonts\\Atkinson-Hyperlegible-Regular-102.eot?#iefix") format("embedded-opentype"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.woff2") format("woff2"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.woff") format("woff"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.ttf") format("truetype"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.svg#svgFontName") format("svg"); /* Legacy iOS */
 }
-
 * {
   padding: 0%;
   margin: 0%;
@@ -17,36 +14,28 @@
 
 html,
 body {
-  font-family: "VT323", 'Atkinson-Hyperlegible', Fallback, monospace;
+  font-family: "Atkinson-Hyperlegible", "VT323", Fallback, monospace;
 }
-
 html #chat,
 body #chat {
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: reverse;
-  -ms-flex-direction: column-reverse;
   flex-direction: column-reverse;
+  background-color: hsla(233deg, 54%, 15%, 0.5);
 }
-
 html #chat ul,
 body #chat ul {
   list-style-type: none;
   list-style-position: outside;
 }
-
 html #chat li,
 body #chat li {
-  background-color: #12173d;
+  background-color: hsla(233deg, 54%, 15%, 0.8);
   padding: 15px 5px;
   margin-bottom: 5px;
 }
-
 html #chat li .ChatBorder,
 body #chat li .ChatBorder {
   color: #c1d9f2;
@@ -54,18 +43,12 @@ body #chat li .ChatBorder {
   border-radius: 5px 0px 0px 5px;
   padding-left: 10px;
 }
-
 html #chat li .UserProfileLine,
 body #chat li .UserProfileLine {
   margin-bottom: 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
 }
-
 html #chat li .UserProfileLine .ProfilePicture,
 body #chat li .UserProfileLine .ProfilePicture {
   image-rendering: optimizeQuality;
@@ -75,20 +58,17 @@ body #chat li .UserProfileLine .ProfilePicture {
   border-radius: 100%;
   width: 32px;
 }
-
 html #chat li .UserProfileLine .Username,
 body #chat li .UserProfileLine .Username {
   display: inline-block;
-  font-size: 22px;
+  font-size: 23px;
   color: #c1d9f2;
 }
-
 html #chat li .UserProfileLine .BadgeLine,
 body #chat li .UserProfileLine .BadgeLine {
   margin-left: auto;
   margin-right: 5px;
 }
-
 html #chat li .UserProfileLine .BadgeLine .Badge,
 body #chat li .UserProfileLine .BadgeLine .Badge {
   margin-left: 2px;
@@ -98,36 +78,23 @@ body #chat li .UserProfileLine .BadgeLine .Badge {
   max-width: 76px;
   pointer-events: none;
 }
-
 html #chat li .Message,
 body #chat li .Message {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   word-wrap: break-word;
-  font-size: 23px;
+  font-size: 21px;
   color: #c1d9f2;
 }
-
 html #chat li .Message img,
 body #chat li .Message img {
   -ms-interpolation-mode: nearest-neighbor;
-      image-rendering: -webkit-optimize-contrast;
       image-rendering: -moz-crisp-edges;
-      image-rendering: -o-pixelated;
       image-rendering: pixelated;
   width: 28;
   display: inline-block;
 }
-
-html #chat li:not(:last-of-type),
-body #chat li:not(:last-of-type) {
-  opacity: 0.8;
-}
-
 html #chat li:last-of-type,
 body #chat li:last-of-type {
-  opacity: 0.9;
   -webkit-animation-name: slide-in-left;
           animation-name: slide-in-left;
   -webkit-animation-duration: 0.15s;
@@ -135,33 +102,26 @@ body #chat li:last-of-type {
   -webkit-animation-timing-function: ease-in;
           animation-timing-function: ease-in;
 }
-
 @-webkit-keyframes slide-in-left {
   from {
-    -webkit-transform: translateX(400px);
-            transform: translateX(400px);
+    transform: translateX(400px);
     opacity: 0;
   }
   to {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
+    transform: translateX(0);
     opacity: 1;
   }
 }
-
 @keyframes slide-in-left {
   from {
-    -webkit-transform: translateX(400px);
-            transform: translateX(400px);
+    transform: translateX(400px);
     opacity: 0;
   }
   to {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
+    transform: translateX(0);
     opacity: 1;
   }
 }
-
 html ul,
 body ul {
   list-style-type: disc;
@@ -225,5 +185,4 @@ body ul {
 
 .HEX00FF7F {
   color: #00ff7f !important;
-}
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */
