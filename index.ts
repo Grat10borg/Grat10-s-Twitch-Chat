@@ -240,18 +240,18 @@ async function CreateChatText(
       "https://api.betterttv.net/3/cached/emotes/global",
       false
     );
-    let ChannelBBTEmotes = await HttpCalling(
-      "https://api.betterttv.net/3/cached/users/twitch/" + broadcaster_id,
-      false
-    );
-    console.log(ChannelBBTEmotes);
-    if (ChannelBBTEmotes.length != 0) {
-      BetterTTVEmotes.push(ChannelBBTEmotes);
-    }
-    console.log(BetterTTVEmotes);
+    // Find the API call for channel Emotes..
+    // let ChannelBBTEmotes = await HttpCalling(
+    //   "https://api.betterttv.net/3/cached/emotes/twitch/" + broadcaster_id,
+    //   false
+    // );
+    // console.log(ChannelBBTEmotes);
+    //if (ChannelBBTEmotes.length != 0) {
+      //BetterTTVEmotes.push(ChannelBBTEmotes);
+    //}
+    //console.log(BetterTTVEmotes);
   }
   for (let index = 0; index < BetterTTVEmotes.length; index++) {
-    console.log(BetterTTVEmotes[index]["code"]);
     message = message.replaceAll(
       BetterTTVEmotes[index]["code"],
       "<img src='https://cdn.betterttv.net/emote/" +

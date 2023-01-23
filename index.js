@@ -131,15 +131,8 @@ async function CreateChatText(message, user, colour, extra) {
             broadcaster_id = BroadcasterData["data"][0]["id"];
         }
         BetterTTVEmotes = await HttpCalling("https://api.betterttv.net/3/cached/emotes/global", false);
-        let ChannelBBTEmotes = await HttpCalling("https://api.betterttv.net/3/cached/users/twitch/" + broadcaster_id, false);
-        console.log(ChannelBBTEmotes);
-        if (ChannelBBTEmotes.length != 0) {
-            BetterTTVEmotes.push(ChannelBBTEmotes);
-        }
-        console.log(BetterTTVEmotes);
     }
     for (let index = 0; index < BetterTTVEmotes.length; index++) {
-        console.log(BetterTTVEmotes[index]["code"]);
         message = message.replaceAll(BetterTTVEmotes[index]["code"], "<img src='https://cdn.betterttv.net/emote/" +
             BetterTTVEmotes[index]["id"] +
             "/1x." +
