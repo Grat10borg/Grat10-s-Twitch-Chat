@@ -8,6 +8,7 @@ let AclientId = "";
 var AllBadges = Array();
 let ChatNames = Array();
 let ChatProfileLink = Array();
+let BetterTTVEmotes = Array();
 validateToken();
 ComfyJS.onChat = (user, message, flags, self, extra) => {
     console.log(user);
@@ -45,7 +46,7 @@ ComfyJS.Init(config.BOTLOGIN, config.BOTOAUTH, config.TWITCH_LOGIN);
 async function CreateChatText(message, user, colour, extra) {
     let profilePicIMG = document.createElement("img");
     if (ChatNames.lastIndexOf(user) == -1) {
-        let User = await HttpCalling("https://api.twitch.tv/helix/users?login=" + user);
+        let User = await HttpCalling("https://api.twitch.tv/helix/users?login=" + user, true);
         profilePicIMG.src = User["data"][0]["profile_image_url"];
         ChatNames.push(user);
         ChatProfileLink.push(User["data"][0]["profile_image_url"]);
@@ -69,12 +70,15 @@ async function CreateChatText(message, user, colour, extra) {
         if (AllBadges.length == 0) {
             var TwitchGlobalBadges;
             var ChannelBadges;
-            if (broadcaster_id == "" || broadcaster_id == undefined || broadcaster_id == null) {
-                let BroadcasterData = await HttpCalling("https://api.twitch.tv/helix/users?login=" + extra["channel"]);
+            if (broadcaster_id == "" ||
+                broadcaster_id == undefined ||
+                broadcaster_id == null) {
+                let BroadcasterData = await HttpCalling("https://api.twitch.tv/helix/users?login=" + extra["channel"], true);
                 broadcaster_id = BroadcasterData["data"][0]["id"];
             }
-            TwitchGlobalBadges = await HttpCalling("https://api.twitch.tv/helix/chat/badges/global");
-            ChannelBadges = await HttpCalling("https://api.twitch.tv/helix/chat/badges?broadcaster_id=" + broadcaster_id);
+            TwitchGlobalBadges = await HttpCalling("https://api.twitch.tv/helix/chat/badges/global", true);
+            ChannelBadges = await HttpCalling("https://api.twitch.tv/helix/chat/badges?broadcaster_id=" +
+                broadcaster_id, true);
             if (ChannelBadges["data"].length == 0) {
                 AllBadges = TwitchGlobalBadges["data"];
             }
@@ -118,6 +122,29 @@ async function CreateChatText(message, user, colour, extra) {
                 "'></img>");
         }
         message = newMSG;
+    }
+    if (BetterTTVEmotes.length == 0) {
+        if (broadcaster_id == "" ||
+            broadcaster_id == undefined ||
+            broadcaster_id == null) {
+            let BroadcasterData = await HttpCalling("https://api.twitch.tv/helix/users?login=" + extra["channel"], true);
+            broadcaster_id = BroadcasterData["data"][0]["id"];
+        }
+        BetterTTVEmotes = await HttpCalling("https://api.betterttv.net/3/cached/emotes/global", false);
+        let ChannelBBTEmotes = await HttpCalling("https://api.betterttv.net/3/cached/users/twitch/" + broadcaster_id, false);
+        console.log(ChannelBBTEmotes);
+        if (ChannelBBTEmotes.length != 0) {
+            BetterTTVEmotes.push(ChannelBBTEmotes);
+        }
+        console.log(BetterTTVEmotes);
+    }
+    for (let index = 0; index < BetterTTVEmotes.length; index++) {
+        console.log(BetterTTVEmotes[index]["code"]);
+        message = message.replaceAll(BetterTTVEmotes[index]["code"], "<img src='https://cdn.betterttv.net/emote/" +
+            BetterTTVEmotes[index]["id"] +
+            "/1x." +
+            BetterTTVEmotes[index]["imageType"] +
+            "'></img>");
     }
     if (extra.userState["color"] != null) {
         switch (colour) {
@@ -223,22 +250,36 @@ async function validateToken() {
         return 0;
     }
 }
-async function HttpCalling(HttpCall) {
-    const respon = await fetch(`${HttpCall}`, {
-        headers: {
-            Authorization: "Bearer " + AppAcessToken,
-            "Client-ID": AclientId,
-        },
-    })
-        .then((respon) => respon.json())
-        .then((respon) => {
+async function HttpCalling(HttpCall, Twitch) {
+    if (Twitch == true) {
+        const respon = await fetch(`${HttpCall}`, {
+            headers: {
+                Authorization: "Bearer " + AppAcessToken,
+                "Client-ID": AclientId,
+            },
+        })
+            .then((respon) => respon.json())
+            .then((respon) => {
+            return respon;
+        })
+            .catch((err) => {
+            console.log(err);
+            return err;
+        });
         return respon;
-    })
-        .catch((err) => {
-        console.log(err);
-        return err;
-    });
-    return respon;
+    }
+    else {
+        const respon = await fetch(`${HttpCall}`)
+            .then((respon) => respon.json())
+            .then((respon) => {
+            return respon;
+        })
+            .catch((err) => {
+            console.log(err);
+            return err;
+        });
+        return respon;
+    }
 }
 function ChangeColor(colour, chatBorder, Username, messageP) {
     chatBorder.classList.add("HEX" + colour.replace("#", ""));

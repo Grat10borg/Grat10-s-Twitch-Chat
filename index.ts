@@ -1,4 +1,5 @@
 "use strict";
+
 var chat = document.querySelector("#chat>ul") as HTMLElement;
 
 //#region Basic Settings
@@ -15,6 +16,7 @@ let AclientId = "";
 var AllBadges = Array() as Array<any>; // Gets filled with all of twitches badge data
 let ChatNames = Array(); // Filled with Chatters names so we can find their profile pictues in ChatProfileLink
 let ChatProfileLink = Array(); // holds links to Chatters ProfilePictures.
+let BetterTTVEmotes = Array();
 validateToken();
 
 //#endregion
@@ -75,7 +77,9 @@ ComfyJS.onMessageDeleted = (id: any, extra: any) => {
   // for now..
   chat.innerHTML = "";
   //@ts-expect-error
-  ComfyJS.Say("Cleared On-Screen Chatbox! ..to clear away the nasty stuff they said 🧹🤖");
+  ComfyJS.Say(
+    "Cleared On-Screen Chatbox! ..to clear away the nasty stuff they said 🧹🤖"
+  );
 };
 
 //@ts-expect-error
@@ -100,7 +104,8 @@ async function CreateChatText(
   let profilePicIMG = document.createElement("img") as HTMLImageElement;
   if (ChatNames.lastIndexOf(user) == -1) {
     let User = await HttpCalling(
-      "https://api.twitch.tv/helix/users?login=" + user
+      "https://api.twitch.tv/helix/users?login=" + user,
+      true
     );
     profilePicIMG.src = User["data"][0]["profile_image_url"];
     ChatNames.push(user);
@@ -132,16 +137,26 @@ async function CreateChatText(
     if (AllBadges.length == 0) {
       var TwitchGlobalBadges: any;
       var ChannelBadges: any;
-      if(broadcaster_id == "" || broadcaster_id == undefined || broadcaster_id == null) {
-        let BroadcasterData = await HttpCalling("https://api.twitch.tv/helix/users?login="+extra["channel"]);
+      if (
+        broadcaster_id == "" ||
+        broadcaster_id == undefined ||
+        broadcaster_id == null
+      ) {
+        let BroadcasterData = await HttpCalling(
+          "https://api.twitch.tv/helix/users?login=" + extra["channel"],
+          true
+        );
         broadcaster_id = BroadcasterData["data"][0]["id"];
       }
 
       TwitchGlobalBadges = await HttpCalling(
-        "https://api.twitch.tv/helix/chat/badges/global"
+        "https://api.twitch.tv/helix/chat/badges/global",
+        true
       );
       ChannelBadges = await HttpCalling(
-        "https://api.twitch.tv/helix/chat/badges?broadcaster_id=" + broadcaster_id
+        "https://api.twitch.tv/helix/chat/badges?broadcaster_id=" +
+          broadcaster_id,
+        true
       );
       // !! CHANNEL BADGES ARE UNTESTED !!
       if (ChannelBadges["data"].length == 0) {
@@ -205,6 +220,46 @@ async function CreateChatText(
       );
     }
     message = newMSG;
+  }
+
+  // BetterTTV Emote Handling
+  if (BetterTTVEmotes.length == 0) {
+    if (
+      broadcaster_id == "" ||
+      broadcaster_id == undefined ||
+      broadcaster_id == null
+    ) {
+      let BroadcasterData = await HttpCalling(
+        "https://api.twitch.tv/helix/users?login=" + extra["channel"],
+        true
+      );
+      broadcaster_id = BroadcasterData["data"][0]["id"];
+    }
+
+    BetterTTVEmotes = await HttpCalling(
+      "https://api.betterttv.net/3/cached/emotes/global",
+      false
+    );
+    let ChannelBBTEmotes = await HttpCalling(
+      "https://api.betterttv.net/3/cached/users/twitch/" + broadcaster_id,
+      false
+    );
+    console.log(ChannelBBTEmotes);
+    if (ChannelBBTEmotes.length != 0) {
+      BetterTTVEmotes.push(ChannelBBTEmotes);
+    }
+    console.log(BetterTTVEmotes);
+  }
+  for (let index = 0; index < BetterTTVEmotes.length; index++) {
+    console.log(BetterTTVEmotes[index]["code"]);
+    message = message.replaceAll(
+      BetterTTVEmotes[index]["code"],
+      "<img src='https://cdn.betterttv.net/emote/" +
+        BetterTTVEmotes[index]["id"] +
+        "/1x." +
+        BetterTTVEmotes[index]["imageType"] +
+        "'></img>"
+    );
   }
 
   // Color selecting:
@@ -329,24 +384,39 @@ async function validateToken() {
 //#region [async] HttpCaller(HttpCall) multipurpose HttpCaller calls the Httpcall returns The Response if Success if not: 0
 // This makes most calls, intead of a lot of differnt functions this does them instead.
 // TO find out what is called look where its called as the HTTPCALL would need to be sent over.
-async function HttpCalling(HttpCall: string) {
-  const respon = await fetch(`${HttpCall}`, {
-    headers: {
-      Authorization: "Bearer " + AppAcessToken,
-      "Client-ID": AclientId, // can also use Tclient_id. !! comment out Tclient if not being used !!
-    },
-  })
-    .then((respon) => respon.json())
-    .then((respon) => {
-      // Return Response on Success
-      return respon;
+async function HttpCalling(HttpCall: string, Twitch: boolean) {
+  if (Twitch == true) {
+    const respon = await fetch(`${HttpCall}`, {
+      headers: {
+        Authorization: "Bearer " + AppAcessToken,
+        "Client-ID": AclientId, // can also use Tclient_id. !! comment out Tclient if not being used !!
+      },
     })
-    .catch((err) => {
-      // Print Error if any. And return 0
-      console.log(err);
-      return err;
-    });
-  return respon;
+      .then((respon) => respon.json())
+      .then((respon) => {
+        // Return Response on Success
+        return respon;
+      })
+      .catch((err) => {
+        // Print Error if any. And return 0
+        console.log(err);
+        return err;
+      });
+    return respon;
+  } else {
+    const respon = await fetch(`${HttpCall}`)
+      .then((respon) => respon.json())
+      .then((respon) => {
+        // Return Response on Success
+        return respon;
+      })
+      .catch((err) => {
+        // Print Error if any. And return 0
+        console.log(err);
+        return err;
+      });
+    return respon;
+  }
 }
 //#endregion
 
