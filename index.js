@@ -131,6 +131,7 @@ async function CreateChatText(message, user, colour, extra) {
             broadcaster_id = BroadcasterData["data"][0]["id"];
         }
         BetterTTVEmotes = await HttpCalling("https://api.betterttv.net/3/cached/emotes/global", false);
+        console.log("Note: BetterTV Emotes will not work unless you are running a HTTPS local server, Http doesnt work.");
     }
     for (let index = 0; index < BetterTTVEmotes.length; index++) {
         message = message.replaceAll(BetterTTVEmotes[index]["code"], "<img src='https://cdn.betterttv.net/emote/" +

@@ -240,6 +240,7 @@ async function CreateChatText(
       "https://api.betterttv.net/3/cached/emotes/global",
       false
     );
+    console.log("Note: BetterTV Emotes will not work unless you are running a HTTPS local server, Http doesnt work.");
     // Find the API call for channel Emotes..
     // let ChannelBBTEmotes = await HttpCalling(
     //   "https://api.betterttv.net/3/cached/emotes/twitch/" + broadcaster_id,
@@ -251,6 +252,7 @@ async function CreateChatText(
     //}
     //console.log(BetterTTVEmotes);
   }
+
   for (let index = 0; index < BetterTTVEmotes.length; index++) {
     message = message.replaceAll(
       BetterTTVEmotes[index]["code"],
@@ -261,6 +263,8 @@ async function CreateChatText(
         "'></img>"
     );
   }
+
+  // FrankenZ Emote Handling
 
   // Color selecting:
   if (extra.userState["color"] != null) {

@@ -2,7 +2,7 @@
   font-family: 'Atkinson-Hyperlegible';
   src: url("Fonts\\Atkinson-Hyperlegible-Regular-102.eot");
   /* IE9 Compat Modes */
-  src: url("Fonts\\Atkinson-Hyperlegible-Regular-102.eot?#iefix") format("embedded-opentype"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.woff2") format("woff2"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.woff") format("woff"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.ttf") format("truetype"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.svg#svgFontName") format("svg");
+  src: url("Fonts\\Atkinson-Hyperlegible-Regular-102.eot?#iefix") format("embedded-opentype"), url("Fonts\\Atkinson-Hyperlegible-Regular-102a.woff2") format("woff2"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.woff") format("woff"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.ttf") format("truetype"), url("Fonts\\Atkinson-Hyperlegible-Regular-102.svg#svgFontName") format("svg");
   /* Legacy iOS */
 }
 
@@ -45,7 +45,6 @@ html #chat li,
 body #chat li {
   background-color: rgba(18, 22, 59, 0.8);
   padding: 15px 5px;
-  margin-bottom: 5px;
 }
 
 html #chat li .ChatBorder,
