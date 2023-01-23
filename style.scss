@@ -13,6 +13,7 @@
 
 // SCSS Color vars // if you want any colors to be transparent make them that in hex form // original: #12173d
 $ChatBackgroundColor: hsla(233,54%,15%,0.8);
+$ChatBackgroundColor2: rgba(33, 39, 95, 0.8);
 $ChatBetweenBackgroundColor: hsla(233,54%,15%,0.5);
 $ChatFontColor: #c1d9f2;
 $ChatUsernamebaseColor: #c1d9f2;
@@ -112,9 +113,12 @@ body {
         }
       }
     }
-    li:not(:last-of-type) {
-      //opacity: 0.8;
+    li:nth-child(odd) {
+      background-color: $ChatBackgroundColor2;
     }
+    // li:not(:last-of-type) {
+    //   //opacity: 0.8;
+    // }
     li:last-of-type {
      // opacity: 0.9;
       animation-name: slide-in-left;
