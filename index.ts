@@ -57,6 +57,10 @@ ComfyJS.onCommand = (
     //@ts-expect-error
     ComfyJS.Say("Have a nice lurk @" + user + "!! 🌺🌸");
   }
+  if(command === "dice") {
+    //@ts-expect-error
+    ComfyJS.Say("The Dices rolls... "+Math.floor(Math.random() * (6 - 1))+"!! 🌺🌸");
+  }
   if (flags.broadcaster || flags.mod) {
     if (command === "test") {
       //@ts-expect-error
@@ -194,7 +198,6 @@ async function CreateChatText(
   }
 
   // MessageEmote Handling
-  console.log(extra.isEmoteOnly);
   if(extra.isEmoteOnly == true) {
     let newMSG = message;
     let rawEmotes = extra.userState["emotes-raw"].split("/");
@@ -291,6 +294,7 @@ async function CreateChatText(
   }
 
   // FrankenZ Emote Handling
+  
 
   // Color selecting:
   if (extra.userState["color"] != null) {
@@ -367,6 +371,13 @@ async function CreateChatText(
     chat.firstElementChild?.remove();
   }
 }
+
+// Ran when !clip is typed.
+function Clipper() {
+  
+}
+
+
 
 //#region validateToken() Validates Token if sucessful returns 1 if not 0
 // Calls the Twitch api with Out App Acess Token and returns a ClientId and tells us if the App Acess Token is Valid or Not

@@ -27,6 +27,9 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
     if (command === "lurk") {
         ComfyJS.Say("Have a nice lurk @" + user + "!! 🌺🌸");
     }
+    if (command === "dice") {
+        ComfyJS.Say("The Dices rolls... " + Math.floor(Math.random() * (6 - 1)) + "!! 🌺🌸");
+    }
     if (flags.broadcaster || flags.mod) {
         if (command === "test") {
             ComfyJS.Say("replying to !test");
@@ -107,7 +110,6 @@ async function CreateChatText(message, user, colour, extra) {
             }
         }
     }
-    console.log(extra.isEmoteOnly);
     if (extra.isEmoteOnly == true) {
         let newMSG = message;
         let rawEmotes = extra.userState["emotes-raw"].split("/");
@@ -221,6 +223,8 @@ async function CreateChatText(message, user, colour, extra) {
     if (chat.getElementsByTagName("li").length > ClearOldChatMSGsAfter) {
         chat.firstElementChild?.remove();
     }
+}
+function Clipper() {
 }
 async function validateToken() {
     if (AppAcessToken != undefined &&
