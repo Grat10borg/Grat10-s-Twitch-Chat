@@ -45,6 +45,7 @@ html #chat li,
 body #chat li {
   background-color: rgba(18, 22, 59, 0.8);
   padding: 15px 5px;
+  margin-top: 5px;
 }
 
 html #chat li .ChatBorder,
@@ -101,9 +102,6 @@ body #chat li .UserProfileLine .BadgeLine .Badge {
 
 html #chat li .Message,
 body #chat li .Message {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   word-wrap: break-word;
   font-size: 21px;
   color: #c1d9f2;
@@ -111,12 +109,13 @@ body #chat li .Message {
 
 html #chat li .Message img,
 body #chat li .Message img {
-  -ms-interpolation-mode: nearest-neighbor;
-      image-rendering: -webkit-optimize-contrast;
-      image-rendering: -moz-crisp-edges;
-      image-rendering: -o-pixelated;
-      image-rendering: pixelated;
   width: 28;
+  display: inline-block;
+}
+
+html #chat li .Message .imgEmoteBig,
+body #chat li .Message .imgEmoteBig {
+  width: 64;
   display: inline-block;
 }
 

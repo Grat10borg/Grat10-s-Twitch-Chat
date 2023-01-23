@@ -93,7 +93,6 @@ async function CreateChatText(message, user, colour, extra) {
                 if (res[0] == AllBadges[AllBadgeIndex]["set_id"]) {
                     let Badge = document.createElement("img");
                     Badge.classList.add("Badge");
-                    console.log(AllBadges[AllBadgeIndex]["versions"]);
                     if (BadgeSizeGet.toLowerCase() == "small") {
                         Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_1x"];
                     }
@@ -108,7 +107,23 @@ async function CreateChatText(message, user, colour, extra) {
             }
         }
     }
-    if (extra.userState["emotes-raw"] != null) {
+    console.log(extra.isEmoteOnly);
+    if (extra.isEmoteOnly == true) {
+        let newMSG = message;
+        let rawEmotes = extra.userState["emotes-raw"].split("/");
+        for (let DifferentEmotes = 0; DifferentEmotes < rawEmotes.length; DifferentEmotes++) {
+            let Emote = rawEmotes[DifferentEmotes].split(":");
+            let EmoteIndex = Emote[1].split(",");
+            let EmoteIndexI = EmoteIndex[0].split("-");
+            let EmoteName = message.substring(parseInt(EmoteIndexI[0]), parseInt(EmoteIndexI[1]) + 1);
+            newMSG = newMSG.replaceAll(EmoteName, "<img class='imgEmoteBig' src='https://static-cdn.jtvnw.net/emoticons/v2/" +
+                Emote[0] +
+                "/default/dark/4.0" +
+                "'></img>");
+        }
+        message = newMSG;
+    }
+    else if (extra.userState["emotes-raw"] != null) {
         let newMSG = message;
         let rawEmotes = extra.userState["emotes-raw"].split("/");
         for (let DifferentEmotes = 0; DifferentEmotes < rawEmotes.length; DifferentEmotes++) {
