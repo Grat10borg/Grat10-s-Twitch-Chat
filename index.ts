@@ -35,13 +35,7 @@ ComfyJS.onChat = (
   console.log(self);
   console.log(extra);
 
-  if (flags.broadcaster || flags.mod) {
-    // MOD or Broadcaster color adding
-    CreateChatText(message, user, extra.userColor, extra);
-  } else {
-    // Normal User adding
-    CreateChatText(message, user, extra.userColor, extra);
-  }
+  CreateChatText(message, user, extra.userColor, extra);
 };
 
 // Command Handling
@@ -57,9 +51,11 @@ ComfyJS.onCommand = (
     //@ts-expect-error
     ComfyJS.Say("Have a nice lurk @" + user + "!! 🌺🌸");
   }
-  if(command.toLowerCase() === "dice") {
+  if (command.toLowerCase() === "dice") {
     //@ts-expect-error
-    ComfyJS.Say("The Dices rolls... "+Math.floor(Math.random() * (6 - 1))+"!! 🌺🌸");
+    ComfyJS.Say(
+      "The Dices rolls... " + Math.floor(Math.random() * (6 - 1)) + "!! 🌺🌸"
+    );
   }
   if (flags.broadcaster || flags.mod) {
     if (command.toLowerCase() === "test") {
@@ -71,9 +67,8 @@ ComfyJS.onCommand = (
       //@ts-expect-error
       ComfyJS.Say("Cleared On-Screen Chatbox! 🧹🤖");
     }
-    if(command.toLowerCase() === "clip") {
-      console.log("Clipping");
-      Clipper();
+    if (command.toLowerCase() === "clip") {
+      Clipper(extra); // clipping function
     }
   }
 };
@@ -84,10 +79,6 @@ ComfyJS.onMessageDeleted = (id: any, extra: any) => {
 
   // for now..
   chat.innerHTML = "";
-  //@ts-expect-error
-  ComfyJS.Say(
-    "Cleared On-Screen Chatbox! ..to clear away the nasty stuff they said 🧹🤖"
-  );
 };
 
 //@ts-expect-error
@@ -202,7 +193,7 @@ async function CreateChatText(
   }
 
   // MessageEmote Handling
-  if(extra.isEmoteOnly == true) {
+  if (extra.isEmoteOnly == true) {
     let newMSG = message;
     let rawEmotes = extra.userState["emotes-raw"].split("/");
     for (
@@ -227,8 +218,7 @@ async function CreateChatText(
       );
     }
     message = newMSG;
-  }
-  else if (extra.userState["emotes-raw"] != null) {
+  } else if (extra.userState["emotes-raw"] != null) {
     let newMSG = message;
     let rawEmotes = extra.userState["emotes-raw"].split("/");
     for (
@@ -255,7 +245,7 @@ async function CreateChatText(
     message = newMSG;
   }
 
-  // BetterTTV Emote Handling
+  // BetterTTV Emote Handling 
   if (BetterTTVEmotes.length == 0) {
     if (
       broadcaster_id == "" ||
@@ -268,24 +258,14 @@ async function CreateChatText(
       );
       broadcaster_id = BroadcasterData["data"][0]["id"];
     }
-
     BetterTTVEmotes = await HttpCalling(
       "https://api.betterttv.net/3/cached/emotes/global",
       false
     );
-    console.log("Note: BetterTV Emotes will not work unless you are running a HTTPS local server, Http doesnt work.");
-    // Find the API call for channel Emotes..
-    // let ChannelBBTEmotes = await HttpCalling(
-    //   "https://api.betterttv.net/3/cached/emotes/twitch/" + broadcaster_id,
-    //   false
-    // );
-    // console.log(ChannelBBTEmotes);
-    //if (ChannelBBTEmotes.length != 0) {
-      //BetterTTVEmotes.push(ChannelBBTEmotes);
-    //}
-    //console.log(BetterTTVEmotes);
+    console.log(
+      "Note: BetterTV Emotes will not work unless you are running a HTTPS local server, Http doesnt work."
+    );
   }
-
   for (let index = 0; index < BetterTTVEmotes.length; index++) {
     message = message.replaceAll(
       BetterTTVEmotes[index]["code"],
@@ -296,9 +276,6 @@ async function CreateChatText(
         "'></img>"
     );
   }
-
-  // FrankenZ Emote Handling
-  
 
   // Color selecting:
   if (extra.userState["color"] != null) {
@@ -377,26 +354,56 @@ async function CreateChatText(
 }
 
 // Ran when !clip is typed.
-async function Clipper() {
-  let ClipCall = await HttpCalling("https://api.twitch.tv/helix/clips?broadcaster_id="+broadcaster_id, true);
-  if(ClipCall["data"].length == 0) {
+async function Clipper(extra: any) {
+  if (
+    broadcaster_id == "" ||
+    broadcaster_id == undefined ||
+    broadcaster_id == null
+  ) {
+    let BroadcasterData = await HttpCalling(
+      "https://api.twitch.tv/helix/users?login=" + extra["channel"],
+      true
+    );
+    broadcaster_id = BroadcasterData["data"][0]["id"];
+  }
+  const ClipCall = await fetch("https://api.twitch.tv/helix/clips?broadcaster_id=" + broadcaster_id, {
+    method: 'POST',
+    headers: {  //@ts-expect-error
+      Authorization: "Bearer " + config.MY_API_TOKEN, // Api Token Needs Scope Clip:edit
+      "Client-ID": AclientId,
+    },
+  })
+    .then((respon) => respon.json())
+    .then((respon) => {
+      // Return Response on Success
+      return respon;
+    })
+    .catch((err) => {
+      // Print Error if any. And return 0
+      console.log(err);
+    });
+  console.log(ClipCall);
+  if (ClipCall["error"] == "Not Found") {
     //@ts-expect-error
     ComfyJS.Say("⚠ You cannot clip an Offline Channel!! :<");
-  }
-  else {
-    let CheckIfClipCreated = await HttpCalling("https://api.twitch.tv/helix/clips?id="+ClipCall["data"]["id"], true);
-    if(CheckIfClipCreated["data"] != null || CheckIfClipCreated["data"].length != 0) {
-    //@ts-expect-error
-    ComfyJS.Say("Clipped: " +CheckIfClipCreated["data"]["url"]);
-    }
-    else {
-    //@ts-expect-error
-    ComfyJS.Say("⚠ Clipping!! it failed? huh thats not suposed to happen :<");
+  } else {
+    let CheckIfClipCreated = await HttpCalling(
+      "https://api.twitch.tv/helix/clips?id=" + ClipCall["data"]["id"],
+      true
+    );
+    console.log(CheckIfClipCreated);
+    if (
+      CheckIfClipCreated["data"] != null ||
+      CheckIfClipCreated["data"].length != 0
+    ) {
+      //@ts-expect-error
+      ComfyJS.Say("Clipped: " + CheckIfClipCreated["data"]["url"]);
+    } else {
+      //@ts-expect-error
+      ComfyJS.Say("⚠ Clipping!! it failed? huh thats not suposed to happen :<");
     }
   }
 }
-
-
 
 //#region validateToken() Validates Token if sucessful returns 1 if not 0
 // Calls the Twitch api with Out App Acess Token and returns a ClientId and tells us if the App Acess Token is Valid or Not
