@@ -11,11 +11,6 @@ let ChatProfileLink = Array();
 let BetterTTVEmotes = Array();
 validateToken();
 ComfyJS.onChat = (user, message, flags, self, extra) => {
-    console.log(user);
-    console.log(message);
-    console.log(flags);
-    console.log(self);
-    console.log(extra);
     CreateChatText(message, user, extra.userColor, extra);
 };
 ComfyJS.onCommand = (user, command, message, flags, extra) => {

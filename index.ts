@@ -29,11 +29,11 @@ ComfyJS.onChat = (
   self: any,
   extra: any
 ) => {
-  console.log(user);
-  console.log(message);
-  console.log(flags);
-  console.log(self);
-  console.log(extra);
+  // console.log(user);
+  // console.log(message);
+  // console.log(flags);
+  // console.log(self);
+  // console.log(extra);
 
   CreateChatText(message, user, extra.userColor, extra);
 };
