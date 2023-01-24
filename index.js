@@ -24,19 +24,23 @@ ComfyJS.onChat = (user, message, flags, self, extra) => {
     }
 };
 ComfyJS.onCommand = (user, command, message, flags, extra) => {
-    if (command === "lurk") {
+    if (command.toLowerCase() === "lurk") {
         ComfyJS.Say("Have a nice lurk @" + user + "!! 🌺🌸");
     }
-    if (command === "dice") {
+    if (command.toLowerCase() === "dice") {
         ComfyJS.Say("The Dices rolls... " + Math.floor(Math.random() * (6 - 1)) + "!! 🌺🌸");
     }
     if (flags.broadcaster || flags.mod) {
-        if (command === "test") {
+        if (command.toLowerCase() === "test") {
             ComfyJS.Say("replying to !test");
         }
-        if (command === "clear") {
+        if (command.toLowerCase() === "clear") {
             chat.innerHTML = "";
             ComfyJS.Say("Cleared On-Screen Chatbox! 🧹🤖");
+        }
+        if (command.toLowerCase() === "clip") {
+            console.log("Clipping");
+            Clipper();
         }
     }
 };
@@ -224,7 +228,20 @@ async function CreateChatText(message, user, colour, extra) {
         chat.firstElementChild?.remove();
     }
 }
-function Clipper() {
+async function Clipper() {
+    let ClipCall = await HttpCalling("https://api.twitch.tv/helix/clips?broadcaster_id=" + broadcaster_id, true);
+    if (ClipCall["data"].length == 0) {
+        ComfyJS.Say("⚠ You cannot clip an Offline Channel!! :<");
+    }
+    else {
+        let CheckIfClipCreated = await HttpCalling("https://api.twitch.tv/helix/clips?id=" + ClipCall["data"]["id"], true);
+        if (CheckIfClipCreated["data"] != null || CheckIfClipCreated["data"].length != 0) {
+            ComfyJS.Say("Clipped: " + CheckIfClipCreated["data"]["url"]);
+        }
+        else {
+            ComfyJS.Say("⚠ Clipping!! it failed? huh thats not suposed to happen :<");
+        }
+    }
 }
 async function validateToken() {
     if (AppAcessToken != undefined &&
