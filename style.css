@@ -7,221 +7,49 @@
 }
 
 * {
-  padding: 0%;
   margin: 0%;
+  padding: 0%;
 }
 
-*::-webkit-scrollbar {
-  display: none;
+html {
+  margin: 0;
+  height: 100%;
+  width: 100%;
 }
 
-html,
 body {
   font-family: 'Atkinson-Hyperlegible',"VT323", Fallback, monospace;
-}
-
-html #chat,
-body #chat {
-  width: 100%;
+  margin: 0;
   height: 100%;
-  overflow-y: auto;
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: reverse;
-  -ms-flex-direction: column-reverse;
-  flex-direction: column-reverse;
-  background-color: rgba(18, 22, 59, 0.5);
-}
-
-html #chat ul,
-body #chat ul {
-  list-style-type: none;
-  list-style-position: outside;
-}
-
-html #chat li,
-body #chat li {
-  background-color: rgba(18, 22, 59, 0.8);
-  padding: 15px 5px;
-  margin-top: 5px;
-}
-
-html #chat li .ChatBorder,
-body #chat li .ChatBorder {
-  color: #c1d9f2;
-  border-left: 5px solid;
-  border-radius: 5px 0px 0px 5px;
-  padding-left: 10px;
-}
-
-html #chat li .UserProfileLine,
-body #chat li .UserProfileLine {
-  margin-bottom: 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
 }
 
-html #chat li .UserProfileLine .ProfilePicture,
-body #chat li .UserProfileLine .ProfilePicture {
-  image-rendering: optimizeQuality;
-  display: inline-block;
-  margin-right: 10px;
-  pointer-events: none;
-  border-radius: 100%;
-  width: 32px;
+body article {
+  border-radius: 5%;
+  background-color: aquamarine;
+  padding: 50px;
+  margin: auto;
+  display: block;
 }
 
-html #chat li .UserProfileLine .Username,
-body #chat li .UserProfileLine .Username {
-  display: inline-block;
-  font-size: 23px;
-  color: #c1d9f2;
+body article div {
+  background-color: azure;
+  border-radius: 5%;
+  padding: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-html #chat li .UserProfileLine .BadgeLine,
-body #chat li .UserProfileLine .BadgeLine {
-  margin-left: auto;
-  margin-right: 5px;
-}
-
-html #chat li .UserProfileLine .BadgeLine .Badge,
-body #chat li .UserProfileLine .BadgeLine .Badge {
-  margin-left: 2px;
-  margin-right: 2px;
-  image-rendering: optimizeQuality;
-  width: 24;
-  max-width: 76px;
-  pointer-events: none;
-}
-
-html #chat li .Message,
-body #chat li .Message {
-  word-wrap: break-word;
-  font-size: 21px;
-  color: #c1d9f2;
-}
-
-html #chat li .Message img,
-body #chat li .Message img {
-  width: 28;
-  display: inline-block;
-}
-
-html #chat li .Message .imgEmoteBig,
-body #chat li .Message .imgEmoteBig {
-  width: 64;
-  display: inline-block;
-}
-
-html #chat li:nth-child(odd),
-body #chat li:nth-child(odd) {
-  background-color: rgba(33, 39, 95, 0.8);
-}
-
-html #chat li:last-of-type,
-body #chat li:last-of-type {
-  -webkit-animation-name: slide-in-left;
-          animation-name: slide-in-left;
-  -webkit-animation-duration: 0.15s;
-          animation-duration: 0.15s;
-  -webkit-animation-timing-function: ease-in;
-          animation-timing-function: ease-in;
-}
-
-@-webkit-keyframes slide-in-left {
-  from {
-    -webkit-transform: translateX(400px);
-            transform: translateX(400px);
-    opacity: 0;
-  }
-  to {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slide-in-left {
-  from {
-    -webkit-transform: translateX(400px);
-            transform: translateX(400px);
-    opacity: 0;
-  }
-  to {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-html ul,
-body ul {
-  list-style-type: disc;
-}
-
-.HEXFF0000 {
-  color: #ff0000 !important;
-}
-
-.HEX0000FF {
-  color: #0077ff !important;
-}
-
-.HEX008000 {
-  color: #008000 !important;
-}
-
-.HEXB22222 {
-  color: #b22222 !important;
-}
-
-.HEXFF7F50 {
-  color: #ff7f50 !important;
-}
-
-.HEX9ACD32 {
-  color: #9acd32 !important;
-}
-
-.HEXFF4500 {
-  color: #ff4500 !important;
-}
-
-.HEX2E8B57 {
-  color: #2e8b57 !important;
-}
-
-.HEXDAA520 {
-  color: #daa520 !important;
-}
-
-.HEXD2691E {
-  color: #d2691e !important;
-}
-
-.HEX5F9EA0 {
-  color: #5f9ea0 !important;
-}
-
-.HEX1E90FF {
-  color: #1e90ff !important;
-}
-
-.HEXFF69B4 {
-  color: #ff69b4 !important;
-}
-
-.HEX8A2BE2 {
-  color: #8a2be2 !important;
-}
-
-.HEX00FF7F {
-  color: #00ff7f !important;
+body article div a {
+  text-decoration: none;
 }
 /*# sourceMappingURL=style.css.map */

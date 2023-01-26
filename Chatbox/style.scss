@@ -1,0 +1,202 @@
+
+
+@font-face {
+  // Made by the Braille Institute this font is easier to read for Low vision readers https://brailleinstitute.org/freefont
+  font-family: 'Atkinson-Hyperlegible';
+  src: url('../Fonts\\Atkinson-Hyperlegible-Regular-102.eot'); /* IE9 Compat Modes */
+  src: url('../Fonts\\Atkinson-Hyperlegible-Regular-102.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../Fonts\\Atkinson-Hyperlegible-Regular-102a.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../Fonts\\Atkinson-Hyperlegible-Regular-102.woff') format('woff'), /* Pretty Modern Browsers */
+       url('../Fonts\\Atkinson-Hyperlegible-Regular-102.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../Fonts\\Atkinson-Hyperlegible-Regular-102.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
+// SCSS Color vars // if you want any colors to be transparent make them that in hex form // original: #12173d
+$ChatBackgroundColor: hsla(233,54%,15%,0.8);
+$ChatBackgroundColor2: rgba(33, 39, 95, 0.8);
+$ChatBetweenBackgroundColor: hsla(233,54%,15%,0.5);
+$ChatFontColor: #c1d9f2;
+$ChatUsernamebaseColor: #c1d9f2;
+$ChatBorderBaseColor: #c1d9f2;
+
+* {
+  padding: 0%;
+  margin: 0%;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+html,
+body {
+  font-family:  'Atkinson-Hyperlegible',"VT323", Fallback, monospace;
+  // colors between chats.
+  //background-color: $ChatBetweenBackgroundColor;
+
+  #chat {
+    width: 100%; // org 400px
+    height: 100%; // org 750px
+    overflow-y: auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse;
+    background-color: $ChatBetweenBackgroundColor;
+    ul {
+      list-style-type: none;
+      list-style-position: outside;
+    }
+    li {
+      background-color: $ChatBackgroundColor;
+      padding: 15px 5px;
+      margin-top: 5px;
+
+      .ChatBorder {
+        color: $ChatBorderBaseColor;
+        border-left: 5px solid;
+        border-radius: 5px 0px 0px 5px;
+        padding-left: 10px;
+      }
+      .UserProfileLine {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        .ProfilePicture {
+          image-rendering: optimizeQuality;
+          display: inline-block;
+          margin-right: 10px;
+
+          // stops dragging and dropping images
+          pointer-events: none;
+
+          // turns profile picture into a circle
+          border-radius: 100%;
+          width: 32px; // Size
+        }
+        .Username {
+          display: inline-block;
+          font-size: 23px;
+          color: $ChatUsernamebaseColor;
+        }
+        .BadgeLine {
+          margin-left: auto; 
+          margin-right: 5px;
+
+          .Badge{
+            margin-left: 2px;
+            margin-right: 2px;
+            image-rendering: optimizeQuality;
+            width: 24; // recomended sizes 36, 32, 24, 19
+            max-width: 76px; // should be twitch max size
+            pointer-events: none;
+          }
+        }
+      }
+
+      .Message {
+        //align-items: center;
+        word-wrap: break-word;
+        font-size: 21px; // Default size
+        color: $ChatFontColor;
+        // Emotes
+        img {
+          //image-rendering: pixelated;
+          width: 28;
+          display: inline-block;
+        }
+        .imgEmoteBig {
+          width: 64;
+          display: inline-block;
+        }
+      }
+    }
+    li:nth-child(odd) {
+      background-color: $ChatBackgroundColor2;
+    }
+    li:last-of-type {
+     // opacity: 0.9;
+      animation-name: slide-in-left;
+      animation-duration: 0.15s;
+      animation-timing-function: ease-in;
+    }
+    @keyframes slide-in-left {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  }
+  ul {
+    list-style-type: disc;
+  }
+}
+
+// Twitch Default Name Colors.
+.HEXFF0000 {
+  // Red
+  color: #ff0000 !important;
+}
+.HEX0000FF {
+  // Blue
+  color: #0077ff !important;
+}
+.HEX008000 {
+  // Green
+  color: #008000 !important;
+}
+.HEXB22222 {
+  // BrickColor / Mursten Farve
+  color: #b22222 !important;
+}
+.HEXFF7F50 {
+  // CoralRed
+  color: #ff7f50 !important;
+}
+.HEX9ACD32 {
+  // YellowGreen / GulGrøn
+  color: #9acd32 !important;
+}
+.HEXFF4500 {
+  // OrangeRed
+  color: #ff4500 !important;
+}
+.HEX2E8B57 {
+  // SeaWeed Color
+  color: #2e8b57 !important;
+}
+.HEXDAA520 {
+  // Gyldenris
+  color: #daa520 !important;
+}
+.HEXD2691E {
+  // Chocolade
+  color: #d2691e !important;
+}
+.HEX5F9EA0 {
+  // KadetBlå
+  color: #5f9ea0 !important;
+}
+.HEX1E90FF {
+  // DodgerBlue
+  color: #1e90ff !important;
+}
+.HEXFF69B4 {
+  // Pink
+  color: #ff69b4 !important;
+}
+.HEX8A2BE2 {
+  // BlåViolet
+  color: #8a2be2 !important;
+}
+.HEX00FF7F {
+  // SpringGreen
+  color: #00ff7f !important;
+}
