@@ -119,6 +119,12 @@ body #chat li .Message .imgEmoteBig {
   display: inline-block;
 }
 
+html #chat li .Message a,
+body #chat li .Message a {
+  color: #8a2be2;
+  text-decoration: none;
+}
+
 html #chat li:nth-child(odd),
 body #chat li:nth-child(odd) {
   background-color: rgba(33, 39, 95, 0.8);

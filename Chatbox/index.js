@@ -4,7 +4,9 @@ let ClearOldChatMSGsAfter = 11;
 let BadgeSizeGet = "medium";
 let AppAcessToken = config.MY_API_TOKEN;
 var broadcaster_id;
+var playclips = false;
 let AclientId = "";
+let Webparent = "localhost";
 var AllBadges = Array();
 let ChatNames = Array();
 let ChatProfileLink = Array();
@@ -30,6 +32,9 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
         }
         if (command.toLowerCase() === "clip") {
             Clipper(extra);
+        }
+        if (command.toLowerCase() === "playclips") {
+            playclips = true;
         }
     }
 };
@@ -100,6 +105,24 @@ async function CreateChatText(message, user, colour, extra) {
                     BadgeDiv.append(Badge);
                 }
             }
+        }
+    }
+    if (/https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) == true) {
+        let ClipUrl = /https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.exec(message);
+        let Slug = ClipUrl[0].split("/");
+        if (playclips == true) {
+            message =
+                "<a target='_blank' href= 'https://clips.twitch.tv/" +
+                    Slug[3] +
+                    "'>Twitch Clip:</a>  </br>" +
+                    `<iframe src='https://clips.twitch.tv/embed?clip=${Slug[3]}&parent=${Webparent}&autoplay=true&muted=true' height='100' width='200'></iframe>`;
+        }
+        else {
+            message =
+                "<a target='_blank' href= 'https://clips.twitch.tv/" +
+                    Slug[3] +
+                    "'>Twitch Clip:</a>  </br>" +
+                    `<iframe src='https://clips.twitch.tv/embed?clip=${Slug[3]}&parent=${Webparent}&autoplay=false&muted=true' height='100' width='200'></iframe>`;
         }
     }
     if (extra.isEmoteOnly == true) {
@@ -224,7 +247,7 @@ async function Clipper(extra) {
         broadcaster_id = BroadcasterData["data"][0]["id"];
     }
     const ClipCall = await fetch("https://api.twitch.tv/helix/clips?broadcaster_id=" + broadcaster_id, {
-        method: 'POST',
+        method: "POST",
         headers: {
             Authorization: "Bearer " + config.MY_API_TOKEN,
             "Client-ID": AclientId,
@@ -241,16 +264,9 @@ async function Clipper(extra) {
     if (ClipCall["error"] == "Not Found") {
         ComfyJS.Say("⚠ You cannot clip an Offline Channel!! :<");
     }
-    else {
-        let CheckIfClipCreated = await HttpCalling("https://api.twitch.tv/helix/clips?id=" + ClipCall["data"]["id"], true);
-        console.log(CheckIfClipCreated);
-        if (CheckIfClipCreated["data"] != null ||
-            CheckIfClipCreated["data"].length != 0) {
-            ComfyJS.Say("Clipped: " + CheckIfClipCreated["data"]["url"]);
-        }
-        else {
-            ComfyJS.Say("⚠ Clipping!! it failed? huh thats not suposed to happen :<");
-        }
+    else if (ClipCall["data"][0]["id"] != null) {
+        let CheckIfClipCreated = await HttpCalling("https://api.twitch.tv/helix/clips?id=" + ClipCall["data"][0]["id"], true);
+        ComfyJS.Say("Clipped!: https://clips.twitch.tv/" + ClipCall["data"][0]["id"]);
     }
 }
 async function validateToken() {
