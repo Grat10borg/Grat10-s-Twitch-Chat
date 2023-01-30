@@ -412,15 +412,11 @@ async function Clipper(extra: any) {
       // Print Error if any. And return 0
       console.log(err);
     });
-  console.log(ClipCall);
   if (ClipCall["error"] == "Not Found") {
     //@ts-expect-error
     ComfyJS.Say("⚠ You cannot clip an Offline Channel!! :<");
   } else if (ClipCall["data"][0]["id"] != null) {
-    let CheckIfClipCreated = await HttpCalling(
-      "https://api.twitch.tv/helix/clips?id=" + ClipCall["data"][0]["id"],
-      true
-    );
+    wait(2000); // wait 2 sec
     //@ts-expect-error
     ComfyJS.Say(
       "Clipped!: https://clips.twitch.tv/" + ClipCall["data"][0]["id"]
@@ -519,4 +515,13 @@ function ChangeColor(
   chatBorder.classList.add("HEX" + colour.replace("#", ""));
   Username.classList.add("HEX" + colour.replace("#", ""));
   messageP.classList.add("HEX" + colour.replace("#", ""));
+}
+
+// misc function, make javascript wait
+function wait(ms:number){
+  var start = new Date().getTime();
+  var end = start;
+  while(end < start + ms) {
+    end = new Date().getTime();
+ }
 }
