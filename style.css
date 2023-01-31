@@ -35,7 +35,7 @@ body {
 
 body article {
   border-radius: 5%;
-  background-color: aquamarine;
+  background-color: rgba(33, 39, 95, 0.8);
   padding: 50px;
   margin: auto;
   display: block;
@@ -51,5 +51,10 @@ body article div {
 
 body article div a {
   text-decoration: none;
+  color: #1e90ff;
+}
+
+body article div a:visited {
+  color: #ff69b4;
 }
 /*# sourceMappingURL=style.css.map */
