@@ -33,6 +33,9 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
         if (command.toLowerCase() === "clip") {
             Clipper(extra);
         }
+        if (command.toLowerCase() === "marker") {
+            CreateStreamMarker(extra, "Marker Command Ran", true);
+        }
         if (command.toLowerCase() === "playclips") {
             playclips = true;
         }
@@ -115,8 +118,14 @@ async function CreateChatText(message, user, colour, extra) {
         message =
             "<a target='_blank' href= 'https://clips.twitch.tv/" +
                 Slug[3] +
-                "'>(@" + Thumbnail["data"][0]["broadcaster_name"] + ") <br>''" + Thumbnail["data"][0]["title"] + "''</a></br>" +
-                "<img class='ClipThumbnail' src='" + Thumbnail["data"][0]["thumbnail_url"] + "'></img>";
+                "'>(@" +
+                Thumbnail["data"][0]["broadcaster_name"] +
+                ") <br>''" +
+                Thumbnail["data"][0]["title"] +
+                "''</a></br>" +
+                "<img class='ClipThumbnail' src='" +
+                Thumbnail["data"][0]["thumbnail_url"] +
+                "'></img>";
     }
     if (extra.isEmoteOnly == true) {
         let newMSG = message;
@@ -257,8 +266,35 @@ async function Clipper(extra) {
         ComfyJS.Say("⚠ You cannot clip an Offline Channel!! :<");
     }
     else if (ClipCall["data"][0]["id"] != null) {
+        CreateStreamMarker(extra, "AutoClip-" + ClipCall["data"][0]["title"], false);
         wait(2000);
         ComfyJS.Say("Clipped!: https://clips.twitch.tv/" + ClipCall["data"][0]["id"]);
+        console.log(ClipCall["data"][0]["edit_url"]);
+    }
+}
+async function CreateStreamMarker(extra, Description, PrintSuccess) {
+    let StreamMakerCall = await fetch("https://api.twitch.tv/helix/streams/markers?broadcaster_id=" + broadcaster_id, {
+        method: "POST",
+        headers: {
+            Authorization: "Bearer " + config.MY_API_TOKEN,
+            "Client-ID": AclientId,
+            'Content-Type': 'application/json',
+            'user_id': broadcaster_id,
+            "description": Description,
+        },
+    })
+        .then((respon) => respon.json())
+        .then((respon) => {
+        return respon;
+    })
+        .catch((err) => {
+        console.log(err);
+        ComfyJS.Say("ERROR!! I wasn't alowed to create a stream maker, check your API token scopes :<");
+        wait(1000);
+        ComfyJS.Say(err["Description"]);
+    });
+    if (PrintSuccess == true) {
+        ComfyJS.Say("i've Marked this now! :>");
     }
 }
 async function validateToken() {

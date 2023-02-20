@@ -72,6 +72,9 @@ ComfyJS.onCommand = (
     if (command.toLowerCase() === "clip") {
       Clipper(extra); // clipping function
     }
+    if (command.toLowerCase() === "marker") {
+      CreateStreamMarker(extra, "Marker Command Ran", true);
+    }
     if (command.toLowerCase() === "playclips") {
       playclips = true;
     }
@@ -205,13 +208,21 @@ async function CreateChatText(
     let Slug = ClipUrl[0].split("/");
     wait(2000); // wait 2 sec,, maybe make it wait Longer after running the !clip command
 
-    let Thumbnail = await HttpCalling("https://api.twitch.tv/helix/clips?id="+Slug[3], true);
-      message =
-        "<a target='_blank' href= 'https://clips.twitch.tv/" +
-        Slug[3] +
-        "'>(@"+Thumbnail["data"][0]["broadcaster_name"]+") <br>''"+ Thumbnail["data"][0]["title"] +"''</a></br>" +
-        "<img class='ClipThumbnail' src='"+Thumbnail["data"][0]["thumbnail_url"]+"'></img>"
-
+    let Thumbnail = await HttpCalling(
+      "https://api.twitch.tv/helix/clips?id=" + Slug[3],
+      true
+    );
+    message =
+      "<a target='_blank' href= 'https://clips.twitch.tv/" +
+      Slug[3] +
+      "'>(@" +
+      Thumbnail["data"][0]["broadcaster_name"] +
+      ") <br>''" +
+      Thumbnail["data"][0]["title"] +
+      "''</a></br>" +
+      "<img class='ClipThumbnail' src='" +
+      Thumbnail["data"][0]["thumbnail_url"] +
+      "'></img>";
   }
 
   // MessageEmote Handling
@@ -412,12 +423,53 @@ async function Clipper(extra: any) {
     //@ts-expect-error
     ComfyJS.Say("⚠ You cannot clip an Offline Channel!! :<");
   } else if (ClipCall["data"][0]["id"] != null) {
+    CreateStreamMarker(extra, "AutoClip-"+ClipCall["data"][0]["title"], false);
+
     wait(2000); // wait 2 sec
     //@ts-expect-error
     ComfyJS.Say(
       "Clipped!: https://clips.twitch.tv/" + ClipCall["data"][0]["id"]
     );
+    console.log(ClipCall["data"][0]["edit_url"]);
   }
+}
+
+
+async function CreateStreamMarker(extra:any, Description: string, PrintSuccess: boolean) {
+  let StreamMakerCall = await fetch(
+    "https://api.twitch.tv/helix/streams/markers?broadcaster_id=" + broadcaster_id,
+    {
+      method: "POST",
+      headers: {
+        //@ts-expect-error
+        Authorization: "Bearer " + config.MY_API_TOKEN, // Api Token Needs Scope Clip:edit
+        "Client-ID": AclientId,
+        'Content-Type': 'application/json',
+        'user_id': broadcaster_id,
+        "description":Description,
+      },
+    }
+  )
+    .then((respon) => respon.json())
+    .then((respon) => {
+      // Return Response on Success
+      return respon;
+    })
+    .catch((err) => {
+      // Print Error if any. And return 0
+      console.log(err);
+      //@ts-expect-error
+      ComfyJS.Say(
+        "ERROR!! I wasn't alowed to create a stream maker, check your API token scopes :<"
+      );
+      wait(1000);
+      //@ts-expect-error
+      ComfyJS.Say(err["Description"]);
+    });
+    if(PrintSuccess == true){
+      //@ts-expect-error
+      ComfyJS.Say("i've Marked this now! :>");
+    }
 }
 
 //#region validateToken() Validates Token if sucessful returns 1 if not 0
@@ -514,10 +566,10 @@ function ChangeColor(
 }
 
 // misc function, make javascript wait
-function wait(ms:number){
+function wait(ms: number) {
   var start = new Date().getTime();
   var end = start;
-  while(end < start + ms) {
+  while (end < start + ms) {
     end = new Date().getTime();
- }
+  }
 }
