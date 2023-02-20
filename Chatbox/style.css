@@ -119,9 +119,15 @@ body #chat li .Message .imgEmoteBig {
   display: inline-block;
 }
 
+html #chat li .Message .ClipThumbnail,
+body #chat li .Message .ClipThumbnail {
+  width: 364px;
+  display: block;
+}
+
 html #chat li .Message a,
 body #chat li .Message a {
-  color: #8a2be2;
+  color: #0077ff;
   text-decoration: none;
 }
 

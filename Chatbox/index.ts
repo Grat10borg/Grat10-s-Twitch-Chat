@@ -203,19 +203,15 @@ async function CreateChatText(
       message
     ) as Array<any>; // exec is actually pretty nice!
     let Slug = ClipUrl[0].split("/");
-    if (playclips == true) {
+    wait(2000); // wait 2 sec,, maybe make it wait Longer after running the !clip command
+
+    let Thumbnail = await HttpCalling("https://api.twitch.tv/helix/clips?id="+Slug[3], true);
       message =
         "<a target='_blank' href= 'https://clips.twitch.tv/" +
         Slug[3] +
-        "'>Twitch Clip:</a>  </br>" +
-        `<iframe src='https://clips.twitch.tv/embed?clip=${Slug[3]}&parent=${Webparent}&autoplay=true&muted=true' height='100' width='200'></iframe>`;
-    } else {
-      message =
-        "<a target='_blank' href= 'https://clips.twitch.tv/" +
-        Slug[3] +
-        "'>Twitch Clip:</a>  </br>" +
-        `<iframe src='https://clips.twitch.tv/embed?clip=${Slug[3]}&parent=${Webparent}&autoplay=false&muted=true' height='100' width='200'></iframe>`;
-    }
+        "'>(@"+Thumbnail["data"][0]["broadcaster_name"]+") <br>''"+ Thumbnail["data"][0]["title"] +"''</a></br>" +
+        "<img class='ClipThumbnail' src='"+Thumbnail["data"][0]["thumbnail_url"]+"'></img>"
+
   }
 
   // MessageEmote Handling

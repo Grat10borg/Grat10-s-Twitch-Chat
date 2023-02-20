@@ -110,20 +110,13 @@ async function CreateChatText(message, user, colour, extra) {
     if (/https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) == true) {
         let ClipUrl = /https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.exec(message);
         let Slug = ClipUrl[0].split("/");
-        if (playclips == true) {
-            message =
-                "<a target='_blank' href= 'https://clips.twitch.tv/" +
-                    Slug[3] +
-                    "'>Twitch Clip:</a>  </br>" +
-                    `<iframe src='https://clips.twitch.tv/embed?clip=${Slug[3]}&parent=${Webparent}&autoplay=true&muted=true' height='100' width='200'></iframe>`;
-        }
-        else {
-            message =
-                "<a target='_blank' href= 'https://clips.twitch.tv/" +
-                    Slug[3] +
-                    "'>Twitch Clip:</a>  </br>" +
-                    `<iframe src='https://clips.twitch.tv/embed?clip=${Slug[3]}&parent=${Webparent}&autoplay=false&muted=true' height='100' width='200'></iframe>`;
-        }
+        wait(2000);
+        let Thumbnail = await HttpCalling("https://api.twitch.tv/helix/clips?id=" + Slug[3], true);
+        message =
+            "<a target='_blank' href= 'https://clips.twitch.tv/" +
+                Slug[3] +
+                "'>(@" + Thumbnail["data"][0]["broadcaster_name"] + ") <br>''" + Thumbnail["data"][0]["title"] + "''</a></br>" +
+                "<img class='ClipThumbnail' src='" + Thumbnail["data"][0]["thumbnail_url"] + "'></img>";
     }
     if (extra.isEmoteOnly == true) {
         let newMSG = message;
