@@ -122,7 +122,6 @@ body #chat li .Message .imgEmoteBig {
 html #chat li .Message .ClipThumbnail,
 body #chat li .Message .ClipThumbnail {
   width: 364px;
-  display: block;
 }
 
 html #chat li .Message a,

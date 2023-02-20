@@ -1,4 +1,46 @@
+
+@font-face {
+    // Made by the Braille Institute this font is easier to read for Low vision readers https://brailleinstitute.org/freefont
+    font-family: 'Atkinson-Hyperlegible';
+    src: url('../Fonts\\Atkinson-Hyperlegible-Regular-102.eot'); /* IE9 Compat Modes */
+    src: url('../Fonts\\Atkinson-Hyperlegible-Regular-102.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../Fonts\\Atkinson-Hyperlegible-Regular-102a.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../Fonts\\Atkinson-Hyperlegible-Regular-102.woff') format('woff'), /* Pretty Modern Browsers */
+         url('../Fonts\\Atkinson-Hyperlegible-Regular-102.ttf')  format('truetype'), /* Safari, Android, iOS */
+         url('../Fonts\\Atkinson-Hyperlegible-Regular-102.svg#svgFontName') format('svg'); /* Legacy iOS */
+  }
+
 *{
     padding: 0%;
     margin: 0%;
 }
+body{
+    font-family:  'Atkinson-Hyperlegible',"VT323", Fallback, monospace;
+}
+
+#Displayer {
+    width: 100%; // org none
+    height: 100%; // org none
+    background-color: hsla(233,54%,15%,0.8);
+    display: flex;
+    justify-content: center;
+}
+
+#Content {
+    background-color: rgba(33, 39, 95, 0.8);
+    height: 600px;
+    width: 900px;
+
+    @keyframes slide-in-top {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+    
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+}
+
