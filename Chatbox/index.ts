@@ -60,10 +60,6 @@ ComfyJS.onCommand = (
     );
   }
   if (flags.broadcaster || flags.mod) {
-    if (command.toLowerCase() === "test") {
-      //@ts-expect-error
-      ComfyJS.Say("replying to !test");
-    }
     if (command.toLowerCase() === "clear") {
       chat.innerHTML = "";
       //@ts-expect-error

@@ -23,9 +23,6 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
         ComfyJS.Say("The Dices rolls... " + Math.floor(Math.random() * 6 + 1) + "!! 🌺🌸");
     }
     if (flags.broadcaster || flags.mod) {
-        if (command.toLowerCase() === "test") {
-            ComfyJS.Say("replying to !test");
-        }
         if (command.toLowerCase() === "clear") {
             chat.innerHTML = "";
             ComfyJS.Say("Cleared On-Screen Chatbox! 🧹🤖");
