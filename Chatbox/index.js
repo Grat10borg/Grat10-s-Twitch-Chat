@@ -23,6 +23,10 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
         ComfyJS.Say("The Dices rolls... " + Math.floor(Math.random() * 6 + 1) + "!! 🌺🌸");
     }
     if (flags.broadcaster || flags.mod) {
+        if (command.toLowerCase() === "display") {
+            var chatDiv = document.querySelector("#chat");
+            chatDiv.classList.add("Display");
+        }
         if (command.toLowerCase() === "clear") {
             chat.innerHTML = "";
             ComfyJS.Say("Cleared On-Screen Chatbox! 🧹🤖");

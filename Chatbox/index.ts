@@ -60,6 +60,10 @@ ComfyJS.onCommand = (
     );
   }
   if (flags.broadcaster || flags.mod) {
+    if (command.toLowerCase() === "display") {
+      var chatDiv = document.querySelector("#chat") as HTMLElement;
+      chatDiv.classList.add("Display");
+    }
     if (command.toLowerCase() === "clear") {
       chat.innerHTML = "";
       //@ts-expect-error

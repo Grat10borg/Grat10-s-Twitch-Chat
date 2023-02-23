@@ -15,6 +15,10 @@
   display: none;
 }
 
+.Display {
+  background-color: #28aa24 !important;
+}
+
 html,
 body {
   font-family: 'Atkinson-Hyperlegible',"VT323", Fallback, monospace;

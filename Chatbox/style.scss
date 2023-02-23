@@ -19,6 +19,7 @@ $ChatFontColor: #c1d9f2;
 $ChatUsernamebaseColor: #c1d9f2;
 $ChatBorderBaseColor: #c1d9f2;
 
+$DisplayColor: #28aa24;
 * {
   padding: 0%;
   margin: 0%;
@@ -26,13 +27,15 @@ $ChatBorderBaseColor: #c1d9f2;
 *::-webkit-scrollbar {
   display: none;
 }
+.Display {
+  background-color: $DisplayColor !important;
+}
 
 html,
 body {
   font-family:  'Atkinson-Hyperlegible',"VT323", Fallback, monospace;
   // colors between chats.
   //background-color: $ChatBetweenBackgroundColor;
-
   #chat {
     width: 100%; // org 400px
     height: 100%; // org 750px
