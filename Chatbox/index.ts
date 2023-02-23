@@ -56,7 +56,7 @@ ComfyJS.onCommand = (
   if (command.toLowerCase() === "dice") {
     //@ts-expect-error
     ComfyJS.Say(
-      "The Dices rolls... " + Math.floor(Math.random() * (6 - 1)) + "!! 🌺🌸"
+      "The Dices rolls... " + Math.floor(Math.random() * 6 +1) + "!! 🌺🌸"
     );
   }
   if (flags.broadcaster || flags.mod) {

@@ -20,7 +20,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
         ComfyJS.Say("Have a nice lurk @" + user + "!! 🌺🌸");
     }
     if (command.toLowerCase() === "dice") {
-        ComfyJS.Say("The Dices rolls... " + Math.floor(Math.random() * (6 - 1)) + "!! 🌺🌸");
+        ComfyJS.Say("The Dices rolls... " + Math.floor(Math.random() * 6 + 1) + "!! 🌺🌸");
     }
     if (flags.broadcaster || flags.mod) {
         if (command.toLowerCase() === "test") {
