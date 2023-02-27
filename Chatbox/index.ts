@@ -138,6 +138,16 @@ async function CreateChatText(
   messageP.classList.add("Message");
   BadgeDiv.classList.add("BadgeLine");
 
+  if (message.match(/#[A-Za-zåøæ]+/i)) {
+    let Hashtags = /#[A-Za-zåøæ]+/i.exec(message) as any;
+    console.log(Hashtags.length);
+    for (let index = 0; index < Hashtags.length; index++) {
+      message = message.replace(Hashtags[Hashtags.length-1], camelize(Hashtags[Hashtags.length-1]));
+    }
+    console.log(Hashtags);
+    console.log(message);
+  }
+
   // Badge Handling
   if (extra.userState["badges-raw"] != null) {
     // Only runs when not initialized.
@@ -572,4 +582,11 @@ function wait(ms: number) {
   while (end < start + ms) {
     end = new Date().getTime();
   }
+}
+
+// Makes any String sent into camelCase
+function camelize(str:string) {
+  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+    return index === 0 ? word.toLowerCase() : word.toUpperCase();
+  }).replace(/\s+/g, '');
 }

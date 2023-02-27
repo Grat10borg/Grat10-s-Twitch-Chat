@@ -70,6 +70,15 @@ async function CreateChatText(message, user, colour, extra) {
     Username.classList.add("Username");
     messageP.classList.add("Message");
     BadgeDiv.classList.add("BadgeLine");
+    if (message.match(/#[A-Za-zåøæ]+/i)) {
+        let Hashtags = /#[A-Za-zåøæ]+/i.exec(message);
+        console.log(Hashtags.length);
+        for (let index = 0; index < Hashtags.length; index++) {
+            message = message.replace(Hashtags[Hashtags.length - 1], camelize(Hashtags[Hashtags.length - 1]));
+        }
+        console.log(Hashtags);
+        console.log(message);
+    }
     if (extra.userState["badges-raw"] != null) {
         if (AllBadges.length == 0) {
             var TwitchGlobalBadges;
@@ -377,4 +386,9 @@ function wait(ms) {
     while (end < start + ms) {
         end = new Date().getTime();
     }
+}
+function camelize(str) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+        return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    }).replace(/\s+/g, '');
 }

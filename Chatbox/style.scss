@@ -27,9 +27,7 @@ $DisplayColor: #28aa24;
 *::-webkit-scrollbar {
   display: none;
 }
-.Display {
-  background-color: $DisplayColor !important;
-}
+
 
 html,
 body {
@@ -147,6 +145,11 @@ body {
   ul {
     list-style-type: disc;
   }
+}
+
+// display colour, for the !display command, should be a vibrant color to make it easier to see while setting chat up in OBS
+.Display {
+  background-color: $DisplayColor !important;
 }
 
 // Twitch Default Name Colors.

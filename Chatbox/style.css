@@ -15,10 +15,6 @@
   display: none;
 }
 
-.Display {
-  background-color: #28aa24 !important;
-}
-
 html,
 body {
   font-family: 'Atkinson-Hyperlegible',"VT323", Fallback, monospace;
@@ -178,6 +174,10 @@ body #chat li:last-of-type {
 html ul,
 body ul {
   list-style-type: disc;
+}
+
+.Display {
+  background-color: #28aa24 !important;
 }
 
 .HEXFF0000 {
