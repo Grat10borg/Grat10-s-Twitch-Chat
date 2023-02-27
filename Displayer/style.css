@@ -29,32 +29,51 @@
 
 * body #Displayer #Content {
   background-color: rgba(33, 39, 95, 0.8);
-  height: 600px;
-  width: 900px;
+  height: 10%;
+  width: 100%;
+}
+
+* body #Displayer #Content:last-child {
+  -webkit-animation-name: slide-in-top;
+          animation-name: slide-in-top;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation-timing-function: ease-in;
+          animation-timing-function: ease-in;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 @-webkit-keyframes slide-in-top {
   from {
-    -webkit-transform: translateX(400px);
-            transform: translateX(400px);
+    height: 0%;
+    -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
     opacity: 0;
   }
   to {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
+    height: 100%;
+    -webkit-transform: translateY(100%);
+            transform: translateY(100%);
+    background-color: aqua;
     opacity: 1;
   }
 }
 
 @keyframes slide-in-top {
   from {
-    -webkit-transform: translateX(400px);
-            transform: translateX(400px);
+    height: 0%;
+    -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
     opacity: 0;
   }
   to {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
+    height: 100%;
+    -webkit-transform: translateY(100%);
+            transform: translateY(100%);
+    background-color: aqua;
     opacity: 1;
   }
 }

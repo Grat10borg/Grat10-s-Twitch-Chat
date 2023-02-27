@@ -29,21 +29,33 @@
       justify-content: center;
       #Content {
         background-color: rgba(33, 39, 95, 0.8);
-        height: 600px;
-        width: 900px;
+        height: 10%;
+        width: 100%;
 
-        @keyframes slide-in-top {
-          from {
-            transform: translateX(400px);
-            opacity: 0;
-          }
-
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
+        
+        }
+        #Content:last-child {
+        // opacity: 0.9;
+        animation-name: slide-in-top;
+        animation-duration: 1s;
+        animation-timing-function: ease-in;
         }
       }
     }
+  }
+  *::-webkit-scrollbar {
+    display: none;
+  }
+@keyframes slide-in-top {
+  from {
+    height: 0%;
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    height: 100%;
+    transform: translateY(100%);
+    background-color: aqua;
+    opacity: 1;
   }
 }
