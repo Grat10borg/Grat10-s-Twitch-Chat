@@ -34,8 +34,8 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
         if (command.toLowerCase() === "clip") {
             Clipper(extra);
         }
-        if (command.toLowerCase() === "marker") {
-            CreateStreamMarker(extra, "Marker Command Ran", true);
+        if (command.toLowerCase() === "marker" || command.toLowerCase() === "mark") {
+            CreateStreamMarker("Marker Command Ran", true);
         }
         if (command.toLowerCase() === "playclips") {
             playclips = true;
@@ -277,17 +277,17 @@ async function Clipper(extra) {
         ComfyJS.Say("⚠ You cannot clip an Offline Channel!! :<");
     }
     else if (ClipCall["data"][0]["id"] != null) {
-        CreateStreamMarker(extra, "AutoClip-" + ClipCall["data"][0]["title"], false);
+        CreateStreamMarker("AutoClip-" + ClipCall["data"][0]["title"], false);
         wait(2000);
         ComfyJS.Say("Clipped!: https://clips.twitch.tv/" + ClipCall["data"][0]["id"]);
         console.log(ClipCall["data"][0]["edit_url"]);
     }
 }
-async function CreateStreamMarker(extra, Description, PrintSuccess) {
+async function CreateStreamMarker(Description, PrintSuccess) {
     if (broadcaster_id == "" ||
         broadcaster_id == undefined ||
         broadcaster_id == null) {
-        let BroadcasterData = await HttpCalling("https://api.twitch.tv/helix/users?login=" + extra["channel"], true);
+        let BroadcasterData = await HttpCalling("https://api.twitch.tv/helix/users?login=" + config.TWITCH_LOGIN, true);
         broadcaster_id = BroadcasterData["data"][0]["id"];
     }
     let payload = { "user_id": broadcaster_id };
