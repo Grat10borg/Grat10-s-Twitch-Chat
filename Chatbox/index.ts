@@ -56,7 +56,7 @@ ComfyJS.onCommand = (
   if (command.toLowerCase() === "dice") {
     //@ts-expect-error
     ComfyJS.Say(
-      "The Dices rolls... " + Math.floor(Math.random() * 6 +1) + "!! 🌺🌸"
+      "The Dices rolls... " + Math.floor(Math.random() * 6 + 1) + "!! 🌺🌸"
     );
   }
   if (flags.broadcaster || flags.mod) {
@@ -142,7 +142,10 @@ async function CreateChatText(
     let Hashtags = /#[A-Za-zåøæ]+/i.exec(message) as any;
     console.log(Hashtags.length);
     for (let index = 0; index < Hashtags.length; index++) {
-      message = message.replace(Hashtags[Hashtags.length-1], camelize(Hashtags[Hashtags.length-1]));
+      message = message.replace(
+        Hashtags[Hashtags.length - 1],
+        camelize(Hashtags[Hashtags.length - 1])
+      );
     }
     console.log(Hashtags);
     console.log(message);
@@ -409,6 +412,8 @@ async function Clipper(extra: any) {
     );
     broadcaster_id = BroadcasterData["data"][0]["id"];
   }
+
+
   const ClipCall = await fetch(
     "https://api.twitch.tv/helix/clips?broadcaster_id=" + broadcaster_id,
     {
@@ -417,6 +422,7 @@ async function Clipper(extra: any) {
         //@ts-expect-error
         Authorization: "Bearer " + config.MY_API_TOKEN, // Api Token Needs Scope Clip:edit
         "Client-ID": AclientId,
+        "Content-Type": "application/json"
       },
     }
   )
@@ -433,7 +439,11 @@ async function Clipper(extra: any) {
     //@ts-expect-error
     ComfyJS.Say("⚠ You cannot clip an Offline Channel!! :<");
   } else if (ClipCall["data"][0]["id"] != null) {
-    CreateStreamMarker(extra, "AutoClip-"+ClipCall["data"][0]["title"], false);
+    CreateStreamMarker(
+      extra,
+      "AutoClip-" + ClipCall["data"][0]["title"],
+      false
+    );
 
     wait(2000); // wait 2 sec
     //@ts-expect-error
@@ -444,42 +454,60 @@ async function Clipper(extra: any) {
   }
 }
 
-
-async function CreateStreamMarker(extra:any, Description: string, PrintSuccess: boolean) {
+async function CreateStreamMarker(
+  extra: any,
+  Description: string,
+  PrintSuccess: boolean
+) {
+  if (
+    broadcaster_id == "" ||
+    broadcaster_id == undefined ||
+    broadcaster_id == null
+  ) {
+    let BroadcasterData = await HttpCalling(
+      "https://api.twitch.tv/helix/users?login=" + extra["channel"],
+      true
+    );
+    broadcaster_id = BroadcasterData["data"][0]["id"];
+  }
+  let payload = {"user_id": broadcaster_id};
+  let body: any;
+  body = JSON.stringify(payload);
   let StreamMakerCall = await fetch(
-    "https://api.twitch.tv/helix/streams/markers?broadcaster_id=" + broadcaster_id,
+    "https://api.twitch.tv/helix/streams/markers?broadcaster_id=" +
+      broadcaster_id,
     {
       method: "POST",
       headers: {
         //@ts-expect-error
         Authorization: "Bearer " + config.MY_API_TOKEN, // Api Token Needs Scope Clip:edit
         "Client-ID": AclientId,
-        'Content-Type': 'application/json',
-        'user_id': broadcaster_id,
-        "description":Description,
+        "Content-Type": "application/json",
+        // 'user_id': broadcaster_id,
+        // "description":Description,
       },
+      body: body,
     }
   )
     .then((respon) => respon.json())
     .then((respon) => {
       // Return Response on Success
+      console.log("Successfully marked the stream right here right now");
+      if (PrintSuccess == true) {
+        //@ts-expect-error
+        ComfyJS.Say("i've Marked this now! :>");
+      }
       return respon;
     })
     .catch((err) => {
       // Print Error if any. And return 0
       console.log(err);
+      console.log("https://dev.twitch.tv/docs/api/reference/#create-stream-marker");
       //@ts-expect-error
       ComfyJS.Say(
-        "ERROR!! I wasn't alowed to create a stream maker, check your API token scopes :<"
+        "ERROR!! I wasn't alowed to create a stream maker, check your API token scopes & the webconsol of the chat website :<"
       );
-      wait(1000);
-      //@ts-expect-error
-      ComfyJS.Say(err["Description"]);
     });
-    if(PrintSuccess == true){
-      //@ts-expect-error
-      ComfyJS.Say("i've Marked this now! :>");
-    }
 }
 
 //#region validateToken() Validates Token if sucessful returns 1 if not 0
@@ -585,8 +613,10 @@ function wait(ms: number) {
 }
 
 // Makes any String sent into camelCase
-function camelize(str:string) {
-  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
-    return index === 0 ? word.toLowerCase() : word.toUpperCase();
-  }).replace(/\s+/g, '');
+function camelize(str: string) {
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, "");
 }

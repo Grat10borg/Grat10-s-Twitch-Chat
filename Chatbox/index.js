@@ -263,6 +263,7 @@ async function Clipper(extra) {
         headers: {
             Authorization: "Bearer " + config.MY_API_TOKEN,
             "Client-ID": AclientId,
+            "Content-Type": "application/json"
         },
     })
         .then((respon) => respon.json())
@@ -283,29 +284,38 @@ async function Clipper(extra) {
     }
 }
 async function CreateStreamMarker(extra, Description, PrintSuccess) {
-    let StreamMakerCall = await fetch("https://api.twitch.tv/helix/streams/markers?broadcaster_id=" + broadcaster_id, {
+    if (broadcaster_id == "" ||
+        broadcaster_id == undefined ||
+        broadcaster_id == null) {
+        let BroadcasterData = await HttpCalling("https://api.twitch.tv/helix/users?login=" + extra["channel"], true);
+        broadcaster_id = BroadcasterData["data"][0]["id"];
+    }
+    let payload = { "user_id": broadcaster_id };
+    let body;
+    body = JSON.stringify(payload);
+    let StreamMakerCall = await fetch("https://api.twitch.tv/helix/streams/markers?broadcaster_id=" +
+        broadcaster_id, {
         method: "POST",
         headers: {
             Authorization: "Bearer " + config.MY_API_TOKEN,
             "Client-ID": AclientId,
-            'Content-Type': 'application/json',
-            'user_id': broadcaster_id,
-            "description": Description,
+            "Content-Type": "application/json",
         },
+        body: body,
     })
         .then((respon) => respon.json())
         .then((respon) => {
+        console.log("Successfully marked the stream right here right now");
+        if (PrintSuccess == true) {
+            ComfyJS.Say("i've Marked this now! :>");
+        }
         return respon;
     })
         .catch((err) => {
         console.log(err);
-        ComfyJS.Say("ERROR!! I wasn't alowed to create a stream maker, check your API token scopes :<");
-        wait(1000);
-        ComfyJS.Say(err["Description"]);
+        console.log("https://dev.twitch.tv/docs/api/reference/#create-stream-marker");
+        ComfyJS.Say("ERROR!! I wasn't alowed to create a stream maker, check your API token scopes & the webconsol of the chat website :<");
     });
-    if (PrintSuccess == true) {
-        ComfyJS.Say("i've Marked this now! :>");
-    }
 }
 async function validateToken() {
     if (AppAcessToken != undefined &&
@@ -388,7 +398,9 @@ function wait(ms) {
     }
 }
 function camelize(str) {
-    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+    return str
+        .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
         return index === 0 ? word.toLowerCase() : word.toUpperCase();
-    }).replace(/\s+/g, '');
+    })
+        .replace(/\s+/g, "");
 }
