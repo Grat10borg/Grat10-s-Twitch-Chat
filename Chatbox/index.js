@@ -120,22 +120,33 @@ async function CreateChatText(message, user, colour, extra) {
             }
         }
     }
-    if (/https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) == true) {
-        let ClipUrl = /https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.exec(message);
-        let Slug = ClipUrl[0].split("/");
-        wait(2000);
-        let Thumbnail = await HttpCalling("https://api.twitch.tv/helix/clips?id=" + Slug[3], true);
-        message =
-            "<a target='_blank' href= 'https://clips.twitch.tv/" +
-                Slug[3] +
-                "'>(@" +
-                Thumbnail["data"][0]["broadcaster_name"] +
-                ") <br>''" +
-                Thumbnail["data"][0]["title"] +
-                "''</a></br>" +
-                "<img class='ClipThumbnail' src='" +
-                Thumbnail["data"][0]["thumbnail_url"] +
-                "'></img>";
+    if (/https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) == true || /https\:\/\/www\.twitch\.tv\/[A-z-0-9]*\/clip\/[A-z-0-9]*/gi.test(message) == true) {
+        let ClipUrl = message.split("/");
+        let correctIndex = 0;
+        if (ClipUrl[5] != null && ClipUrl[5] != "clip" && ClipUrl[5] != "" && ClipUrl[5] != "www.twitch.tv" && ClipUrl[5] != "https") {
+            correctIndex = 5;
+        }
+        else if (ClipUrl[3] != null && ClipUrl[3] != "clips.twitch.tv" && ClipUrl[3] != "" && ClipUrl[3] != "https") {
+            correctIndex = 3;
+        }
+        console.log(ClipUrl);
+        if (correctIndex != 0) {
+            let Slug = ClipUrl[correctIndex];
+            console.log(Slug);
+            wait(2000);
+            let Thumbnail = await HttpCalling("https://api.twitch.tv/helix/clips?id=" + Slug, true);
+            message =
+                "<a target='_blank' href= 'https://clips.twitch.tv/" +
+                    Slug +
+                    "'>(@" +
+                    Thumbnail["data"][0]["broadcaster_name"] +
+                    ") <br>''" +
+                    Thumbnail["data"][0]["title"] +
+                    "''</a></br>" +
+                    "<img class='ClipThumbnail' src='" +
+                    Thumbnail["data"][0]["thumbnail_url"] +
+                    "'></img>";
+        }
     }
     if (extra.isEmoteOnly == true) {
         let newMSG = message;

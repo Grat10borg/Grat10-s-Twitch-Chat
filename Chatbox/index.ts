@@ -214,28 +214,44 @@ async function CreateChatText(
   }
 
   // Clipping Styling Handling
-  if (/https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) == true) {
-    let ClipUrl = /https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.exec(
-      message
-    ) as Array<any>; // exec is actually pretty nice!
-    let Slug = ClipUrl[0].split("/");
-    wait(2000); // wait 2 sec,, maybe make it wait Longer after running the !clip command
+  // Alowed links: 
+  // https://www.twitch.tv/grat_grot10_berg/clip/AmusedSwissHerringFUNgineer-fTHk-6W3xRf_-shq
+  // https://clips.twitch.tv/KitschyShakingGnatPeoplesChamp-N6cpe9XPohQTOMmv
+  // Not alowed aka ignored links
+  // all not twitch links and non clip links
+  if (/https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) == true || /https\:\/\/www\.twitch\.tv\/[A-z-0-9]*\/clip\/[A-z-0-9]*/gi.test(message) == true) {
+    let ClipUrl = message.split("/") as Array<string>;
+    let correctIndex = 0 as number;
+    if(ClipUrl[5] != null && ClipUrl[5] != "clip" && ClipUrl[5]!="" && ClipUrl[5]!="www.twitch.tv" && ClipUrl[5]!="https") {
+      correctIndex = 5;
+    }
+    else if (ClipUrl[3] != null && ClipUrl[3]!="clips.twitch.tv" && ClipUrl[3]!="" &&ClipUrl[3]!="https") {
+      correctIndex = 3;
+    }
 
-    let Thumbnail = await HttpCalling(
-      "https://api.twitch.tv/helix/clips?id=" + Slug[3],
-      true
-    );
-    message =
-      "<a target='_blank' href= 'https://clips.twitch.tv/" +
-      Slug[3] +
-      "'>(@" +
-      Thumbnail["data"][0]["broadcaster_name"] +
-      ") <br>''" +
-      Thumbnail["data"][0]["title"] +
-      "''</a></br>" +
-      "<img class='ClipThumbnail' src='" +
-      Thumbnail["data"][0]["thumbnail_url"] +
-      "'></img>";
+    console.log(ClipUrl);
+    if(correctIndex != 0) {
+      let Slug = ClipUrl[correctIndex];
+
+      console.log(Slug);
+      wait(2000); // wait 2 sec,, maybe make it wait Longer after running the !clip command
+  
+      let Thumbnail = await HttpCalling(
+        "https://api.twitch.tv/helix/clips?id=" + Slug,
+        true
+      );
+      message =
+        "<a target='_blank' href= 'https://clips.twitch.tv/" +
+        Slug +
+        "'>(@" +
+        Thumbnail["data"][0]["broadcaster_name"] +
+        ") <br>''" +
+        Thumbnail["data"][0]["title"] +
+        "''</a></br>" +
+        "<img class='ClipThumbnail' src='" +
+        Thumbnail["data"][0]["thumbnail_url"] +
+        "'></img>";
+    }
   }
 
   // MessageEmote Handling
