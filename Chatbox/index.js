@@ -129,10 +129,8 @@ async function CreateChatText(message, user, colour, extra) {
         else if (ClipUrl[3] != null && ClipUrl[3] != "clips.twitch.tv" && ClipUrl[3] != "" && ClipUrl[3] != "https") {
             correctIndex = 3;
         }
-        console.log(ClipUrl);
         if (correctIndex != 0) {
             let Slug = ClipUrl[correctIndex];
-            console.log(Slug);
             wait(2000);
             let Thumbnail = await HttpCalling("https://api.twitch.tv/helix/clips?id=" + Slug, true);
             message =

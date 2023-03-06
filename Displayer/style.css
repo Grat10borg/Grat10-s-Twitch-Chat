@@ -39,27 +39,18 @@
           animation-timing-function: ease;
 }
 
-* body #Displayer #Content div {
-  -webkit-animation-name: slide-in-top;
-          animation-name: slide-in-top;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-  -webkit-animation-timing-function: ease;
-          animation-timing-function: ease;
+* body #Displayer #Content div #player {
+  width: 100%;
+  height: 80%;
+}
+
+* body #Displayer #Content div #player div {
+  width: 100%;
+  height: 80%;
 }
 
 * body #Displayer #Content div img {
   width: 100%;
-  -webkit-animation-name: slide-in-top;
-          animation-name: slide-in-top;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-  -webkit-animation-timing-function: ease;
-          animation-timing-function: ease;
 }
 
 *::-webkit-scrollbar {
@@ -68,19 +59,23 @@
 
 @-webkit-keyframes slide-in-top {
   from {
-    height: 0%;
+    -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
   }
   to {
-    height: 100%;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
   }
 }
 
 @keyframes slide-in-top {
   from {
-    height: 0%;
+    -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
   }
   to {
-    height: 100%;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
   }
 }
 /*# sourceMappingURL=style.css.map */
