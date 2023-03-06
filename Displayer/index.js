@@ -1,6 +1,8 @@
 "use strict";
 console.log("JS connected");
 let YT_VideoID = "";
+// clear this everytime we complete or want a video gone.
+let Clear = document.getElementById("Displayer");
 //@ts-expect-error
 ComfyJS.onCommand = (user, command, message, flags, extra) => {
     // if command contains watch something like !watch https://www.youtube.com/watch?v=GGTSzvlbBkE or the same with any twitch clip
@@ -16,6 +18,15 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                     true)) {
             let res = message.split("=");
             YT_VideoID = res[1];
+            Clear.innerHTML = ""; // incase its not cleared already
+            let ContentDiv = document.createElement("div");
+            ContentDiv.id = "Content";
+            let InContentdivDiv = document.createElement("div");
+            let playerDiv = document.createElement("div");
+            playerDiv.id = "player";
+            InContentdivDiv.append(playerDiv);
+            ContentDiv.append(InContentdivDiv);
+            Clear.append(ContentDiv);
             //@ts-expect-error
             ComfyJS.Say("playing video on the displayer!! :>");
             let script = document.createElement("script");
@@ -69,7 +80,6 @@ function onPlayerStateChange(event) {
     changeBorderColor(event.data);
     console.log(event);
     if (event.data == 0) {
-        let Clear = document.getElementById("Displayer");
         Clear.innerHTML = "";
     }
     // if (event.data == YT.PlayerState.PLAYING && !done) {

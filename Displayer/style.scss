@@ -27,6 +27,7 @@
       //background-color: hsla(233, 54%, 15%, 0.8);
       display: flex;
       justify-content: center;
+
       #Content {
         background-color: rgba(33, 39, 95, 0.8);
         width: 100%;
@@ -70,5 +71,13 @@
   }
   to {
     transform: translateY(0);
+  }
+}
+@keyframes slide-in-away {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
   }
 }

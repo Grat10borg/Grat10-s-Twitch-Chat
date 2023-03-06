@@ -2,6 +2,9 @@ console.log("JS connected");
 
 let YT_VideoID = "" as string;
 
+// clear this everytime we complete or want a video gone.
+let Clear = document.getElementById("Displayer") as HTMLElement;
+
 //@ts-expect-error
 ComfyJS.onCommand = (
   user: any,
@@ -25,6 +28,15 @@ ComfyJS.onCommand = (
     ) {
       let res = message.split("=");
       YT_VideoID = res[1];
+      Clear.innerHTML=""; // incase its not cleared already
+      let ContentDiv = document.createElement("div") as HTMLElement;
+      ContentDiv.id = "Content";
+      let InContentdivDiv = document.createElement("div") as HTMLElement;
+      let playerDiv = document.createElement("div") as HTMLElement;
+      playerDiv.id = "player";
+      InContentdivDiv.append(playerDiv);
+      ContentDiv.append(InContentdivDiv);
+      Clear.append(ContentDiv);
 
       //@ts-expect-error
       ComfyJS.Say("playing video on the displayer!! :>");
@@ -87,7 +99,7 @@ function onPlayerStateChange(event: any) {
   changeBorderColor(event.data);
   console.log(event);
   if (event.data == 0) {
-    let Clear = document.getElementById("Displayer") as HTMLElement;
+
     Clear.innerHTML = "";
   }
   // if (event.data == YT.PlayerState.PLAYING && !done) {
