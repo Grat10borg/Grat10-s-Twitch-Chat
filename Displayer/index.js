@@ -28,6 +28,14 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                 // Add link to Qucue
             }
         }
+        if (command.toLowerCase() == "stop") {
+            stopVideo();
+            wait(2000); // wait 2 sec before removing displayer from view
+            let DisplayerDisplaying = document.getElementById("Content");
+            DisplayerDisplaying.classList.remove("ScrollDown");
+            DisplayerDisplaying.offsetWidth;
+            DisplayerDisplaying.classList.add('ScrollUp');
+        }
     }
 };
 //@ts-expect-error
