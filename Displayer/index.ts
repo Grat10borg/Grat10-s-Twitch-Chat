@@ -36,6 +36,39 @@ ComfyJS.onCommand = (
         // Add link to Qucue
       }
     }
+    if (command.toLowerCase() == "stop") {
+      stopVideo();
+      wait(2000); // wait 2 sec before removing displayer from view
+      let DisplayerDisplaying = document.getElementById(
+        "Content"
+      ) as HTMLElement;
+      DisplayerDisplaying.classList.remove("ScrollDown");
+      DisplayerDisplaying.offsetWidth;
+      DisplayerDisplaying.classList.add("ScrollUp");
+      player.destroy();
+    }
+    if(command.toLowerCase() == "pause") {
+      pauseVideo();
+    }
+    if(command.toLowerCase() == "resume") {
+      resumeVideo();
+    }
+    if (command.toLowerCase() == "mute") {
+      muteVideo();
+    }
+    if (command.toLowerCase() == "unmute") {
+      unmuteVideo();
+    }
+    if (command.toLowerCase() == "setVolume" || command.toLowerCase() == "Volume" && message.toFixed) {
+      if(message > -1 && message < 101) {
+        player.setVolume(message); // should set volume to degree
+      }
+      else {
+        //@ts-expect-error
+       ComfyJS.Say("please only use numbers from 0 to 100 to set volume! :/");
+     }
+    }
+    
   }
 };
 //@ts-expect-error
@@ -82,14 +115,14 @@ function onPlayerReady(event: any) {
 //    the player should play for six seconds and then stop.
 var done = false;
 function onPlayerStateChange(event: any) {
- // changeBorderColor(event.data);
+  // changeBorderColor(event.data);
   console.log(event);
   if (event.data == 0) {
     wait(2000); // wait 2 sec before removing displayer from view
     let DisplayerDisplaying = document.getElementById("Content") as HTMLElement;
     DisplayerDisplaying.classList.remove("ScrollDown");
-    DisplayerDisplaying.offsetWidth
-    DisplayerDisplaying.classList.add('ScrollUp');
+    DisplayerDisplaying.offsetWidth;
+    DisplayerDisplaying.classList.add("ScrollUp");
   }
   // if (event.data == YT.PlayerState.PLAYING && !done) {
   //   setTimeout(stopVideo, 6000);
@@ -98,6 +131,18 @@ function onPlayerStateChange(event: any) {
 }
 function stopVideo() {
   player.stopVideo();
+}
+function pauseVideo() {
+  player.pauseVideo();
+}
+function resumeVideo() {
+  player.playVideo();
+}
+function muteVideo() {
+  player.mute();
+}
+function unmuteVideo() {
+  player.unMute();
 }
 
 // needs to accept links like:

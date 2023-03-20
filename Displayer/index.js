@@ -34,7 +34,29 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
             let DisplayerDisplaying = document.getElementById("Content");
             DisplayerDisplaying.classList.remove("ScrollDown");
             DisplayerDisplaying.offsetWidth;
-            DisplayerDisplaying.classList.add('ScrollUp');
+            DisplayerDisplaying.classList.add("ScrollUp");
+            player.destroy();
+        }
+        if (command.toLowerCase() == "pause") {
+            pauseVideo();
+        }
+        if (command.toLowerCase() == "resume") {
+            resumeVideo();
+        }
+        if (command.toLowerCase() == "mute") {
+            muteVideo();
+        }
+        if (command.toLowerCase() == "unmute") {
+            unmuteVideo();
+        }
+        if (command.toLowerCase() == "setVolume" || command.toLowerCase() == "Volume" && message.toFixed) {
+            if (message > -1 && message < 101) {
+                player.setVolume(message); // should set volume to degree
+            }
+            else {
+                //@ts-expect-error
+                ComfyJS.Say("please only use numbers from 0 to 100 to set volume! :/");
+            }
         }
     }
 };
@@ -85,7 +107,7 @@ function onPlayerStateChange(event) {
         let DisplayerDisplaying = document.getElementById("Content");
         DisplayerDisplaying.classList.remove("ScrollDown");
         DisplayerDisplaying.offsetWidth;
-        DisplayerDisplaying.classList.add('ScrollUp');
+        DisplayerDisplaying.classList.add("ScrollUp");
     }
     // if (event.data == YT.PlayerState.PLAYING && !done) {
     //   setTimeout(stopVideo, 6000);
@@ -94,6 +116,18 @@ function onPlayerStateChange(event) {
 }
 function stopVideo() {
     player.stopVideo();
+}
+function pauseVideo() {
+    player.pauseVideo();
+}
+function resumeVideo() {
+    player.playVideo();
+}
+function muteVideo() {
+    player.mute();
+}
+function unmuteVideo() {
+    player.unMute();
 }
 // needs to accept links like:
 // !watch https://www.youtube.com/watch?v=GGTSzvlbBkE
