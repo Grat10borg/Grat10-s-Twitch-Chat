@@ -51,7 +51,7 @@ ComfyJS.Init(
 // YOUTUBE IFRAMES
 // https://developers.google.com/youtube/iframe_api_reference
 // Automaticly runs once the Iframe API is ready.
-var player;
+var player: any;
 function onYouTubeIframeAPIReady() {
   if (YT_VideoID != "") {
     // @ts-expect-error
@@ -82,20 +82,23 @@ function onPlayerReady(event: any) {
 //    the player should play for six seconds and then stop.
 var done = false;
 function onPlayerStateChange(event: any) {
-  changeBorderColor(event.data);
+ // changeBorderColor(event.data);
   console.log(event);
   if (event.data == 0) {
-    Clear.innerHTML = "";
-    ScriptDIV.innerHTML = "";
+    wait(2000); // wait 2 sec before removing displayer from view
+    let DisplayerDisplaying = document.getElementById("Content") as HTMLElement;
+    DisplayerDisplaying.classList.remove("ScrollDown");
+    DisplayerDisplaying.offsetWidth
+    DisplayerDisplaying.classList.add('ScrollUp');
   }
   // if (event.data == YT.PlayerState.PLAYING && !done) {
   //   setTimeout(stopVideo, 6000);
   //   done = true;
   // }
 }
-// function stopVideo() {
-//   player.stopVideo();
-// }
+function stopVideo() {
+  player.stopVideo();
+}
 
 // needs to accept links like:
 // !watch https://www.youtube.com/watch?v=GGTSzvlbBkE
@@ -113,6 +116,7 @@ function PlayVideoFromLink(Link: string) {
     Clear.innerHTML = ""; // incase its not cleared already
     let ContentDiv = document.createElement("div") as HTMLElement;
     ContentDiv.id = "Content";
+    ContentDiv.classList.add("ScrollDown");
     let InContentdivDiv = document.createElement("div") as HTMLElement;
     let playerDiv = document.createElement("div") as HTMLElement;
     playerDiv.id = "player";

@@ -27,14 +27,23 @@
       //background-color: hsla(233, 54%, 15%, 0.8);
       display: flex;
       justify-content: center;
-
-      #Content {
-        background-color: rgba(33, 39, 95, 0.8);
-        width: 100%;
+      .ScrollUp {
         animation-name: slide-in-top;
+        animation-direction: reverse;
+      }
+      .ScrollDown {
+        animation-name: slide-in-top;
+        animation-direction: normal;
+      }
+      .ScrollUp,.ScrollDown{
         animation-fill-mode: forwards;
         animation-duration: 1s;
         animation-timing-function: ease;
+      }
+      #Content {
+        background-color: rgba(33, 39, 95, 0.8);
+        width: 100%;
+        
         // Styling of the player
         div{
           //animation-name: slide-in-top;
@@ -67,17 +76,16 @@
 @keyframes slide-in-top {
   from {
     transform: translateY(-100%);
-
   }
   to {
     transform: translateY(0);
   }
 }
-@keyframes slide-in-away {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-100%);
-  }
-}
+// @keyframes slide-in-away {
+//   from {
+//     transform: translateY(0);
+//   }
+//   to {
+//     transform: translateY(-100%);
+//   }
+// }

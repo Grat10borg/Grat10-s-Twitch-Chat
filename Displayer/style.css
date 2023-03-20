@@ -26,17 +26,31 @@
           justify-content: center;
 }
 
-* body #Displayer #Content {
-  background-color: rgba(33, 39, 95, 0.8);
-  width: 100%;
+* body #Displayer .ScrollUp {
   -webkit-animation-name: slide-in-top;
           animation-name: slide-in-top;
+  animation-direction: reverse;
+}
+
+* body #Displayer .ScrollDown {
+  -webkit-animation-name: slide-in-top;
+          animation-name: slide-in-top;
+  -webkit-animation-direction: normal;
+          animation-direction: normal;
+}
+
+* body #Displayer .ScrollUp, * body #Displayer .ScrollDown {
   -webkit-animation-fill-mode: forwards;
           animation-fill-mode: forwards;
   -webkit-animation-duration: 1s;
           animation-duration: 1s;
   -webkit-animation-timing-function: ease;
           animation-timing-function: ease;
+}
+
+* body #Displayer #Content {
+  background-color: rgba(33, 39, 95, 0.8);
+  width: 100%;
 }
 
 * body #Displayer #Content div #player {

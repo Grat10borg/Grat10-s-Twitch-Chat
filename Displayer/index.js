@@ -70,20 +70,23 @@ function onPlayerReady(event) {
 //    the player should play for six seconds and then stop.
 var done = false;
 function onPlayerStateChange(event) {
-    changeBorderColor(event.data);
+    // changeBorderColor(event.data);
     console.log(event);
     if (event.data == 0) {
-        Clear.innerHTML = "";
-        ScriptDIV.innerHTML = "";
+        wait(2000); // wait 2 sec before removing displayer from view
+        let DisplayerDisplaying = document.getElementById("Content");
+        DisplayerDisplaying.classList.remove("ScrollDown");
+        DisplayerDisplaying.offsetWidth;
+        DisplayerDisplaying.classList.add('ScrollUp');
     }
     // if (event.data == YT.PlayerState.PLAYING && !done) {
     //   setTimeout(stopVideo, 6000);
     //   done = true;
     // }
 }
-// function stopVideo() {
-//   player.stopVideo();
-// }
+function stopVideo() {
+    player.stopVideo();
+}
 // needs to accept links like:
 // !watch https://www.youtube.com/watch?v=GGTSzvlbBkE
 // !watch https://www.youtube.com/clip/UgkxqL1jdxVx8EgB1fBV-jpwmGA2Re9ltl-Q // youtube clips
@@ -100,6 +103,7 @@ function PlayVideoFromLink(Link) {
         Clear.innerHTML = ""; // incase its not cleared already
         let ContentDiv = document.createElement("div");
         ContentDiv.id = "Content";
+        ContentDiv.classList.add("ScrollDown");
         let InContentdivDiv = document.createElement("div");
         let playerDiv = document.createElement("div");
         playerDiv.id = "player";
