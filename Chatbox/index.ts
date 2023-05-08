@@ -59,6 +59,10 @@ ComfyJS.onCommand = (
       "The Dices rolls... " + Math.floor(Math.random() * 6 + 1) + "!! 🌺🌸"
     );
   }
+  if(command.toLowerCase() === "me") { // makes your message ittlic
+      message = "<i>"+message+"</i>";
+     CreateChatText(message, user, extra.userColor, extra);
+    }
   if (flags.broadcaster || flags.mod) {
     if (command.toLowerCase() === "display") {
       var chatDiv = document.querySelector("#chat") as HTMLElement;
@@ -140,8 +144,11 @@ async function CreateChatText(
 
 
   // Testing message!
-  if(message.match(/[<>]/i)) {
-    console.log(message);
+  if(message.match(/<i>.*<\/i>/i)) {
+    
+      // custome styling for ittalic msg if you wanna add that..
+  }
+  else if(message.match(/[<>]/i)) {
     message = message.replace(/</g, "＜"); 
     message = message.replace(/>/g, "＞");
   } // stops HTML from being written in messages
@@ -155,8 +162,8 @@ async function CreateChatText(
         camelize(Hashtags[Hashtags.length - 1])
       );
     }
-    console.log(Hashtags);
-    console.log(message);
+    // console.log(Hashtags);
+    // console.log(message);
   }
 
   // Badge Handling

@@ -22,6 +22,10 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
     if (command.toLowerCase() === "dice") {
         ComfyJS.Say("The Dices rolls... " + Math.floor(Math.random() * 6 + 1) + "!! 🌺🌸");
     }
+    if (command.toLowerCase() === "me") {
+        message = "<i>" + message + "</i>";
+        CreateChatText(message, user, extra.userColor, extra);
+    }
     if (flags.broadcaster || flags.mod) {
         if (command.toLowerCase() === "display") {
             var chatDiv = document.querySelector("#chat");
@@ -70,8 +74,9 @@ async function CreateChatText(message, user, colour, extra) {
     Username.classList.add("Username");
     messageP.classList.add("Message");
     BadgeDiv.classList.add("BadgeLine");
-    if (message.match(/[<>]/i)) {
-        console.log(message);
+    if (message.match(/<i>.*<\/i>/i)) {
+    }
+    else if (message.match(/[<>]/i)) {
         message = message.replace(/</g, "＜");
         message = message.replace(/>/g, "＞");
     }
@@ -84,8 +89,6 @@ async function CreateChatText(message, user, colour, extra) {
         for (let index = 0; index < Hashtags.length; index++) {
             message = message.replace(Hashtags[Hashtags.length - 1], camelize(Hashtags[Hashtags.length - 1]));
         }
-        console.log(Hashtags);
-        console.log(message);
     }
     if (extra.userState["badges-raw"] != null) {
         if (AllBadges.length == 0) {
