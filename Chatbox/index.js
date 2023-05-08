@@ -70,6 +70,14 @@ async function CreateChatText(message, user, colour, extra) {
     Username.classList.add("Username");
     messageP.classList.add("Message");
     BadgeDiv.classList.add("BadgeLine");
+    if (message.match(/[<>]/i)) {
+        console.log(message);
+        message = message.replace(/</g, "＜");
+        message = message.replace(/>/g, "＞");
+    }
+    if (message.match(/javascript:.*/g)) {
+        message = message.replace(":", "⋮");
+    }
     if (message.match(/#[A-Za-zåøæ]+/i)) {
         let Hashtags = /#[A-Za-zåøæ]+/i.exec(message);
         console.log(Hashtags.length);

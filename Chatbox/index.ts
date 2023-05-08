@@ -138,6 +138,14 @@ async function CreateChatText(
   messageP.classList.add("Message");
   BadgeDiv.classList.add("BadgeLine");
 
+
+  // Testing message!
+  if(message.match(/[<>]/i)) {
+    console.log(message);
+    message = message.replace(/</g, "＜"); 
+    message = message.replace(/>/g, "＞");
+  } // stops HTML from being written in messages
+  if(message.match(/javascript:.*/g)) {message = message.replace(":", "⋮");} // don't know how to protect against javascript attacks
   if (message.match(/#[A-Za-zåøæ]+/i)) {
     let Hashtags = /#[A-Za-zåøæ]+/i.exec(message) as any;
     console.log(Hashtags.length);

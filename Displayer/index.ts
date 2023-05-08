@@ -37,7 +37,7 @@ ComfyJS.onCommand = (
       }
     }
     if (command.toLowerCase() == "stop") {
-      stopVideo();
+      pauseVideo();
       wait(2000); // wait 2 sec before removing displayer from view
       let DisplayerDisplaying = document.getElementById(
         "Content"
@@ -45,6 +45,8 @@ ComfyJS.onCommand = (
       DisplayerDisplaying.classList.remove("ScrollDown");
       DisplayerDisplaying.offsetWidth;
       DisplayerDisplaying.classList.add("ScrollUp");
+      //wait(10000) // only destroy Displayer when out of view.
+      stopVideo();
       player.destroy();
     }
     if(command.toLowerCase() == "pause") {
@@ -59,7 +61,7 @@ ComfyJS.onCommand = (
     if (command.toLowerCase() == "unmute") {
       unmuteVideo();
     }
-    if (command.toLowerCase() == "setVolume" || command.toLowerCase() == "Volume" && message.toFixed) {
+    if (command.toLowerCase() == "setvolume" || command.toLowerCase() == "volume" && message.toFixed) {
       if(message > -1 && message < 101) {
         player.setVolume(message); // should set volume to degree
       }
