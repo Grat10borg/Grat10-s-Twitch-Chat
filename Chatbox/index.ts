@@ -18,7 +18,8 @@ let Webparent = "localhost";
 var AllBadges = Array() as Array<any>; // Gets filled with all of twitches badge data
 let ChatNames = Array(); // Filled with Chatters names so we can find their profile pictues in ChatProfileLink
 let ChatProfileLink = Array(); // holds links to Chatters ProfilePictures.
-let BetterTTVEmotes = Array(); // holds all BetterTV emotes!
+let BetterTTVEmotes = Array(); // holds all BetterTV emotes!¨
+let BetterTTVChannelEmotes = Array() as any; // holds Channel BetterTV Specific Emotes
 validateToken();
 
 //#endregion
@@ -332,6 +333,7 @@ async function CreateChatText(
       );
       broadcaster_id = BroadcasterData["data"][0]["id"];
     }
+    BetterTTVChannelEmotes = await HttpCalling("https://api.betterttv.net/3/cached/users/twitch/"+broadcaster_id, false);
     BetterTTVEmotes = await HttpCalling(
       "https://api.betterttv.net/3/cached/emotes/global",
       false
@@ -340,6 +342,8 @@ async function CreateChatText(
       "Note: BetterTV Emotes will not work unless you are running a HTTPS local server, Http doesnt work."
     );
   }
+
+  // Make more effective two for looks is a bit much!..
   for (let index = 0; index < BetterTTVEmotes.length; index++) {
     message = message.replaceAll(
       BetterTTVEmotes[index]["code"],
@@ -347,6 +351,16 @@ async function CreateChatText(
         BetterTTVEmotes[index]["id"] +
         "/1x." +
         BetterTTVEmotes[index]["imageType"] +
+        "'></img>"
+    );
+  }
+  for (let index = 0; index < BetterTTVChannelEmotes["channelEmotes"].length; index++) {
+    message = message.replaceAll(
+      BetterTTVChannelEmotes["channelEmotes"][index]["code"],
+      "<img src='https://cdn.betterttv.net/emote/" +
+      BetterTTVChannelEmotes["channelEmotes"][index]["id"] +
+        "/3x." +
+        BetterTTVChannelEmotes["channelEmotes"][index]["imageType"] +
         "'></img>"
     );
   }

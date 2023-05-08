@@ -11,6 +11,7 @@ var AllBadges = Array();
 let ChatNames = Array();
 let ChatProfileLink = Array();
 let BetterTTVEmotes = Array();
+let BetterTTVChannelEmotes = Array();
 validateToken();
 ComfyJS.onChat = (user, message, flags, self, extra) => {
     CreateChatText(message, user, extra.userColor, extra);
@@ -194,6 +195,7 @@ async function CreateChatText(message, user, colour, extra) {
             let BroadcasterData = await HttpCalling("https://api.twitch.tv/helix/users?login=" + extra["channel"], true);
             broadcaster_id = BroadcasterData["data"][0]["id"];
         }
+        BetterTTVChannelEmotes = await HttpCalling("https://api.betterttv.net/3/cached/users/twitch/" + broadcaster_id, false);
         BetterTTVEmotes = await HttpCalling("https://api.betterttv.net/3/cached/emotes/global", false);
         console.log("Note: BetterTV Emotes will not work unless you are running a HTTPS local server, Http doesnt work.");
     }
@@ -202,6 +204,13 @@ async function CreateChatText(message, user, colour, extra) {
             BetterTTVEmotes[index]["id"] +
             "/1x." +
             BetterTTVEmotes[index]["imageType"] +
+            "'></img>");
+    }
+    for (let index = 0; index < BetterTTVChannelEmotes["channelEmotes"].length; index++) {
+        message = message.replaceAll(BetterTTVChannelEmotes["channelEmotes"][index]["code"], "<img src='https://cdn.betterttv.net/emote/" +
+            BetterTTVChannelEmotes["channelEmotes"][index]["id"] +
+            "/3x." +
+            BetterTTVChannelEmotes["channelEmotes"][index]["imageType"] +
             "'></img>");
     }
     if (extra.userState["color"] != null) {
