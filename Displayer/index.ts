@@ -2,8 +2,8 @@ let YT_VideoID = "" as string;
 let CurrentlyPlaying = false as boolean;
 
 // clear this everytime we complete or want a video gone.
-let Clear = document.getElementById("Displayer") as HTMLElement;
-let ScriptDIV = document.getElementById("RemovePlaceScriptDiv") as HTMLElement;
+let Clear = $$.id("Displayer") as HTMLElement;
+let ScriptDIV = $$.id("RemovePlaceScriptDiv") as HTMLElement;
 
 //@ts-expect-error
 ComfyJS.onCommand = (
@@ -16,8 +16,8 @@ ComfyJS.onCommand = (
   // if command contains watch something like !watch https://www.youtube.com/watch?v=GGTSzvlbBkE or the same with any twitch clip
   if (flags.broadcaster || flags.mod) {
     // \:\/\
-    console.log(command);
-    console.log(message);
+    $$.log(command);
+    $$.log(message);
     // /https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) == true
     if (
       command.toLowerCase() == "watch" ||
@@ -39,7 +39,7 @@ ComfyJS.onCommand = (
     if (command.toLowerCase() == "stop") {
       pauseVideo();
       wait(2000); // wait 2 sec before removing displayer from view
-      let DisplayerDisplaying = document.getElementById(
+      let DisplayerDisplaying = $$.id(
         "Content"
       ) as HTMLElement;
       DisplayerDisplaying.classList.remove("ScrollDown");
@@ -118,10 +118,10 @@ function onPlayerReady(event: any) {
 var done = false;
 function onPlayerStateChange(event: any) {
   // changeBorderColor(event.data);
-  console.log(event);
+  $$.log(event);
   if (event.data == 0) {
     wait(2000); // wait 2 sec before removing displayer from view
-    let DisplayerDisplaying = document.getElementById("Content") as HTMLElement;
+    let DisplayerDisplaying = $$.id("Content") as HTMLElement;
     DisplayerDisplaying.classList.remove("ScrollDown");
     DisplayerDisplaying.offsetWidth;
     DisplayerDisplaying.classList.add("ScrollUp");
@@ -156,16 +156,16 @@ function unmuteVideo() {
 // !watch https://www.twitch.tv/grat_grot10_berg // should watch live stream.
 // !watch https://www.twitch.tv/videos/1296188506 // not really needed but nice to have
 function PlayVideoFromLink(Link: string) {
-  console.log(Link);
+  $$.log(Link);
   if (Link.includes("youtube")) {
     let res = Link.split("=");
     YT_VideoID = res[1];
     Clear.innerHTML = ""; // incase its not cleared already
-    let ContentDiv = document.createElement("div") as HTMLElement;
+    let ContentDiv = $$.make("div") as HTMLElement;
     ContentDiv.id = "Content";
     ContentDiv.classList.add("ScrollDown");
-    let InContentdivDiv = document.createElement("div") as HTMLElement;
-    let playerDiv = document.createElement("div") as HTMLElement;
+    let InContentdivDiv = $$.make("div") as HTMLElement;
+    let playerDiv = $$.make("div") as HTMLElement;
     playerDiv.id = "player";
     InContentdivDiv.append(playerDiv);
     ContentDiv.append(InContentdivDiv);
@@ -173,7 +173,7 @@ function PlayVideoFromLink(Link: string) {
 
     //@ts-expect-error
     ComfyJS.Say("playing video on the displayer!! :>");
-    let script = document.createElement("script") as HTMLScriptElement;
+    let script = $$.make("script") as HTMLScriptElement;
     script.src =
       "https://www.youtube.com/iframe_api" + `?v=${Math.random() * 10}`;
     script.type = "text/javascript";
@@ -181,17 +181,27 @@ function PlayVideoFromLink(Link: string) {
     ScriptDIV.append(script);
 
     onYouTubeIframeAPIReady();
-  } else if (Link.includes("twitch")) {
-    console.log("In Twitch IF");
+  } 
+  else if (Link.includes("twitch")) {
+    if(Link.includes("clip")) {
+      $$.log("clip.");
+    }
+    else if(Link.includes("videos")) {
+      $$.log("videos.");
+    }
+    else {
+      $$.log("stream.");
+    }
+    $$.log("In Twitch IF");
     // setup
     let iframeID = "" as string;
     //let IframeDiv = document.getElementById("RemovePlaceScriptDiv") as HTMLElement; // <div> // where the iframe gets placed
 
     Clear.innerHTML = ""; // incase its not cleared already
-    let ContentDiv = document.createElement("div") as HTMLElement;
+    let ContentDiv = $$.make("div") as HTMLElement;
     ContentDiv.id = "Content";
-    let InContentdivDiv = document.createElement("div") as HTMLElement;
-    let playerDiv = document.createElement("div") as HTMLElement;
+    let InContentdivDiv = $$.make("div") as HTMLElement;
+    let playerDiv = $$.make("div") as HTMLElement;
     playerDiv.id = "player";
     InContentdivDiv.append(playerDiv);
     ContentDiv.append(InContentdivDiv);
@@ -210,7 +220,7 @@ function PlayVideoFromLink(Link: string) {
       iframeID = ""; // nothing
     }
 
-    if (iframeID != "") {
+    if (iframeID !== "") {
       // if ID is a channel: login_name or a video Id: id
       var options;
       if (iframeID.match(/.*[A-Za-z].*/i)) {
@@ -238,7 +248,7 @@ function PlayVideoFromLink(Link: string) {
           parent: ["localhost"],
         };
       }
-      console.log(options);
+      $$.log(options);
 
       wait(2000);
       //@ts-ignore
@@ -265,16 +275,8 @@ function changeBorderColor(playerStatus: any) {
     color = "#FF6DOO"; // video cued = orange
   }
   if (color) {
-    let res = document.getElementById("player") as HTMLElement;
+    let res = $$.id("player") as HTMLElement;
     res.style.borderColor = color;
   }
 }
 
-// misc function, make javascript wait
-function wait(ms: number) {
-  var start = new Date().getTime();
-  var end = start;
-  while (end < start + ms) {
-    end = new Date().getTime();
-  }
-}

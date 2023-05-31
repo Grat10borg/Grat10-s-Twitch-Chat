@@ -1,6 +1,6 @@
 "use strict";
 
-var chat = document.querySelector("#chat>ul") as HTMLElement;
+var chat = $$.query("#chat>ul") as HTMLElement;
 
 //#region Basic Settings
 let ClearOldChatMSGsAfter = 11 as number;
@@ -66,7 +66,7 @@ ComfyJS.onCommand = (
     }
   if (flags.broadcaster || flags.mod) {
     if (command.toLowerCase() === "display") {
-      var chatDiv = document.querySelector("#chat") as HTMLElement;
+      var chatDiv = $$.query("#chat") as HTMLElement;
       chatDiv.classList.add("Display");
     }
     if (command.toLowerCase() === "clear") {
@@ -113,7 +113,7 @@ async function CreateChatText(
   extra: any
 ) {
   // Getting Profile picture
-  let profilePicIMG = document.createElement("img") as HTMLImageElement;
+  let profilePicIMG = $$.make("img") as HTMLImageElement;
   if (ChatNames.lastIndexOf(user) == -1) {
     let User = await HttpCalling(
       "https://api.twitch.tv/helix/users?login=" + user,
@@ -127,13 +127,13 @@ async function CreateChatText(
   }
 
   // Vars
-  let newMessage = document.createElement("li") as HTMLLIElement;
-  let chatBorder = document.createElement("div") as HTMLDivElement;
-  let UserprofileLine = document.createElement("div") as HTMLDivElement;
-  let BadgeDiv = document.createElement("div") as HTMLDivElement;
+  let newMessage = $$.make("li") as HTMLLIElement;
+  let chatBorder = $$.make("div") as HTMLDivElement;
+  let UserprofileLine = $$.make("div") as HTMLDivElement;
+  let BadgeDiv = $$.make("div") as HTMLDivElement;
 
-  let Username = document.createElement("div") as HTMLDivElement;
-  let messageP = document.createElement("p") as HTMLParagraphElement;
+  let Username = $$.make("div") as HTMLDivElement;
+  let messageP = $$.make("p") as HTMLParagraphElement;
 
   // Attributes
   chatBorder.classList.add("ChatBorder");
@@ -213,7 +213,7 @@ async function CreateChatText(
         AllBadgeIndex++
       ) {
         if (res[0] == AllBadges[AllBadgeIndex]["set_id"]) {
-          let Badge = document.createElement("img");
+          let Badge = $$.make("img");
           Badge.classList.add("Badge");
           if (BadgeSizeGet.toLowerCase() == "small") {
             Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_1x"];
@@ -491,7 +491,7 @@ async function Clipper(extra: any) {
     ComfyJS.Say(
       "Clipped!: https://clips.twitch.tv/" + ClipCall["data"][0]["id"]
     );
-    console.log(ClipCall["data"][0]["edit_url"]);
+    $$.log(ClipCall["data"][0]["edit_url"]);
   }
 }
 
@@ -532,7 +532,7 @@ async function CreateStreamMarker(
     .then((respon) => respon.json())
     .then((respon) => {
       // Return Response on Success
-      console.log("Successfully marked the stream right here right now");
+      $$.log("Successfully marked the stream right here right now");
       if (PrintSuccess == true) {
         //@ts-expect-error
         ComfyJS.Say("i've Marked this now! :>");
@@ -541,8 +541,8 @@ async function CreateStreamMarker(
     })
     .catch((err) => {
       // Print Error if any. And return 0
-      console.log(err);
-      console.log("https://dev.twitch.tv/docs/api/reference/#create-stream-marker");
+      $$.log(err);
+      $$.log("https://dev.twitch.tv/docs/api/reference/#create-stream-marker");
       //@ts-expect-error
       ComfyJS.Say(
         "ERROR!! I wasn't alowed to create a stream maker, check your API token scopes & the webconsol of the chat website :<"
@@ -567,23 +567,23 @@ async function validateToken() {
       .then((resp) => {
         if (resp.status) {
           if (resp.status == 401) {
-            console.log("This token is invalid ... " + resp.message);
+            $$.log("This token is invalid ... " + resp.message);
             return 0;
           }
-          console.log("Unexpected output with a status");
+          $$.log("Unexpected output with a status");
           return 0;
         }
         if (resp.client_id) {
           AclientId = resp.client_id;
 
-          console.log("Token Validated Sucessfully");
+          $$.log("Token Validated Sucessfully");
           return 1;
         }
-        console.log("unexpected Output");
+        $$.log("unexpected Output");
         return 0;
       })
       .catch((err) => {
-        console.log(err);
+        $$.log(err);
         return 0;
       });
     return 1;
@@ -611,7 +611,7 @@ async function HttpCalling(HttpCall: string, Twitch: boolean) {
       })
       .catch((err) => {
         // Print Error if any. And return 0
-        console.log(err);
+        $$.log(err);
         return err;
       });
     return respon;
@@ -624,7 +624,7 @@ async function HttpCalling(HttpCall: string, Twitch: boolean) {
       })
       .catch((err) => {
         // Print Error if any. And return 0
-        console.log(err);
+        $$.log(err);
         return err;
       });
     return respon;
@@ -641,15 +641,6 @@ function ChangeColor(
   chatBorder.classList.add("HEX" + colour.replace("#", ""));
   Username.classList.add("HEX" + colour.replace("#", ""));
   messageP.classList.add("HEX" + colour.replace("#", ""));
-}
-
-// misc function, make javascript wait
-function wait(ms: number) {
-  var start = new Date().getTime();
-  var end = start;
-  while (end < start + ms) {
-    end = new Date().getTime();
-  }
 }
 
 // Makes any String sent into camelCase

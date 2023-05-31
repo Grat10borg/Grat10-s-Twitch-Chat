@@ -1,5 +1,5 @@
 "use strict";
-var chat = document.querySelector("#chat>ul");
+var chat = $$.query("#chat>ul");
 let ClearOldChatMSGsAfter = 11;
 let BadgeSizeGet = "medium";
 let AppAcessToken = config.MY_API_TOKEN;
@@ -418,13 +418,6 @@ function ChangeColor(colour, chatBorder, Username, messageP) {
     chatBorder.classList.add("HEX" + colour.replace("#", ""));
     Username.classList.add("HEX" + colour.replace("#", ""));
     messageP.classList.add("HEX" + colour.replace("#", ""));
-}
-function wait(ms) {
-    var start = new Date().getTime();
-    var end = start;
-    while (end < start + ms) {
-        end = new Date().getTime();
-    }
 }
 function camelize(str) {
     return str

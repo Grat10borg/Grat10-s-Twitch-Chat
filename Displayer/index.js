@@ -1,17 +1,12 @@
 "use strict";
 let YT_VideoID = "";
 let CurrentlyPlaying = false;
-// clear this everytime we complete or want a video gone.
 let Clear = document.getElementById("Displayer");
 let ScriptDIV = document.getElementById("RemovePlaceScriptDiv");
-//@ts-expect-error
 ComfyJS.onCommand = (user, command, message, flags, extra) => {
-    // if command contains watch something like !watch https://www.youtube.com/watch?v=GGTSzvlbBkE or the same with any twitch clip
     if (flags.broadcaster || flags.mod) {
-        // \:\/\
         console.log(command);
         console.log(message);
-        // /https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) == true
         if (command.toLowerCase() == "watch" ||
             command.toLowerCase() == "play" ||
             (command.toLowerCase() == "display" &&
@@ -22,20 +17,19 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
             /https\:\/\/www.twitch.tv\/?.*/.test(message.toLowerCase()) == true ||
             /https\:\/\/clips.twitch.tv\/?.*/.test(message.toLowerCase()) == true) {
             if (CurrentlyPlaying != true) {
-                PlayVideoFromLink(message); // play the video instantly.
+                PlayVideoFromLink(message);
             }
             else {
-                // Add link to Qucue
             }
         }
         if (command.toLowerCase() == "stop") {
-            stopVideo();
-            wait(2000); // wait 2 sec before removing displayer from view
+            pauseVideo();
+            wait(2000);
             let DisplayerDisplaying = document.getElementById("Content");
             DisplayerDisplaying.classList.remove("ScrollDown");
             DisplayerDisplaying.offsetWidth;
             DisplayerDisplaying.classList.add("ScrollUp");
-            wait(3000); // only destroy Displayer when out of view.
+            stopVideo();
             player.destroy();
         }
         if (command.toLowerCase() == "pause") {
@@ -52,30 +46,18 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
         }
         if (command.toLowerCase() == "setvolume" || command.toLowerCase() == "volume" && message.toFixed) {
             if (message > -1 && message < 101) {
-                player.setVolume(message); // should set volume to degree
+                player.setVolume(message);
             }
             else {
-                //@ts-expect-error
                 ComfyJS.Say("please only use numbers from 0 to 100 to set volume! :/");
             }
         }
     }
 };
-//@ts-expect-error
-ComfyJS.Init(
-//@ts-expect-error
-config.BOTLOGIN, 
-//@ts-expect-error
-config.BOTOAUTH, 
-//@ts-expect-error
-config.TWITCH_LOGIN);
-// YOUTUBE IFRAMES
-// https://developers.google.com/youtube/iframe_api_reference
-// Automaticly runs once the Iframe API is ready.
+ComfyJS.Init(config.BOTLOGIN, config.BOTOAUTH, config.TWITCH_LOGIN);
 var player;
 function onYouTubeIframeAPIReady() {
     if (YT_VideoID != "") {
-        // @ts-expect-error
         player = new YT.Player("player", {
             height: window.innerHeight,
             width: window.innerWidth,
@@ -83,7 +65,7 @@ function onYouTubeIframeAPIReady() {
             playerVars: {
                 playsinline: 1,
                 autoplay: 1,
-                controls: 1, // gives you control to see length of video and muted and etc
+                controls: 1,
             },
             events: {
                 onReady: onPlayerReady,
@@ -92,28 +74,19 @@ function onYouTubeIframeAPIReady() {
         });
     }
 }
-// 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
     event.target.playVideo();
 }
-// 5. The API calls this function when the player's state changes.
-//    The function indicates that when playing a video (state=1),
-//    the player should play for six seconds and then stop.
 var done = false;
 function onPlayerStateChange(event) {
-    // changeBorderColor(event.data);
     console.log(event);
     if (event.data == 0) {
-        wait(2000); // wait 2 sec before removing displayer from view
+        wait(2000);
         let DisplayerDisplaying = document.getElementById("Content");
         DisplayerDisplaying.classList.remove("ScrollDown");
         DisplayerDisplaying.offsetWidth;
         DisplayerDisplaying.classList.add("ScrollUp");
     }
-    // if (event.data == YT.PlayerState.PLAYING && !done) {
-    //   setTimeout(stopVideo, 6000);
-    //   done = true;
-    // }
 }
 function stopVideo() {
     player.stopVideo();
@@ -130,20 +103,12 @@ function muteVideo() {
 function unmuteVideo() {
     player.unMute();
 }
-// needs to accept links like:
-// !watch https://www.youtube.com/watch?v=GGTSzvlbBkE
-// !watch https://www.youtube.com/clip/UgkxqL1jdxVx8EgB1fBV-jpwmGA2Re9ltl-Q // youtube clips
-// !watch https://www.tumblr.com/sloppystyle/672868385904787456?source=share // tumblr links
-// !watch https://www.twitch.tv/grat_grot10_berg/clip/AmusedSwissHerringFUNgineer-fTHk-6W3xRf_-shq // Twitch links
-// !watch https://clips.twitch.tv/KitschyShakingGnatPeoplesChamp-N6cpe9XPohQTOMmv
-// !watch https://www.twitch.tv/grat_grot10_berg // should watch live stream.
-// !watch https://www.twitch.tv/videos/1296188506 // not really needed but nice to have
 function PlayVideoFromLink(Link) {
     console.log(Link);
     if (Link.includes("youtube")) {
         let res = Link.split("=");
         YT_VideoID = res[1];
-        Clear.innerHTML = ""; // incase its not cleared already
+        Clear.innerHTML = "";
         let ContentDiv = document.createElement("div");
         ContentDiv.id = "Content";
         ContentDiv.classList.add("ScrollDown");
@@ -153,7 +118,6 @@ function PlayVideoFromLink(Link) {
         InContentdivDiv.append(playerDiv);
         ContentDiv.append(InContentdivDiv);
         Clear.append(ContentDiv);
-        //@ts-expect-error
         ComfyJS.Say("playing video on the displayer!! :>");
         let script = document.createElement("script");
         script.src =
@@ -164,11 +128,18 @@ function PlayVideoFromLink(Link) {
         onYouTubeIframeAPIReady();
     }
     else if (Link.includes("twitch")) {
+        if (Link.includes("clip")) {
+            console.log("clip.");
+        }
+        else if (Link.includes("videos")) {
+            console.log("videos.");
+        }
+        else {
+            console.log("stream.");
+        }
         console.log("In Twitch IF");
-        // setup
         let iframeID = "";
-        //let IframeDiv = document.getElementById("RemovePlaceScriptDiv") as HTMLElement; // <div> // where the iframe gets placed
-        Clear.innerHTML = ""; // incase its not cleared already
+        Clear.innerHTML = "";
         let ContentDiv = document.createElement("div");
         ContentDiv.id = "Content";
         let InContentdivDiv = document.createElement("div");
@@ -177,7 +148,6 @@ function PlayVideoFromLink(Link) {
         InContentdivDiv.append(playerDiv);
         ContentDiv.append(InContentdivDiv);
         Clear.append(ContentDiv);
-        // splitting link to get ids or loginname
         if (Link.includes("clips.twitch.tv") ||
             /https\:\/\/www.twitch.tv\/.*\/clip\/.*/.test(Link) == true ||
             /https\:\/\/www.twitch.tv\/.*/.test(Link) == true) {
@@ -186,13 +156,11 @@ function PlayVideoFromLink(Link) {
             iframeID = res[res.length - 1];
         }
         else {
-            iframeID = ""; // nothing
+            iframeID = "";
         }
-        if (iframeID != "") {
-            // if ID is a channel: login_name or a video Id: id
+        if (iframeID !== "") {
             var options;
             if (iframeID.match(/.*[A-Za-z].*/i)) {
-                // channel: 'marinemammalrescue',
                 let channel = iframeID;
                 options = {
                     height: 520,
@@ -205,7 +173,6 @@ function PlayVideoFromLink(Link) {
                 };
             }
             else {
-                // video: '1567287413',
                 let video = 1296188506;
                 options = {
                     height: 520,
@@ -219,44 +186,34 @@ function PlayVideoFromLink(Link) {
             }
             console.log(options);
             wait(2000);
-            //@ts-ignore
             var player = new Twitch.Embed("Displayer", options);
         }
     }
     else if (Link.includes("tumblr")) {
-        // does stuff to embed a tumblr post..
     }
 }
 function changeBorderColor(playerStatus) {
     var color;
     if (playerStatus == -1) {
-        color = "#37474F"; // unstarted = gray
+        color = "#37474F";
     }
     else if (playerStatus == 0) {
-        color = "#FFFF00"; // ended = yellow
+        color = "#FFFF00";
     }
     else if (playerStatus == 1) {
-        color = "#33691E"; // playing = green
+        color = "#33691E";
     }
     else if (playerStatus == 2) {
-        color = "#DD2C00"; // paused = red
+        color = "#DD2C00";
     }
     else if (playerStatus == 3) {
-        color = "#AA00FF"; // buffering = purple
+        color = "#AA00FF";
     }
     else if (playerStatus == 5) {
-        color = "#FF6DOO"; // video cued = orange
+        color = "#FF6DOO";
     }
     if (color) {
         let res = document.getElementById("player");
         res.style.borderColor = color;
-    }
-}
-// misc function, make javascript wait
-function wait(ms) {
-    var start = new Date().getTime();
-    var end = start;
-    while (end < start + ms) {
-        end = new Date().getTime();
     }
 }
