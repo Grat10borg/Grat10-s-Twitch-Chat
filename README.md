@@ -1,30 +1,34 @@
-# Grat10-s-Twitch-Chat
-a very simple uncomplete, chat you can run in a local / online webpage/browser. it uses ComfyJS
-also handles basic commands like
+# Grat10-s-Twitch-Chat (Twitch Widgets)
+Grat's Custome Chat and Bot Combo & Displayer.
 
-!lurk (post thanks for lurking message)
-!dice (picks a random number between 1 & 6)
-!clear (clears chat)
+These are made to be ran on a local server and displayed within [OBS](https://obsproject.com/) as part of an overlay.
+use the Browser Source to place your widgets on stream.
 
-misc
-!test (post message saying: "replying to !test")
+The widgets needs this to work.
+- an Twitch API token
+- your Twitch username
+- your OAuth
+- a Bot account OAuth (or your own again, it will just post under your name then)
+- a Bot Twitch Username (or your own again)
+- a Local Server or online server
 
-Photo of Chat in action as of 23-01-2023, Emote used is from https://www.twitch.tv/clockworcryptid check him out he's pretty cool!
-![image](https://user-images.githubusercontent.com/109081987/214049913-edaadc4f-34f8-4990-9ed6-7c5c93cfb73d.png)
+## Chat & Bot
+a simple chat that gets updated everytime anyone posts a message in the connected twitch chat.
+it also accepts commands with !<YourCommand> and will post messages through a connected bot account.
 
+### Commands for Grat-Chat
+// Anyone can use.
+- !lurk (post thanks for lurking message)
+- !dice (picks a random number between 1 & 6)
+- !me (writes message *italicized*)
+  
+// Mods & Broadcaster Only
+- !clear (clears chat)
+- !clip (clips the last 30 seconds of stream)
+- !marker (makes a stream marker for Twitch)
+- !playclips (enables Twitch clips linked in chat play, but muted) <- may be removed
+                                                                      
+## Displayer
+a Displayer meant to be able to display everything and anything the stream wants it to (currently only supports youtube vids)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-beta image, not complete at all
-![image](https://user-images.githubusercontent.com/109081987/210777951-cb47cabf-0dde-4ade-b49d-596bfb47c2d4.png)
+                                                                      
