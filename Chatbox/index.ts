@@ -4,7 +4,9 @@ var chat = $$.query("#chat>ul") as HTMLElement;
 
 //#region Basic Settings
 let ClearOldChatMSGsAfter = 11 as number;
-let BadgeSizeGet = "medium"; // Small, Medium, Large, Note some badges look different on differet sizes, normally pixelart badges changes
+let BadgeSizeGet = "medium"; 
+// Small, Medium, Large, Note some badges look different on differet
+// sizes, normally pixelart badges changes
 
 //@ts-expect-error
 let AppAcessToken = config.MY_API_TOKEN;
@@ -15,84 +17,63 @@ let AclientId = "";
 let Webparent = "localhost";
 
 // Arrays that save data on users.
-var AllBadges = Array() as Array<any>; // Gets filled with all of twitches badge data
-let ChatNames = Array(); // Filled with Chatters names so we can find their profile pictues in ChatProfileLink
-let ChatProfileLink = Array(); // holds links to Chatters ProfilePictures.
-let BetterTTVEmotes = Array(); // holds all BetterTV emotes!¨
-let BetterTTVChannelEmotes = Array() as any; // holds Channel BetterTV Specific Emotes
+var AllBadges = Array() as Array<any>; 
+// Gets filled with all of twitches badge data
+let ChatNames = Array(); 
+// Filled with Chatters names so we can find their profile pictues in
+// ChatProfileLink
+let ChatProfileLink = Array(); 
+// holds links to Chatters ProfilePictures.
+let BetterTTVEmotes = Array(); 
+// holds all BetterTV emotes!¨
+let BetterTTVChannelEmotes = Array() as any; 
+// holds Channel BetterTV Specific Emotes
 validateToken();
 
 //#endregion
 
 //@ts-expect-error
-ComfyJS.onChat = (
-  user: any,
-  message: any,
-  flags: any,
-  self: any,
-  extra: any
-) => {
-  // console.log(user);
-  // console.log(message);
-  // console.log(flags);
-  // console.log(self);
-  // console.log(extra);
-
+ComfyJS.onChat = (user: any, message: any, flags: any, self: any, 
+extra: any) => {
   CreateChatText(message, user, extra.userColor, extra);
 };
 
 // Command Handling
 //@ts-expect-error
-ComfyJS.onCommand = (
-  user: any,
-  command: any,
-  message: any,
-  flags: any,
-  extra: any
-) => {
+ComfyJS.onCommand = (user: any, command: any, message: any, flags: any, 
+extra: any) => {
   if (command.toLowerCase() === "lurk") {
     //@ts-expect-error
-    ComfyJS.Say("Have a nice lurk @" + user + "!! 🌺🌸");
-  }
+    ComfyJS.Say("Have a nice lurk @" + user + "!! 🌺🌸");}
   if (command.toLowerCase() === "dice") {
     //@ts-expect-error
-    ComfyJS.Say(
-      "The Dices rolls... " + Math.floor(Math.random() * 6 + 1) + "!! 🌺🌸"
-    );
-  }
+    ComfyJS.Say("The Dices rolls... " 
+    + Math.floor(Math.random() * 6 + 1) + "!! 🌺🌸");}
   if(command.toLowerCase() === "me") { // makes your message ittlic
       message = "<i>"+message+"</i>";
-     CreateChatText(message, user, extra.userColor, extra);
-    }
+     CreateChatText(message, user, extra.userColor, extra);}
   if (flags.broadcaster || flags.mod) {
     if (command.toLowerCase() === "display") {
       var chatDiv = $$.query("#chat") as HTMLElement;
-      chatDiv.classList.add("Display");
-    }
-    if (command.toLowerCase() === "clear") {
-      chat.innerHTML = "";
-      //@ts-expect-error
-      ComfyJS.Say("Cleared On-Screen Chatbox! 🧹🤖");
-    }
-    if (command.toLowerCase() === "clip") {
-      Clipper(extra); // clipping function
-    }
-    if (command.toLowerCase() === "marker" || command.toLowerCase() === "mark") {
-      CreateStreamMarker("Marker Command Ran", true);
-    }
-    if (command.toLowerCase() === "playclips") {
-      playclips = true;
-    }
+      chatDiv.classList.add("Display");}
+    if (command.toLowerCase() === "clear") { 
+    chat.innerHTML = "";
+    //@ts-expect-error
+    ComfyJS.Say("Cleared On-Screen Chatbox! 🧹🤖");}
+    // clipping function}
+    if (command.toLowerCase() === "clip") {Clipper(extra);} 
+    if (command.toLowerCase() === "marker" ||
+    command.toLowerCase() === "mark") {
+    CreateStreamMarker("Marker Command Ran", true);}
+    if (command.toLowerCase() === "playclips") {playclips = true;}
   }
 };
 
 //@ts-expect-error
 ComfyJS.onMessageDeleted = (id: any, extra: any) => {
   console.log(id, extra);
-
   // for now..
-  chat.innerHTML = "";
-};
+  chat.innerHTML = "";};
 
 //@ts-expect-error
 ComfyJS.Init(
@@ -107,22 +88,20 @@ ComfyJS.Init(
 // FUNCTIONS
 
 async function CreateChatText(
-  message: string,
-  user: string,
-  colour: string,
-  extra: any
-) {
-  // Getting Profile picture
+	message: string,
+	user: string,
+	colour: string,
+	extra: any) {
+  // Getting profile picture
   let profilePicIMG = $$.make("img") as HTMLImageElement;
   if (ChatNames.lastIndexOf(user) == -1) {
     let User = await HttpCalling(
-      "https://api.twitch.tv/helix/users?login=" + user,
-      true
-    );
+    "https://api.twitch.tv/helix/users?login=" + user,true);
     profilePicIMG.src = User["data"][0]["profile_image_url"];
     ChatNames.push(user);
     ChatProfileLink.push(User["data"][0]["profile_image_url"]);
-  } else {
+  } 
+  else {
     profilePicIMG.src = ChatProfileLink[ChatNames.indexOf(user)];
   }
 
@@ -131,7 +110,6 @@ async function CreateChatText(
   let chatBorder = $$.make("div") as HTMLDivElement;
   let UserprofileLine = $$.make("div") as HTMLDivElement;
   let BadgeDiv = $$.make("div") as HTMLDivElement;
-
   let Username = $$.make("div") as HTMLDivElement;
   let messageP = $$.make("p") as HTMLParagraphElement;
 
@@ -143,57 +121,43 @@ async function CreateChatText(
   messageP.classList.add("Message");
   BadgeDiv.classList.add("BadgeLine");
 
-
-  // Testing message!
-  if(message.match(/<i>.*<\/i>/i)) {
-    
-      // custome styling for ittalic msg if you wanna add that..
-  }
-  else if(message.match(/[<>]/i)) {
+  if(message.match(/[<>]/i)) {
     message = message.replace(/</g, "＜"); 
     message = message.replace(/>/g, "＞");
   } // stops HTML from being written in messages
-  if(message.match(/javascript:.*/g)) {message = message.replace(":", "⋮");} // don't know how to protect against javascript attacks
+  if(message.match(/javascript:.*/g)) {
+  message = message.replace(":", "⋮");} 
+  // don't know how to protect against javascript attacks
   if (message.match(/#[A-Za-zåøæ]+/i)) {
-    let Hashtags = /#[A-Za-zåøæ]+/i.exec(message) as any;
-    console.log(Hashtags.length);
+  let Hashtags = /#[A-Za-zåøæ]+/i.exec(message) as any;
+  $$.log(Hashtags.length);
     for (let index = 0; index < Hashtags.length; index++) {
       message = message.replace(
-        Hashtags[Hashtags.length - 1],
-        camelize(Hashtags[Hashtags.length - 1])
+      Hashtags[Hashtags.length - 1],
+      camelize(Hashtags[Hashtags.length - 1])
       );
     }
-    // console.log(Hashtags);
-    // console.log(message);
   }
-
   // Badge Handling
   if (extra.userState["badges-raw"] != null) {
     // Only runs when not initialized.
     if (AllBadges.length == 0) {
       var TwitchGlobalBadges: any;
       var ChannelBadges: any;
-      if (
-        broadcaster_id == "" ||
-        broadcaster_id == undefined ||
+      if (broadcaster_id == "" || broadcaster_id == undefined ||
         broadcaster_id == null
       ) {
         let BroadcasterData = await HttpCalling(
-          "https://api.twitch.tv/helix/users?login=" + extra["channel"],
-          true
-        );
+        "https://api.twitch.tv/helix/users?login=" + extra["channel"]
+	,true);
         broadcaster_id = BroadcasterData["data"][0]["id"];
       }
 
       TwitchGlobalBadges = await HttpCalling(
-        "https://api.twitch.tv/helix/chat/badges/global",
-        true
-      );
+      "https://api.twitch.tv/helix/chat/badges/global",true);
       ChannelBadges = await HttpCalling(
-        "https://api.twitch.tv/helix/chat/badges?broadcaster_id=" +
-          broadcaster_id,
-        true
-      );
+      "https://api.twitch.tv/helix/chat/badges?broadcaster_id="
+      + broadcaster_id,true);
       // !! CHANNEL BADGES ARE UNTESTED !!
       if (ChannelBadges["data"].length == 0) {
         // no channel badges gets globals only instead
@@ -219,9 +183,7 @@ async function CreateChatText(
             Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_1x"];
           } else if (BadgeSizeGet.toLowerCase() == "medium") {
             Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_2x"];
-          } else {
-            Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_4x"];
-          }
+          } else Badge.src = AllBadges[AllBadgeIndex]["versions"][0]["image_url_4x"];
           // Add a badge at either badge placement badgeIndex (0-1)
           BadgeDiv.append(Badge);
         }
@@ -231,39 +193,39 @@ async function CreateChatText(
 
   // Clipping Styling Handling
   // Alowed links: 
-  // https://www.twitch.tv/grat_grot10_berg/clip/AmusedSwissHerringFUNgineer-fTHk-6W3xRf_-shq
-  // https://clips.twitch.tv/KitschyShakingGnatPeoplesChamp-N6cpe9XPohQTOMmv
+  // https://www.twitch.tv/grat_grot10_berg/
+  // clip/AmusedSwissHerringFUNgineer-fTHk-6W3xRf_-shq
+  // https://clips.twitch.tv/
+  // KitschyShakingGnatPeoplesChamp-N6cpe9XPohQTOMmv
   // Not alowed aka ignored links
   // all not twitch links and non clip links
-  if (/https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) == true || /https\:\/\/www\.twitch\.tv\/[A-z-0-9]*\/clip\/[A-z-0-9]*/gi.test(message) == true) {
+  if (/https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) == true 
+  ||/https\:\/\/www\.twitch\.tv\/[A-z-0-9]*\/clip\/[A-z-0-9]*/gi.test(message) == true)
+    {
     let ClipUrl = message.split("/") as Array<string>;
     let correctIndex = 0 as number;
-    if(ClipUrl[5] != null && ClipUrl[5] != "clip" && ClipUrl[5]!="" && ClipUrl[5]!="www.twitch.tv" && ClipUrl[5]!="https") {
-      correctIndex = 5;
-    }
-    else if (ClipUrl[3] != null && ClipUrl[3]!="clips.twitch.tv" && ClipUrl[3]!="" &&ClipUrl[3]!="https") {
-      correctIndex = 3;
+    if(ClipUrl[5] != null && ClipUrl[5] != "clip" && ClipUrl[5]!="" && 
+    ClipUrl[5]!="www.twitch.tv" && ClipUrl[5]!="https")
+    {correctIndex = 5;}
+    else if (ClipUrl[3] != null && ClipUrl[3]!="clips.twitch.tv"
+    && ClipUrl[3]!="" &&ClipUrl[3]!="https") {
+    correctIndex = 3;
     }
     
     if(correctIndex != 0) {
       let Slug = ClipUrl[correctIndex];
-      wait(2000); // wait 2 sec,, maybe make it wait Longer after running the !clip command
+      wait(2000);
+      // wait 2 sec,, maybe make it wait Longer after running the !clip
+      // command
   
-      let Thumbnail = await HttpCalling(
-        "https://api.twitch.tv/helix/clips?id=" + Slug,
-        true
-      );
-      message =
-        "<a target='_blank' href= 'https://clips.twitch.tv/" +
-        Slug +
-        "'>(@" +
-        Thumbnail["data"][0]["broadcaster_name"] +
-        ") <br>''" +
-        Thumbnail["data"][0]["title"] +
-        "''</a></br>" +
-        "<img class='ClipThumbnail' src='" +
-        Thumbnail["data"][0]["thumbnail_url"] +
-        "'></img>";
+      let Thumbnail = 
+      await HttpCalling("https://api.twitch.tv/helix/clips?id=" + Slug, 
+      true);
+      message = "<a target='_blank' href= 'https://clips.twitch.tv/" 
+      +Slug +"'>(@" + Thumbnail["data"][0]["broadcaster_name"] +
+      ") <br>''" + Thumbnail["data"][0]["title"] +"''</a></br>" + 
+      "<img class='ClipThumbnail' src='" + 
+      Thumbnail["data"][0]["thumbnail_url"] + "'></img>";
     }
   }
 
@@ -271,53 +233,36 @@ async function CreateChatText(
   if (extra.isEmoteOnly == true) {
     let newMSG = message;
     let rawEmotes = extra.userState["emotes-raw"].split("/");
-    for (
-      let DifferentEmotes = 0;
-      DifferentEmotes < rawEmotes.length;
+    for (let DifferentEmotes = 0; DifferentEmotes < rawEmotes.length;
       DifferentEmotes++
     ) {
       let Emote = rawEmotes[DifferentEmotes].split(":");
       let EmoteIndex = Emote[1].split(",");
       let EmoteIndexI = EmoteIndex[0].split("-");
-      let EmoteName = message.substring(
-        parseInt(EmoteIndexI[0]),
-        parseInt(EmoteIndexI[1]) + 1
-      );
+      let EmoteName = message.substring(parseInt(EmoteIndexI[0]),
+      parseInt(EmoteIndexI[1]) + 1 );
       // Replaces all ocerances
-      newMSG = newMSG.replaceAll(
-        EmoteName,
-        "<img class='imgEmoteBig' src='https://static-cdn.jtvnw.net/emoticons/v2/" +
-          Emote[0] +
-          "/default/dark/4.0" +
-          "'></img>"
-      );
+      newMSG = newMSG.replaceAll(EmoteName, "<img class='imgEmoteBig'"+
+      "src='https://static-cdn.jtvnw.net/emoticons/v2/" +Emote[0]
+      + "/default/dark/4.0" + "'></img>");
     }
     message = newMSG;
   } else if (extra.userState["emotes-raw"] != null) {
     let newMSG = message;
     let rawEmotes = extra.userState["emotes-raw"].split("/");
-    for (
-      let DifferentEmotes = 0;
-      DifferentEmotes < rawEmotes.length;
+    for (let DifferentEmotes = 0; DifferentEmotes < rawEmotes.length;
       DifferentEmotes++
     ) {
       let Emote = rawEmotes[DifferentEmotes].split(":");
       let EmoteIndex = Emote[1].split(",");
       let EmoteIndexI = EmoteIndex[0].split("-");
-      let EmoteName = message.substring(
-        parseInt(EmoteIndexI[0]),
-        parseInt(EmoteIndexI[1]) + 1
-      );
+      let EmoteName = message.substring(parseInt(EmoteIndexI[0]), 
+      parseInt(EmoteIndexI[1]) + 1);
       // Replaces all ocerances
-      newMSG = newMSG.replaceAll(
-        EmoteName,
-        "<img src='https://static-cdn.jtvnw.net/emoticons/v2/" +
-          Emote[0] +
-          "/default/dark/1.0" +
-          "'></img>"
-      );
-    }
-    message = newMSG;
+      newMSG = newMSG.replaceAll(EmoteName,
+      "<img src='https://static-cdn.jtvnw.net/emoticons/v2/" 
+      + Emote[0] + "/default/dark/1.0" + "'></img>");}
+      message = newMSG;
   }
 
   // BetterTTV Emote Handling
@@ -333,14 +278,14 @@ async function CreateChatText(
       );
       broadcaster_id = BroadcasterData["data"][0]["id"];
     }
-    BetterTTVChannelEmotes = await HttpCalling("https://api.betterttv.net/3/cached/users/twitch/"+broadcaster_id, false);
+    BetterTTVChannelEmotes = await HttpCalling(
+    "https://api.betterttv.net/3/cached/users/twitch/"+broadcaster_id, 
+    false);
     BetterTTVEmotes = await HttpCalling(
-      "https://api.betterttv.net/3/cached/emotes/global",
-      false
-    );
-    console.log(
-      "Note: BetterTV Emotes will not work unless you are running a HTTPS local server, Http doesnt work."
-    );
+    "https://api.betterttv.net/3/cached/emotes/global",
+    false);
+    $$.log("Note: BetterTV Emotes will not work unless you are" +
+    "running a HTTPS local server, Http doesnt work.");
   }
 
   // Make more effective two for looks is a bit much!..
@@ -354,15 +299,14 @@ async function CreateChatText(
         "'></img>"
     );
   }
-  for (let index = 0; index < BetterTTVChannelEmotes["channelEmotes"].length; index++) {
-    message = message.replaceAll(
+  let res = BetterTTVChannelEmotes["channelEmotes"];
+  for (let index = 0; index < res.length; index++) {
+      message = message.replaceAll(
       BetterTTVChannelEmotes["channelEmotes"][index]["code"],
       "<img src='https://cdn.betterttv.net/emote/" +
-      BetterTTVChannelEmotes["channelEmotes"][index]["id"] +
-        "/3x." +
-        BetterTTVChannelEmotes["channelEmotes"][index]["imageType"] +
-        "'></img>"
-    );
+      BetterTTVChannelEmotes["channelEmotes"][index]["id"] +"/3x." +
+      BetterTTVChannelEmotes["channelEmotes"][index]["imageType"] +
+      "'></img>");
   }
 
   // Color selecting:
@@ -418,8 +362,7 @@ async function CreateChatText(
         chatBorder.style.cssText = `color:${colour}`;
         Username.style.cssText = `color:${colour}`;
         messageP.style.cssText = `color:${colour}`;
-        break;
-    }
+        break;}
   }
 
   // Values
@@ -443,26 +386,23 @@ async function CreateChatText(
 
 // Ran when !clip is typed.
 async function Clipper(extra: any) {
-  if (
-    broadcaster_id == "" ||
-    broadcaster_id == undefined ||
-    broadcaster_id == null
-  ) {
+  if (broadcaster_id == "" || broadcaster_id == undefined ||
+    broadcaster_id == null) {
     let BroadcasterData = await HttpCalling(
       "https://api.twitch.tv/helix/users?login=" + extra["channel"],
-      true
-    );
+      true);
     broadcaster_id = BroadcasterData["data"][0]["id"];
   }
 
 
   const ClipCall = await fetch(
-    "https://api.twitch.tv/helix/clips?broadcaster_id=" + broadcaster_id,
+  "https://api.twitch.tv/helix/clips?broadcaster_id=" + broadcaster_id,
     {
       method: "POST",
       headers: {
         //@ts-expect-error
-        Authorization: "Bearer " + config.MY_API_TOKEN, // Api Token Needs Scope Clip:edit
+        Authorization: "Bearer " + config.MY_API_TOKEN,
+	// Api Token Needs Scope Clip:edit
         "Client-ID": AclientId,
         "Content-Type": "application/json"
       },
@@ -475,56 +415,46 @@ async function Clipper(extra: any) {
     })
     .catch((err) => {
       // Print Error if any. And return 0
-      console.log(err);
+      $$.log(err);
     });
   if (ClipCall["error"] == "Not Found") {
     //@ts-expect-error
     ComfyJS.Say("⚠ You cannot clip an Offline Channel!! :<");
   } else if (ClipCall["data"][0]["id"] != null) {
-    CreateStreamMarker(
-      "AutoClip-" + ClipCall["data"][0]["title"],
-      false
-    );
+    CreateStreamMarker("AutoClip-" + ClipCall["data"][0]["title"],
+    false);
 
     wait(2000); // wait 2 sec
     //@ts-expect-error
     ComfyJS.Say(
-      "Clipped!: https://clips.twitch.tv/" + ClipCall["data"][0]["id"]
-    );
+    "Clipped!: https://clips.twitch.tv/" + ClipCall["data"][0]["id"]);
     $$.log(ClipCall["data"][0]["edit_url"]);
   }
 }
 
-async function CreateStreamMarker(
-  Description: string,
-  PrintSuccess: boolean
-) {
-  if (
-    broadcaster_id == "" ||
-    broadcaster_id == undefined ||
-    broadcaster_id == null
-  ) {
+async function CreateStreamMarker(Description: string,
+PrintSuccess: boolean) {
+  if (broadcaster_id == "" || broadcaster_id == undefined ||
+    broadcaster_id == null) {
     let BroadcasterData = await HttpCalling( //@ts-expect-error
       "https://api.twitch.tv/helix/users?login=" + config.TWITCH_LOGIN,
-      true
-    );
+      true);
     broadcaster_id = BroadcasterData["data"][0]["id"];
   }
   let payload = {"user_id": broadcaster_id};
   let body: any;
   body = JSON.stringify(payload);
   let StreamMakerCall = await fetch(
-    "https://api.twitch.tv/helix/streams/markers?broadcaster_id=" +
-      broadcaster_id,
+  "https://api.twitch.tv/helix/streams/markers?broadcaster_id=" +
+  broadcaster_id,
     {
       method: "POST",
       headers: {
         //@ts-expect-error
-        Authorization: "Bearer " + config.MY_API_TOKEN, // Api Token Needs Scope Clip:edit
+        Authorization: "Bearer " + config.MY_API_TOKEN, 
+	// Api Token Needs Scope Clip:edit
         "Client-ID": AclientId,
         "Content-Type": "application/json",
-        // 'user_id': broadcaster_id,
-        // "description":Description,
       },
       body: body,
     }
@@ -542,22 +472,21 @@ async function CreateStreamMarker(
     .catch((err) => {
       // Print Error if any. And return 0
       $$.log(err);
-      $$.log("https://dev.twitch.tv/docs/api/reference/#create-stream-marker");
+      $$.log("https://dev.twitch.tv/docs/api/+"+
+      "reference/#create-stream-marker");
       //@ts-expect-error
       ComfyJS.Say(
-        "ERROR!! I wasn't alowed to create a stream maker, check your API token scopes & the webconsol of the chat website :<"
-      );
+        "ERROR!! I wasn't alowed to create a stream maker, check your" 
+	+"API token scopes & the webconsol of the chat website :<");
     });
 }
 
-//#region validateToken() Validates Token if sucessful returns 1 if not 0
-// Calls the Twitch api with Out App Acess Token and returns a ClientId and tells us if the App Acess Token is Valid or Not
+//#region validateToken() Validates Token if sucessful returns 1 if not
+//0 Calls the Twitch api with Out App Acess Token and returns a ClientId
+//and tells us if the App Acess Token is Valid or Not
 async function validateToken() {
-  if (
-    AppAcessToken != undefined &&
-    AppAcessToken != "" &&
-    AppAcessToken != null
-  ) {
+  if (AppAcessToken != undefined && AppAcessToken != "" &&
+      AppAcessToken != null) {
     await fetch("https://id.twitch.tv/oauth2/validate", {
       headers: {
         Authorization: "Bearer " + AppAcessToken,
@@ -593,15 +522,19 @@ async function validateToken() {
 }
 //#endregion
 
-//#region [async] HttpCaller(HttpCall) multipurpose HttpCaller calls the Httpcall returns The Response if Success if not: 0
-// This makes most calls, intead of a lot of differnt functions this does them instead.
-// TO find out what is called look where its called as the HTTPCALL would need to be sent over.
+//#region [async] HttpCaller(HttpCall) multipurpose HttpCaller calls
+//the Httpcall returns The Response if Success if not: 0
+// This makes most calls, intead of a lot of differnt 
+// functions this does them instead.
+// TO find out what is called look where its called as the 
+// HTTPCALL would need to be sent over.
 async function HttpCalling(HttpCall: string, Twitch: boolean) {
   if (Twitch == true) {
     const respon = await fetch(`${HttpCall}`, {
       headers: {
         Authorization: "Bearer " + AppAcessToken,
-        "Client-ID": AclientId, // can also use Tclient_id. !! comment out Tclient if not being used !!
+        "Client-ID": AclientId, // can also use Tclient_id. 
+	//!! comment out Tclient if not being used !!
       },
     })
       .then((respon) => respon.json())
@@ -632,12 +565,8 @@ async function HttpCalling(HttpCall: string, Twitch: boolean) {
 }
 //#endregion
 
-function ChangeColor(
-  colour: string,
-  chatBorder: HTMLDivElement,
-  Username: HTMLParagraphElement,
-  messageP: HTMLParagraphElement
-) {
+function ChangeColor(colour: string, chatBorder: HTMLDivElement,
+  Username: HTMLParagraphElement, messageP: HTMLParagraphElement) {
   chatBorder.classList.add("HEX" + colour.replace("#", ""));
   Username.classList.add("HEX" + colour.replace("#", ""));
   messageP.classList.add("HEX" + colour.replace("#", ""));
@@ -646,8 +575,7 @@ function ChangeColor(
 // Makes any String sent into camelCase
 function camelize(str: string) {
   return str
-    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
-      return index === 0 ? word.toLowerCase() : word.toUpperCase();
-    })
-    .replace(/\s+/g, "");
+   .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+    return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    }).replace(/\s+/g, "");
 }

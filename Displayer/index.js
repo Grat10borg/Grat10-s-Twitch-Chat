@@ -1,49 +1,36 @@
 "use strict";
 let YT_VideoID = "";
 let CurrentlyPlaying = false;
-let Clear = document.getElementById("Displayer");
-let ScriptDIV = document.getElementById("RemovePlaceScriptDiv");
+let Clear = $$.id("Displayer");
+let ScriptDIV = $$.id("RemovePlaceScriptDiv");
 ComfyJS.onCommand = (user, command, message, flags, extra) => {
     if (flags.broadcaster || flags.mod) {
-        console.log(command);
-        console.log(message);
+        $$.log(command);
+        $$.log(message);
         if (command.toLowerCase() == "watch" ||
             command.toLowerCase() == "play" ||
-            (command.toLowerCase() == "display" &&
-                /https\:\/\/www.youtube.com\/watch?.*/.test(message.toLowerCase()) ==
-                    true) ||
-            /https\:\/\/www.youtube.com\/clip?.*/.test(message.toLowerCase()) ==
-                true ||
-            /https\:\/\/www.twitch.tv\/?.*/.test(message.toLowerCase()) == true ||
-            /https\:\/\/clips.twitch.tv\/?.*/.test(message.toLowerCase()) == true) {
-            if (CurrentlyPlaying != true) {
+            (command.toLowerCase() == "display" && /https\:\/\/www.youtube.com\/watch?.*/.test(message.toLowerCase()) == true) || /https\:\/\/www.youtube.com\/clip?.*/.test(message.toLowerCase()) == true || /https\:\/\/www.twitch.tv\/?.*/.test(message.toLowerCase()) == true || /https\:\/\/clips.twitch.tv\/?.*/.test(message.toLowerCase()) == true) {
+            if (CurrentlyPlaying != true)
                 PlayVideoFromLink(message);
-            }
-            else {
-            }
         }
         if (command.toLowerCase() == "stop") {
             pauseVideo();
             wait(2000);
-            let DisplayerDisplaying = document.getElementById("Content");
+            let DisplayerDisplaying = $$.id("Content");
             DisplayerDisplaying.classList.remove("ScrollDown");
             DisplayerDisplaying.offsetWidth;
             DisplayerDisplaying.classList.add("ScrollUp");
             stopVideo();
             player.destroy();
         }
-        if (command.toLowerCase() == "pause") {
+        if (command.toLowerCase() == "pause")
             pauseVideo();
-        }
-        if (command.toLowerCase() == "resume") {
+        if (command.toLowerCase() == "resume")
             resumeVideo();
-        }
-        if (command.toLowerCase() == "mute") {
+        if (command.toLowerCase() == "mute")
             muteVideo();
-        }
-        if (command.toLowerCase() == "unmute") {
+        if (command.toLowerCase() == "unmute")
             unmuteVideo();
-        }
         if (command.toLowerCase() == "setvolume" || command.toLowerCase() == "volume" && message.toFixed) {
             if (message > -1 && message < 101) {
                 player.setVolume(message);
@@ -79,10 +66,10 @@ function onPlayerReady(event) {
 }
 var done = false;
 function onPlayerStateChange(event) {
-    console.log(event);
+    $$.log(event);
     if (event.data == 0) {
         wait(2000);
-        let DisplayerDisplaying = document.getElementById("Content");
+        let DisplayerDisplaying = $$.id("Content");
         DisplayerDisplaying.classList.remove("ScrollDown");
         DisplayerDisplaying.offsetWidth;
         DisplayerDisplaying.classList.add("ScrollUp");
@@ -100,26 +87,25 @@ function resumeVideo() {
 function muteVideo() {
     player.mute();
 }
-function unmuteVideo() {
-    player.unMute();
-}
+function unmuteVideo() { player.unMute(); }
+;
 function PlayVideoFromLink(Link) {
-    console.log(Link);
+    $$.log(Link);
     if (Link.includes("youtube")) {
         let res = Link.split("=");
         YT_VideoID = res[1];
         Clear.innerHTML = "";
-        let ContentDiv = document.createElement("div");
+        let ContentDiv = $$.make("div");
         ContentDiv.id = "Content";
         ContentDiv.classList.add("ScrollDown");
-        let InContentdivDiv = document.createElement("div");
-        let playerDiv = document.createElement("div");
+        let InContentdivDiv = $$.make("div");
+        let playerDiv = $$.make("div");
         playerDiv.id = "player";
         InContentdivDiv.append(playerDiv);
         ContentDiv.append(InContentdivDiv);
         Clear.append(ContentDiv);
         ComfyJS.Say("playing video on the displayer!! :>");
-        let script = document.createElement("script");
+        let script = $$.make("script");
         script.src =
             "https://www.youtube.com/iframe_api" + `?v=${Math.random() * 10}`;
         script.type = "text/javascript";
@@ -129,21 +115,21 @@ function PlayVideoFromLink(Link) {
     }
     else if (Link.includes("twitch")) {
         if (Link.includes("clip")) {
-            console.log("clip.");
+            $$.log("clip.");
         }
         else if (Link.includes("videos")) {
-            console.log("videos.");
+            $$.log("videos.");
         }
         else {
-            console.log("stream.");
+            $$.log("stream.");
         }
-        console.log("In Twitch IF");
+        $$.log("In Twitch IF");
         let iframeID = "";
         Clear.innerHTML = "";
-        let ContentDiv = document.createElement("div");
+        let ContentDiv = $$.make("div");
         ContentDiv.id = "Content";
-        let InContentdivDiv = document.createElement("div");
-        let playerDiv = document.createElement("div");
+        let InContentdivDiv = $$.make("div");
+        let playerDiv = $$.make("div");
         playerDiv.id = "player";
         InContentdivDiv.append(playerDiv);
         ContentDiv.append(InContentdivDiv);
@@ -184,7 +170,7 @@ function PlayVideoFromLink(Link) {
                     parent: ["localhost"],
                 };
             }
-            console.log(options);
+            $$.log(options);
             wait(2000);
             var player = new Twitch.Embed("Displayer", options);
         }
@@ -211,9 +197,9 @@ function changeBorderColor(playerStatus) {
     }
     else if (playerStatus == 5) {
         color = "#FF6DOO";
-    }
-    if (color) {
-        let res = document.getElementById("player");
-        res.style.borderColor = color;
+        if (color) {
+            let res = $$.id("player");
+            res.style.borderColor = color;
+        }
     }
 }

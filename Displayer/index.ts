@@ -6,42 +6,21 @@ let Clear = $$.id("Displayer") as HTMLElement;
 let ScriptDIV = $$.id("RemovePlaceScriptDiv") as HTMLElement;
 
 //@ts-expect-error
-ComfyJS.onCommand = (
-  user: any,
-  command: any,
-  message: any,
-  flags: any,
-  extra: any
-) => {
+ComfyJS.onCommand = (user: any, command: any, message: any, flags: any, extra: any) => {
   // if command contains watch something like !watch https://www.youtube.com/watch?v=GGTSzvlbBkE or the same with any twitch clip
   if (flags.broadcaster || flags.mod) {
-    // \:\/\
     $$.log(command);
     $$.log(message);
     // /https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) == true
     if (
       command.toLowerCase() == "watch" ||
       command.toLowerCase() == "play" ||
-      (command.toLowerCase() == "display" &&
-        /https\:\/\/www.youtube.com\/watch?.*/.test(message.toLowerCase()) ==
-          true) ||
-      /https\:\/\/www.youtube.com\/clip?.*/.test(message.toLowerCase()) ==
-        true ||
-      /https\:\/\/www.twitch.tv\/?.*/.test(message.toLowerCase()) == true ||
-      /https\:\/\/clips.twitch.tv\/?.*/.test(message.toLowerCase()) == true
-    ) {
-      if (CurrentlyPlaying != true) {
-        PlayVideoFromLink(message); // play the video instantly.
-      } else {
-        // Add link to Qucue
-      }
-    }
+      (command.toLowerCase() == "display" && /https\:\/\/www.youtube.com\/watch?.*/.test(message.toLowerCase()) == true) || /https\:\/\/www.youtube.com\/clip?.*/.test(message.toLowerCase()) == true ||        /https\:\/\/www.twitch.tv\/?.*/.test(message.toLowerCase()) == true || /https\:\/\/clips.twitch.tv\/?.*/.test(message.toLowerCase()) == true) {
+      if (CurrentlyPlaying != true) PlayVideoFromLink(message);}
     if (command.toLowerCase() == "stop") {
       pauseVideo();
       wait(2000); // wait 2 sec before removing displayer from view
-      let DisplayerDisplaying = $$.id(
-        "Content"
-      ) as HTMLElement;
+      let DisplayerDisplaying = $$.id("Content") as HTMLElement;
       DisplayerDisplaying.classList.remove("ScrollDown");
       DisplayerDisplaying.offsetWidth;
       DisplayerDisplaying.classList.add("ScrollUp");
@@ -49,28 +28,19 @@ ComfyJS.onCommand = (
       stopVideo();
       player.destroy();
     }
-    if(command.toLowerCase() == "pause") {
-      pauseVideo();
-    }
-    if(command.toLowerCase() == "resume") {
-      resumeVideo();
-    }
-    if (command.toLowerCase() == "mute") {
-      muteVideo();
-    }
-    if (command.toLowerCase() == "unmute") {
-      unmuteVideo();
-    }
+    if(command.toLowerCase() == "pause") pauseVideo();
+    if(command.toLowerCase() == "resume") resumeVideo();
+    if (command.toLowerCase() == "mute") muteVideo();
+    if (command.toLowerCase() == "unmute") unmuteVideo(); 
     if (command.toLowerCase() == "setvolume" || command.toLowerCase() == "volume" && message.toFixed) {
-      if(message > -1 && message < 101) {
-        player.setVolume(message); // should set volume to degree
-      }
-      else {
-        //@ts-expect-error
-       ComfyJS.Say("please only use numbers from 0 to 100 to set volume! :/");
+    if(message > -1 && message < 101) {
+      player.setVolume(message); // should set volume to degree
+    }
+    else {
+     //@ts-expect-error
+     ComfyJS.Say("please only use numbers from 0 to 100 to set volume! :/");
      }
     }
-    
   }
 };
 //@ts-expect-error
@@ -143,9 +113,7 @@ function resumeVideo() {
 function muteVideo() {
   player.mute();
 }
-function unmuteVideo() {
-  player.unMute();
-}
+function unmuteVideo() {player.unMute()};
 
 // needs to accept links like:
 // !watch https://www.youtube.com/watch?v=GGTSzvlbBkE
@@ -261,22 +229,15 @@ function PlayVideoFromLink(Link: string) {
 
 function changeBorderColor(playerStatus: any) {
   var color;
-  if (playerStatus == -1) {
-    color = "#37474F"; // unstarted = gray
-  } else if (playerStatus == 0) {
-    color = "#FFFF00"; // ended = yellow
-  } else if (playerStatus == 1) {
-    color = "#33691E"; // playing = green
-  } else if (playerStatus == 2) {
-    color = "#DD2C00"; // paused = red
-  } else if (playerStatus == 3) {
-    color = "#AA00FF"; // buffering = purple
-  } else if (playerStatus == 5) {
-    color = "#FF6DOO"; // video cued = orange
-  }
+  if (playerStatus == -1) {color = "#37474F"; // unstarted = gray
+  } else if (playerStatus == 0) {color = "#FFFF00"; // ended = yellow
+  } else if (playerStatus == 1) {color = "#33691E"; // playing = green
+  } else if (playerStatus == 2) {color = "#DD2C00"; // paused = red
+  } else if (playerStatus == 3) {color = "#AA00FF"; // buffering = purple
+  } else if (playerStatus == 5) {color = "#FF6DOO"; // video cued = orange}
   if (color) {
     let res = $$.id("player") as HTMLElement;
     res.style.borderColor = color;
   }
+ }
 }
-
