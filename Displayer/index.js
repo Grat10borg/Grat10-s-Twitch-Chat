@@ -15,7 +15,11 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
         }
         if (command.toLowerCase() == "stop") {
             pauseVideo();
+<<<<<<< Updated upstream
             wait(2000);
+=======
+            $$.wait(2000);
+>>>>>>> Stashed changes
             let DisplayerDisplaying = $$.id("Content");
             DisplayerDisplaying.classList.remove("ScrollDown");
             DisplayerDisplaying.offsetWidth;
@@ -31,7 +35,13 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
             muteVideo();
         if (command.toLowerCase() == "unmute")
             unmuteVideo();
+<<<<<<< Updated upstream
         if (command.toLowerCase() == "setvolume" || command.toLowerCase() == "volume" && message.toFixed) {
+=======
+        }
+        if (command.toLowerCase() == "setvolume" ||
+            command.toLowerCase() == "volume" && message.toFixed) {
+>>>>>>> Stashed changes
             if (message > -1 && message < 101) {
                 player.setVolume(message);
             }
@@ -68,7 +78,11 @@ var done = false;
 function onPlayerStateChange(event) {
     $$.log(event);
     if (event.data == 0) {
+<<<<<<< Updated upstream
         wait(2000);
+=======
+        $$.wait(2000);
+>>>>>>> Stashed changes
         let DisplayerDisplaying = $$.id("Content");
         DisplayerDisplaying.classList.remove("ScrollDown");
         DisplayerDisplaying.offsetWidth;
@@ -171,7 +185,11 @@ function PlayVideoFromLink(Link) {
                 };
             }
             $$.log(options);
+<<<<<<< Updated upstream
             wait(2000);
+=======
+            $$.wait(2000);
+>>>>>>> Stashed changes
             var player = new Twitch.Embed("Displayer", options);
         }
     }
@@ -197,9 +215,16 @@ function changeBorderColor(playerStatus) {
     }
     else if (playerStatus == 5) {
         color = "#FF6DOO";
+<<<<<<< Updated upstream
         if (color) {
             let res = $$.id("player");
             res.style.borderColor = color;
         }
+=======
+    }
+    if (color) {
+        let res = $$.id("player");
+        res.style.borderColor = color;
+>>>>>>> Stashed changes
     }
 }
