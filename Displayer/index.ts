@@ -6,13 +6,6 @@ let Clear = $$.id("Displayer") as HTMLElement;
 let ScriptDIV = $$.id("RemovePlaceScriptDiv") as HTMLElement;
 
 //@ts-expect-error
-<<<<<<< Updated upstream
-ComfyJS.onCommand = (user: any, command: any, message: any, 
-[Iflags: any, extra: any) => {
-  // if command contains watch something like !watch
-  // https://www.youtube.com/watch?v=GGTSzvlbBkE or the same with
-  // any twitch clip
-=======
 ComfyJS.onCommand = (
   user: any,
   command: any,
@@ -23,11 +16,9 @@ ComfyJS.onCommand = (
   // if command contains watch something like 
   //!watch https://www.youtube.com/watch?v=GGTSzvlbBkE 
   //or the same with any twitch clip
->>>>>>> Stashed changes
   if (flags.broadcaster || flags.mod) {
     $$.log(command);
     $$.log(message);
-<<<<<<< Updated upstream
     // /https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) ==
     // true
     if (
@@ -48,32 +39,6 @@ message.toLowerCase()) == true)
       pauseVideo();
       wait(2000); // wait 2 sec before removing displayer from view
       let DisplayerDisplaying = $$.id("Content") as HTMLElement;
-=======
- // /https\:\/\/clips\.twitch\.tv\/[A-z-0-9]*/gi.test(message) == true
-    if (
-      command.toLowerCase() == "watch" ||
-      command.toLowerCase() == "play" ||
-      (command.toLowerCase() == "display" &&
-  /https\:\/\/www.youtube.com\/watch?.*/.test(message.toLowerCase()) ==
-          true) ||
-   /https\:\/\/www.youtube.com\/clip?.*/.test(message.toLowerCase()) ==
-        true ||
- /https\:\/\/www.twitch.tv\/?.*/.test(message.toLowerCase()) == true ||
- /https\:\/\/clips.twitch.tv\/?.*/.test(message.toLowerCase()) == true
-    ) {
-      if (CurrentlyPlaying != true) {
-        PlayVideoFromLink(message); // play the video instantly.
-      } else {
-        // Add link to Qucue
-      }
-    }
-    if (command.toLowerCase() == "stop") {
-      pauseVideo();
-      $$.wait(2000); // wait 2 sec before removing displayer from view
-      let DisplayerDisplaying = $$.id(
-        "Content"
-      ) as HTMLElement;
->>>>>>> Stashed changes
       DisplayerDisplaying.classList.remove("ScrollDown");
       DisplayerDisplaying.offsetWidth;
       DisplayerDisplaying.classList.add("ScrollUp");
@@ -90,31 +55,10 @@ message.toLowerCase()) == true)
 	// should set volume to degree
     if(message > -1 && message < 101) {player.setVolume(message);
     }
-<<<<<<< Updated upstream
     else {
      //@ts-expect-error
-     ComfyJS.Say("please only use numbers from 0 to 100 to set 
+     ComfyJS.Say("please only use numbers from 0 to 100 to set" 
      +"volume! :/");
-=======
-    if(command.toLowerCase() == "resume") {
-      resumeVideo();
-    }
-    if (command.toLowerCase() == "mute") {
-      muteVideo();
-    }
-    if (command.toLowerCase() == "unmute") {
-      unmuteVideo();
-    }
-    if (command.toLowerCase() == "setvolume" || 
-    command.toLowerCase() == "volume" && message.toFixed) {
-	    
-      if(message > -1 && message < 101) {
-        player.setVolume(message); // should set volume to degree
-      }
-      else {
-        //@ts-expect-error
-ComfyJS.Say("please only use numbers from 0 to 100 to set volume! :/");
->>>>>>> Stashed changes
      }
     }
   }
@@ -143,18 +87,11 @@ function onYouTubeIframeAPIReady() {
       playerVars: {
         playsinline: 1,
         autoplay: 1, // autoplay video once ready
-<<<<<<< Updated upstream
-        controls: 1,
-     	// gives you control to see length of video and muted and etc
-
-      }, events: { onReady: onPlayerReady,
-=======
         controls: 1, // gives you control to see length 
 		     //of video and muted and etc
       },
       events: {
         onReady: onPlayerReady,
->>>>>>> Stashed changes
         onStateChange: onPlayerStateChange,
       },
     });
@@ -196,21 +133,6 @@ function muteVideo() {player.mute();
 function unmuteVideo() {player.unMute();
 }
 
-<<<<<<< Updated upstream
-// needs to accept links like: !watch
-// https://www.youtube.com/watch?v=GGTSzvlbBkE !watch
-// https://www.youtube.com/clip/UgkxqL1jdxVx8EgB1fBV-jpwmGA2Re9ltl-Q //
-// youtube clips !watch
-// https://www.tumblr.com/sloppystyle/672868385904787456?source=share //
-// tumblr links !watch
-// https://www.twitch.tv/grat_grot10_berg/clip/
-// AmusedSwissHerringFUNgineer-fTHk-6W3xRf_-shq
-// // Twitch links !watch
-// https://clips.twitch.tv/KitschyShakingGnatPeoplesChamp-N6cpe9XPohQTOMmv
-// !watch https://www.twitch.tv/grat_grot10_berg // should watch live
-// stream.  !watch https://www.twitch.tv/videos/1296188506 // not really
-// needed but nice to have
-=======
 // needs to accept links like:
 // !watch https://www.youtube.com/watch?v=GGTSzvlbBkE
 // !watch https://www.youtube.com/clip/
@@ -225,7 +147,6 @@ function unmuteVideo() {player.unMute();
 // // should watch live stream.
 // !watch https://www.twitch.tv/videos/1296188506 
 // // not really needed but nice to have
->>>>>>> Stashed changes
 function PlayVideoFromLink(Link: string) {
   $$.log(Link);
   if (Link.includes("youtube")) {
@@ -246,11 +167,7 @@ function PlayVideoFromLink(Link: string) {
     ComfyJS.Say("playing video on the displayer!! :>");
     let script = $$.make("script") as HTMLScriptElement;
     script.src =
-<<<<<<< Updated upstream
     "https://www.youtube.com/iframe_api" + `?v=${Math.random() * 10}`;
-=======
-     "https://www.youtube.com/iframe_api" + `?v=${Math.random() * 10}`;
->>>>>>> Stashed changes
     script.type = "text/javascript";
     ScriptDIV.innerHTML = "";
     ScriptDIV.append(script);
@@ -270,12 +187,7 @@ function PlayVideoFromLink(Link: string) {
     $$.log("In Twitch IF");
     // setup
     let iframeID = "" as string;
-<<<<<<< Updated upstream
-    //let IframeDiv = document.getElementById("RemovePlaceScriptDiv") as
-    //HTMLElement; // <div> // where the iframe gets placed
-=======
  
->>>>>>> Stashed changes
 
     Clear.innerHTML = ""; // incase its not cleared already
     let ContentDiv = $$.make("div") as HTMLElement;
@@ -338,7 +250,7 @@ function PlayVideoFromLink(Link: string) {
     // does stuff to embed a tumblr post..
   }
 }
-
+}
 function changeBorderColor(playerStatus: any) {
   var color;
   if (playerStatus == -1) {color = "#37474F"; // unstarted = gray
@@ -352,4 +264,5 @@ function changeBorderColor(playerStatus: any) {
     res.style.borderColor = color;
   }
  }
+ 
 }
