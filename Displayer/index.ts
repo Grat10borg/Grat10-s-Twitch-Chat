@@ -5,6 +5,7 @@ let CurrentlyPlaying = false as boolean;
 let Clear = $$.id("Displayer") as HTMLElement;
 let ScriptDIV = $$.id("RemovePlaceScriptDiv") as HTMLElement;
 
+$$.log(config);
 //@ts-expect-error
 ComfyJS.onCommand = (
   user: any,
@@ -15,7 +16,8 @@ ComfyJS.onCommand = (
 ) => {
   // if command contains watch something like 
   //!watch https://www.youtube.com/watch?v=GGTSzvlbBkE 
-  //or the same with any twitch clip
+  //or the same with any twitch clip	
+  $$.log(command);
   if (flags.broadcaster || flags.mod) {
     $$.log(command);
     $$.log(message);
