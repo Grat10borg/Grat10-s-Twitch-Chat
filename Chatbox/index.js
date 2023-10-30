@@ -333,15 +333,10 @@ async function CreateStreamMarker(Description, PrintSuccess) {
     })
         .catch((err) => {
         $$.log(err);
-<<<<<<< Updated upstream
         $$.log("https://dev.twitch.tv/docs/api/+" +
             "reference/#create-stream-marker");
         ComfyJS.Say("ERROR!! I wasn't alowed to create a stream maker, check your"
             + "API token scopes & the webconsol of the chat website :<");
-=======
-        $$.log("https://dev.twitch.tv/docs/api/reference/#create-stream-marker");
-        ComfyJS.Say("ERROR!! I wasn't alowed to create a stream maker, check your API token scopes & the webconsol of the chat website :<");
->>>>>>> Stashed changes
     });
 }
 async function validateToken() {
